@@ -1,0 +1,67 @@
+/* ==========================================================
+   NEXUS DESIGN SYSTEM
+   VARIABLES V2
+========================================================== */
+
+:root{
+
+    /* ========= BRAND ========= */
+
+    --brand:#1677ef;
+    --brand-hover:#2785f5;
+    --brand-dark:#125fcb;
+
+    /* ========= STATUS ========= */
+
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --info:#06b6d4;
+
+    /* ========= BACKGROUND ========= */
+
+    --bg:#07101b;
+    --surface:#101b2a;
+    --surface-light:#172538;
+    --surface-hover:#1d2d44;
+
+    /* ========= BORDER ========= */
+
+    --border:#273a55;
+
+    /* ========= TEXT ========= */
+
+    --text:#f8fafc;
+    --muted:#94a3b8;
+
+    /* ========= RADIUS ========= */
+
+    --radius-xs:6px;
+    --radius-sm:10px;
+    --radius-md:16px;
+    --radius-lg:22px;
+    --radius-xl:28px;
+
+    /* ========= SHADOW ========= */
+
+    --shadow-xs:0 2px 5px rgba(0,0,0,.12);
+
+    --shadow-sm:0 8px 18px rgba(0,0,0,.18);
+
+    --shadow-md:0 12px 30px rgba(0,0,0,.25);
+
+    --shadow-lg:0 18px 40px rgba(0,0,0,.35);
+
+    /* ========= SIDEBAR ========= */
+
+    --sidebar-width:260px;
+
+    /* ========= HEADER ========= */
+
+    --header-height:72px;
+
+    /* ========= TRANSITIONS ========= */
+
+    --transition:.25s ease;
+
+}

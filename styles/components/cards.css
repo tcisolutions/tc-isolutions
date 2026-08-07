@@ -1,0 +1,64 @@
+/* ==========================================================
+   NEXUS UI
+   CARD COMPONENT
+========================================================== */
+
+.card{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-lg);
+
+    padding:22px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-md);
+
+}
+
+.card-title{
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    margin-bottom:12px;
+
+    font-weight:500;
+
+}
+
+.card-value{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.card-footer{
+
+    margin-top:18px;
+
+    padding-top:14px;
+
+    border-top:1px solid var(--border);
+
+    color:var(--muted);
+
+    font-size:13px;
+
+}

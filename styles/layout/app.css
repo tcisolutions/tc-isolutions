@@ -1,0 +1,33 @@
+/* ==========================================================
+   NEXUS LAYOUT
+========================================================== */
+
+#app{
+
+    display:grid;
+
+    grid-template-columns:var(--sidebar-width) 1fr;
+
+    min-height:100vh;
+
+    background:var(--bg);
+
+}
+
+main{
+
+    min-height:100vh;
+
+    padding:32px;
+
+    overflow:auto;
+
+}
+
+.page{
+
+    max-width:1500px;
+
+    margin:auto;
+
+}

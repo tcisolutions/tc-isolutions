@@ -107,7 +107,7 @@ export function orderCreated(order) {
 
 export function diagnosisReady(order) {
 
-    return `Hola ${customer(order)} 👋
+    return `👋 Hola ${customer(order)}
 
 Ya terminamos el diagnóstico de tu equipo.
 

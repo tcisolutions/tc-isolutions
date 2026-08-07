@@ -1,0 +1,39 @@
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.page-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+.page-title{
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.page-subtitle{
+
+    color:var(--muted);
+
+    margin-top:6px;
+
+}
+
+.page-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
