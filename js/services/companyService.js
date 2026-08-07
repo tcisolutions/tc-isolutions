@@ -1,17 +1,11 @@
 export async function getCompanySettings(sb){
 
-    const { data, error } = await sb
+    const response = await sb
         .from("company_settings")
-        .select("*")
-        .eq("id",1)
-        .single();
+        .select("*");
 
-    if(error){
+    console.log(response);
 
-        throw error;
-
-    }
-
-    return data;
+    return response.data?.[0];
 
 }
