@@ -1,10 +1,9 @@
 window.TC_CONFIG = {
 
-    supabaseUrl: "...",
+  supabaseUrl: "https://rvqgoqvjpraqiqxldump.supabase.co",
 
-    supabaseAnonKey: "...",
+  supabaseAnonKey: "sb_publishable_nn5QAtfkzMh3cdhhHxn03g_u-fXSojo",
 
-    publicAppUrl:
-        "https://tcisolutions.github.io/tc-isolutions-main/index.html"
+  publicAppUrl: "https://tcisolutions.github.io/tc-isolutions/"
 
 };
