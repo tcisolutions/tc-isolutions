@@ -40,14 +40,9 @@ export async function createPublicServiceOrder(sb, order) {
 
 }
 
-export function buildPublicServiceOrderUrl(token) {
+export function buildPublicServiceOrderUrl(token){
 
-    const url = new URL(window.location.href);
-
-    url.search = "";
-    url.hash = "";
-
-    return `${url.toString()}?os=${token}`;
+    return `${window.location.origin}${window.location.pathname.replace("index.html","")}public-order.html?os=${token}`;
 
 }
 
@@ -78,33 +73,301 @@ export function getPublicOrderToken() {
 
 }
 
-export function renderPublicServiceOrder(order) {
+function renderHero(portal){
 
-    document.title = order.order_code || "Orden de servicio";
+    const today =
+        new Date().toLocaleString("es-MX",{
+            dateStyle:"long",
+            timeStyle:"short"
+        });
+
+    return `
+
+    <section class="hero">
+
+        <img
+    src="${portal.company.logo}"
+    class="company-logo">
+
+<h1>
+
+    ${portal.company.name}
+
+</h1>
+
+<p class="subtitle">
+
+    ${portal.company.slogan}
+
+</p>
+
+        
+
+        
+
+        <div class="divider"></div>
+
+        <small>
+
+            ORDEN DE SERVICIO
+
+        </small>
+
+        <div class="order-number">
+
+            ${portal.order.folio}
+
+        </div>
+
+        <div class="status">
+
+            ${portal.order.status}
+
+        </div>
+
+        <div class="updated">
+
+            Última actualización
+
+            <br>
+
+            ${today}
+
+        </div>
+
+    </section>
+
+    `;
+
+}
+
+function renderSummary(portal){
+
+    return `
+
+    <section class="card">
+
+        <h2>Información del equipo</h2>
+
+        <div class="info-grid">
+
+            <div>
+
+                <strong>Cliente</strong>
+
+                <span>${portal.order.client}</span>
+
+            </div>
+
+            <div>
+
+                <strong>Equipo</strong>
+
+                <span>
+
+                    ${portal.order.brand}
+
+                    ${portal.order.model}
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>IMEI</strong>
+
+                <span>
+
+                    ${portal.order.imei || "-"}
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>Falla</strong>
+
+                <span>
+
+                    ${portal.order.issue}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    `;
+
+}
+
+function renderWarranty(portal){
+
+    return `
+
+    <section class="card">
+
+        <h2>🛡️ Garantía</h2>
+
+        <ul>
+
+            <li>
+                Garantía de ${portal.order.warranty} días.
+            </li>
+
+            ${portal.warranty.map(item => `
+                <li>${item}</li>
+            `).join("")}
+
+        </ul>
+
+    </section>
+
+    `;
+
+}
+
+function renderSocials(portal){
+
+    return `
+
+    <section class="card">
+
+        <h2>Síguenos</h2>
+
+        <div class="socials">
+
+            <a target="_blank"
+href="${portal.company.facebook}">
+
+Facebook
+
+</a>
+
+<a target="_blank"
+href="${portal.company.instagram}">
+
+Instagram
+
+</a>
+
+
+<a target="_blank"
+href="${portal.company.tiktok}">
+
+TikTok
+
+</a>          
+
+
+<a target="_blank"
+href="${portal.company.whatsapp}">
+
+WhatsApp
+
+</a>  
+
+          
+
+        </div>
+
+    </section>
+
+    `;
+
+}
+
+function buildPortalData(order){
+
+    return {
+
+        company:{
+
+            name:"TC iSolutions",
+
+            slogan:"Tecnología • Confianza • Calidad",
+
+            logo:"assets/logo.png",
+
+            facebook:"https://facebook.com/",
+
+            instagram:"https://instagram.com/",
+
+            tiktok:"https://tiktok.com/",
+
+            whatsapp:"https://wa.me/524431922958"
+
+        },
+
+        order:{
+
+            folio:order.order_code,
+
+            status:order.payload.status,
+
+            client:order.payload.client,
+
+            phone:order.payload.phone,
+
+            brand:order.payload.brand,
+
+            model:order.payload.model,
+
+            imei:order.payload.imei,
+
+            issue:order.payload.issue,
+
+            total:order.payload.total,
+
+            deposit:order.payload.deposit,
+
+            warranty:order.payload.warranty
+
+        },
+
+        gallery:[],
+
+        timeline:[],
+
+warranty:[
+
+    "Garantía únicamente sobre la reparación realizada.",
+
+    "No cubre golpes.",
+
+    "No cubre humedad.",
+
+    "No cubre manipulación por terceros."
+
+]
+
+};
+
+}
+
+
+
+export function renderPublicServiceOrder(order){
+
+    document.title = order.order_code;
+
+    const portal = buildPortalData(order);
 
     document.body.innerHTML = `
 
-        <div style="
-            max-width:900px;
-            margin:40px auto;
-            font-family:Arial,sans-serif;
-            padding:30px">
+        <div class="public-order">
 
-            <h1>TC iSolutions</h1>
+            ${renderHero(portal)}
 
-            <h2>${order.order_code ?? ""}</h2>
+            ${renderSummary(portal)}
 
-            <hr>
+            ${renderWarranty(portal)}
 
-            <p><strong>Cliente:</strong> ${order.payload.client}</p>
-
-            <p><strong>Equipo:</strong> ${order.payload.brand} ${order.payload.model}</p>
-
-            <p><strong>Estado:</strong> ${order.payload.status}</p>
-
-            <p><strong>Falla:</strong> ${order.payload.issue}</p>
-
-            <p><strong>Garantía:</strong> ${order.payload.warranty} días</p>
+            ${renderSocials(portal)}
 
         </div>
 

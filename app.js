@@ -2,6 +2,10 @@ import * as Automation from "./js/automation.js";
 import * as PublicOrder from "./js/public/service-order.js";
 import { initializeSystem } from "./js/services/systemService.js";
 import {
+    getCompanySettings
+}
+from "./js/services/companyService.js";
+import {
     getCompleteOrder
 }
 from "./js/services/orderService.js";
@@ -18,6 +22,18 @@ const { createClient } = await import(
 );
 
 const sb = createClient(C.supabaseUrl, C.supabaseAnonKey);
+
+let COMPANY = null;
+
+async function loadCompany() {
+
+    const company = await getCompanySettings(sb);
+
+    COMPANY = company;
+
+    console.log("Empresa cargada:", COMPANY);
+
+}
 
 const $ = s => document.querySelector(s);
 
@@ -5422,11 +5438,13 @@ if (publicReceiptRequest?.type === "id") {
 } else if (publicReceiptRequest?.type === "payload" && publicReceiptRequest.value) {
   renderPublicPaymentReceipt(publicReceiptRequest.value);
 } else {
-  const {
-    data: { session }
-  } = await sb.auth.getSession();
+  await loadCompany();
 
-  if (session) {
-    enter(session.user);
-  }
+const {
+  data: { session }
+} = await sb.auth.getSession();
+
+if (session) {
+  enter(session.user);
+}
 }
