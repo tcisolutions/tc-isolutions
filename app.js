@@ -3507,9 +3507,6 @@ order.publicUrl,
 }
 
   
-  if (!whatsappWindow) {
-    window.location.href = url;
-  }
 }
 
 
