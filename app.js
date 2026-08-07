@@ -27,11 +27,13 @@ let COMPANY = null;
 
 async function loadCompany() {
 
+    console.log("Entrando a loadCompany...");
+
     const company = await getCompanySettings(sb);
 
-    COMPANY = company;
+    console.log(company);
 
-    console.log("Empresa cargada:", COMPANY);
+    COMPANY = company;
 
 }
 
@@ -5439,6 +5441,12 @@ if (publicReceiptRequest?.type === "id") {
   renderPublicPaymentReceipt(publicReceiptRequest.value);
 } else {
   await loadCompany();
+
+console.log("Voy a cargar empresa");
+
+await loadCompany();
+
+console.log("Empresa cargada correctamente");
 
 const {
   data: { session }
