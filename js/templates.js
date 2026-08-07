@@ -12,6 +12,8 @@
 
 import { APP } from "./constants.js";
 import { ICON } from "./icons.js";
+console.log(ICON);
+
 
 const divider =
 "━━━━━━━━━━━━━━━━━━";
@@ -58,6 +60,9 @@ function device(order) {
 
 export function orderCreated(order){
 
+    console.log("HAND:", ICON.HAND);
+console.log("ORDER:", ICON.ORDER);
+
 return `${ICON.HAND} Hola, ${customer(order)}.
 
 Gracias por confiar en *${APP.NAME}*.
@@ -91,6 +96,8 @@ ${ICON.BELL} Recibirás notificaciones automáticas durante el proceso.
 ${footer}`;
 
 }
+
+
 
 /* ==========================================================
    DIAGNÓSTICO TERMINADO
