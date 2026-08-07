@@ -9,7 +9,18 @@
  * ==========================================================
  */
 
+
 import { APP } from "./constants.js";
+import { ICON } from "./icons.js";
+
+const divider =
+"━━━━━━━━━━━━━━━━━━";
+
+const footer = `
+
+${ICON.THANKS} Gracias por confiar en *TC iSolutions*.
+
+_TC iSolutions_`;
 
 /**
  * Da formato a cantidades en pesos mexicanos.
@@ -45,59 +56,39 @@ function device(order) {
    ORDEN CREADA
 ========================================================== */
 
-export function orderCreated(order) {
+export function orderCreated(order){
 
-    const lines = [
+return `${ICON.HAND} Hola, ${customer(order)}.
 
-        `Hola ${customer(order)} 👋`,
+Gracias por confiar en *${APP.NAME}*.
 
-        "",
+${divider}
 
-        `Gracias por confiar en ${APP.NAME}.`,
+${ICON.ORDER} *ORDEN DE SERVICIO*
 
-        "",
+No. ${order.folio}
 
-        "📋 *Orden de Servicio*",
+${ICON.PHONE} *Equipo*
 
-        order.folio || "-",
+${device(order)}
 
-        "",
+${ICON.TOOLS} *Falla reportada*
 
-        "📱 Equipo",
+${order.issue || "-"}
 
-        device(order),
+${ICON.MONEY} *Anticipo recibido*
 
-        "",
+${money(order.deposit)}
 
-        "🔧 Falla reportada",
+${ICON.GLOBE} *Consulta el estado de tu reparación*
 
-        order.issue || "-",
+${order.publicUrl}
 
-        "",
+${divider}
 
-        "💰 Anticipo",
+${ICON.BELL} Recibirás notificaciones automáticas durante el proceso.
 
-        money(order.deposit),
-
-        "",
-
-        "🌐 Consulta el estado de tu reparación aquí:"
-
-    ];
-
-    if (order.publicUrl) {
-
-        lines.push("");
-        lines.push(order.publicUrl);
-
-    }
-
-    lines.push("");
-    lines.push("Te avisaremos conforme avance la reparación.");
-    lines.push("");
-    lines.push("¡Gracias por tu preferencia!");
-
-    return lines.join("\n");
+${footer}`;
 
 }
 
