@@ -57,7 +57,9 @@ export function send(phone, text) {
     const url =
         `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
-    window.open(url, "_blank");
+    navigator.clipboard.writeText(url);
+
+alert("La URL se copió al portapapeles.\nPégala en una pestaña nueva del navegador.");
 
     return true;
 
