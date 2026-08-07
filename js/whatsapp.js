@@ -36,35 +36,32 @@ export function normalizePhone(phone = "") {
 
 export function send(phone, text) {
 
-    const number =
-        normalizePhone(phone);
+    console.clear();
+
+    console.log("========== MENSAJE ==========");
+    console.log(text);
+
+    console.log("========== JSON ==========");
+    console.log(JSON.stringify(text));
+
+    console.log("========== URL ==========");
+    console.log(`https://wa.me/${normalizePhone(phone)}?text=${encodeURIComponent(text)}`);
+
+    const number = normalizePhone(phone);
 
     if (!number) {
-
         alert("El cliente no tiene un número válido.");
-
         return false;
-
     }
 
     const url =
         `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 
-    const win =
-        window.open(
-            url,
-            "_blank",
-            "noopener,noreferrer"
-        );
-
-    if (!win) {
-        window.location.href = url;
-    }
+    window.open(url, "_blank");
 
     return true;
 
 }
-
 /* ==========================================
    ORDEN
 ========================================== */
