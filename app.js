@@ -5373,8 +5373,10 @@ if (publicOrderToken) {
         const order =
     await PublicOrder.loadPublicServiceOrder(
         sb,
-        token
+        publicOrderToken
     );
+
+await loadCompany();
 
 PublicOrder.renderPublicServiceOrder(
     order,
