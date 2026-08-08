@@ -1,5 +1,7 @@
 export const PhotosStep = {
 
+    title:"Fotos",
+
     render() {
 
         return `

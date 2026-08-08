@@ -65,3 +65,241 @@ button{
     cursor:pointer;
 
 }
+
+.nx-wizard{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    overflow:hidden;
+
+}
+
+.nx-wizard-header{
+
+    padding:24px 30px;
+
+    border-bottom:1px solid #ececec;
+
+}
+
+.nx-wizard-header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.nx-wizard-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:16px;
+
+    background:#1677ef;
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+}
+
+.nx-wizard-title h2{
+
+    margin:0;
+
+    font-size:24px;
+
+}
+
+.nx-wizard-description{
+
+    margin-top:8px;
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.nx-wizard-progress{
+
+    display:flex;
+
+    align-items:center;
+
+    padding:25px 35px;
+
+    background:#fafafa;
+
+}
+
+.nx-step{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    min-width:95px;
+
+}
+
+.nx-step-circle{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    border:3px solid #ddd;
+
+    background:white;
+
+    transition:.25s;
+
+}
+
+.nx-step-circle.completed{
+
+    background:#16a34a;
+
+    border-color:#16a34a;
+
+    color:white;
+
+}
+
+.nx-step-circle.active{
+
+    background:#1677ef;
+
+    border-color:#1677ef;
+
+    color:white;
+
+    transform:scale(1.08);
+
+}
+
+.nx-step-label{
+
+    margin-top:10px;
+
+    font-size:13px;
+
+    text-align:center;
+
+}
+
+.nx-step-line{
+
+    flex:1;
+
+    height:4px;
+
+    background:#ddd;
+
+    margin:0 12px;
+
+    margin-top:-28px;
+
+}
+
+.nx-step-line.completed{
+
+    background:#16a34a;
+
+}
+
+.nx-wizard-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:25px 30px;
+
+    border-top:1px solid #ececec;
+
+}
+
+.nx-footer-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.nx-btn{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+    transition:.2s;
+
+}
+
+.nx-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.nx-btn-primary{
+
+    background:#1677ef;
+
+    color:white;
+
+}
+
+.nx-btn-light{
+
+    background:#f3f3f3;
+
+}
+
+.nx-btn:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}

@@ -1,5 +1,7 @@
 export const SignatureStep = {
 
+    title:"Firma",
+
     render() {
 
         return `

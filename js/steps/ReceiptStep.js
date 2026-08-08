@@ -1,5 +1,7 @@
 export const ReceiptStep = {
 
+    title:"Recibo",
+
     render() {
 
         return `

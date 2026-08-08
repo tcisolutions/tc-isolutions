@@ -1,24 +1,45 @@
-/**
- * ==========================================================
- * NEXUS Framework
- * Wizard Engine
- * Version 1.0
- * ==========================================================
- */
+import { renderWizardLayout } from "./WizardLayout.js";
 
 export class Wizard {
 
     constructor(options = {}) {
 
-        this.title = options.title || "Wizard";
+        this.title = options.title || "";
+
+        this.subtitle = options.subtitle || "";
+
+        this.icon = options.icon || "📦";
+
+this.description =
+    options.description || "";
 
         this.steps = options.steps || [];
 
+        this.currentStep = 0;
+
         this.onFinish = options.onFinish || (() => {});
 
-        this.current = 0;
-
         this.container = null;
+
+        this.onCancel =
+    options.onCancel ||
+    (()=>{});
+
+this.beforeNext =
+    options.beforeNext ||
+    (()=>true);
+
+this.afterNext =
+    options.afterNext ||
+    (()=>{});
+
+this.beforePrevious =
+    options.beforePrevious ||
+    (()=>true);
+
+this.afterPrevious =
+    options.afterPrevious ||
+    (()=>{});
 
     }
 
@@ -30,126 +51,160 @@ export class Wizard {
 
     }
 
-    next() {
+    next(){
 
-        const step = this.steps[this.current];
+    if(
 
-        if (step.validate && !step.validate()) {
+    !this.beforeNext(
 
-            return;
+        this.currentStep
 
-        }
+    )
 
-        if (this.current >= this.steps.length - 1) {
+){
 
-            this.finish();
+this.afterNext(
 
-            return;
+    this.currentStep
 
-        }
+);
 
-        this.current++;
+    return;
 
-        this.render();
+}
 
-    }
+    this.finish();
+
+}
 
     previous() {
 
-        if (this.current === 0) {
+        if(
 
-            return;
+    !this.beforePrevious(
 
-        }
+        this.currentStep
 
-        this.current--;
+    )
 
-        this.render();
+){
 
-    }
+this.afterPrevious(
 
-    finish() {
+    this.currentStep
 
-        this.onFinish();
+);
 
-    }
+    return;
 
-    render() {
+}
 
-        if (!this.container) {
+    if(index>=this.steps.length){
 
-            return;
-
-        }
-
-        const step = this.steps[this.current];
-
-        this.container.innerHTML = `
-
-            <div class="wizard">
-
-                <div class="wizard-header">
-
-                    <h1>${this.title}</h1>
-
-                    <div>
-
-                        Paso ${this.current + 1}
-
-                        de
-
-                        ${this.steps.length}
-
-                    </div>
-
-                </div>
-
-                <div class="wizard-body">
-
-                    ${step.render()}
-
-                </div>
-
-                <div class="wizard-footer">
-
-                    <button id="wizardPrev">
-
-                        Anterior
-
-                    </button>
-
-                    <button id="wizardNext">
-
-                        ${this.current === this.steps.length - 1
-                            ? "Finalizar"
-                            : "Siguiente"}
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-        this.bind();
+        return;
 
     }
 
-    bind() {
+    this.currentStep=index;
 
-        const prev =
+    this.render();
 
-            this.container.querySelector("#wizardPrev");
+}
 
-        const next =
+reset(){
 
-            this.container.querySelector("#wizardNext");
+    this.currentStep=0;
 
-        prev.onclick = () => this.previous();
+    this.render();
 
-        next.onclick = () => this.next();
+}
+
+finish(){
+
+    this.onFinish();
+
+}
+
+cancel(){
+
+    this.onCancel();
+
+}
+
+    getCurrentStep() {
+
+        return this.steps[this.currentStep];
 
     }
+
+    render(){
+
+    if(!this.container){
+
+        return;
+
+    }
+
+    this.container.innerHTML =
+
+        renderWizardLayout(this);
+
+    const previous =
+        this.container.querySelector(
+            "#wizardPrevious"
+        );
+
+    const next =
+        this.container.querySelector(
+            "#wizardNext"
+        );
+
+    const cancel =
+        this.container.querySelector(
+            "#wizardCancel"
+        );
+
+    if(previous){
+
+        previous.onclick =
+            ()=>this.previous();
+
+    }
+
+    if(next){
+
+        next.onclick=()=>{
+
+            const step =
+                this.getCurrentStep();
+
+            if(
+
+                step.validate &&
+                !step.validate()
+
+            ){
+
+                return;
+
+            }
+
+            this.finish();
+
+        };
+
+    }
+
+    if(cancel){
+
+        cancel.onclick=()=>{
+
+            this.onCancel();
+
+        };
+
+    }
+
+}
 
 }

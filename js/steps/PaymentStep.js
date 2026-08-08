@@ -1,5 +1,7 @@
 export const PaymentStep = {
 
+    title:"Pago",
+
     render() {
 
         return `

@@ -1,5 +1,7 @@
 export const WarrantyStep = {
 
+    title:"Garantía",
+
     render() {
 
         return `

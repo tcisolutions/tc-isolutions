@@ -1,5 +1,7 @@
 export const WhatsAppStep = {
 
+    title:"WhatsApp",
+
     render() {
 
         return `
