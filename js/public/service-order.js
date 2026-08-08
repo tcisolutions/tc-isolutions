@@ -401,11 +401,15 @@ warranty:[
 
 
 
-    export function renderPublicServiceOrder(order, company, photos){
+   export function renderPublicServiceOrder(order, company, photos){
 
     document.title = order.order_code;
 
-    const portal = buildPortalData(order, company);
+    const portal = buildPortalData(
+        order,
+        company,
+        photos
+    );
 
     document.body.innerHTML = `
 
