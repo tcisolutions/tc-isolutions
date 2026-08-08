@@ -6,6 +6,14 @@ import {
     renderGallery
 } from "./gallery.js";
 
+import { renderHero } from "./hero.js";
+
+import { renderSummary } from "./summary.js";
+
+import { renderWarranty } from "./warranty.js";
+
+import { renderSocials } from "./socials.js";
+
 export async function createPublicServiceOrder(sb, order) {
 
     const token = crypto.randomUUID();
@@ -101,7 +109,7 @@ export function getPublicOrderToken() {
 
 
 
-function renderHero(portal){
+function renderHeroOLD(portal){
 
     const today =
         new Date().toLocaleString("es-MX",{
@@ -169,7 +177,7 @@ function renderHero(portal){
 
 }
 
-function renderSummary(portal){
+function renderSummaryOLD(portal){
 
     return `
 
@@ -236,7 +244,7 @@ function renderSummary(portal){
 
 }
 
-function renderWarranty(portal){
+function renderWarrantyOLD(portal){
 
     return `
 
@@ -262,7 +270,7 @@ function renderWarranty(portal){
 
 }
 
-function renderSocials(portal){
+function renderSocialsOLD(portal){
 
     return `
 
