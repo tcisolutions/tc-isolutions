@@ -1,29 +1,57 @@
-export function renderWarranty(portal){
+import { renderCard } from "../components/Card.js";
 
-    return `
+export function renderSummary(portal){
 
-    <section class="card">
+    return renderCard(
 
-        <h2>🛡️ Garantía</h2>
+        "Información del equipo",
 
-        <ul>
+        `
 
-            <li>
+        <div class="info-grid">
 
-                Garantía de ${portal.order.warranty} días.
+            <div>
 
-            </li>
+                <strong>Cliente</strong>
 
-            ${portal.warranty.map(item=>`
+                <span>${portal.order.client}</span>
 
-                <li>${item}</li>
+            </div>
 
-            `).join("")}
+            <div>
 
-        </ul>
+                <strong>Equipo</strong>
 
-    </section>
+                <span>
 
-    `;
+                    ${portal.order.brand}
+
+                    ${portal.order.model}
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>IMEI</strong>
+
+                <span>${portal.order.imei || "-"}</span>
+
+            </div>
+
+            <div>
+
+                <strong>Falla</strong>
+
+                <span>${portal.order.issue}</span>
+
+            </div>
+
+        </div>
+
+        `
+
+    );
 
 }

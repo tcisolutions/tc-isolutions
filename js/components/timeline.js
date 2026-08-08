@@ -4,6 +4,7 @@
  * Timeline Component V3
  * ==========================================================
  */
+import { renderCard } from "./Card.js";
 
 function formatDate(date) {
     if (!date) return "";
@@ -63,14 +64,17 @@ export function renderTimeline(history = []) {
 
     if (!history.length) {
 
-        return `
-            <div class="box">
-                <h3>📈 Historial</h3>
-                <div class="empty">
-                    No existe historial para esta orden.
-                </div>
-            </div>
-        `;
+        return renderCard(
+
+    "📈 Historial",
+
+    `
+
+        ...
+
+    `
+
+);
 
     }
 

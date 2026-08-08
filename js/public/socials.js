@@ -1,41 +1,57 @@
-export function renderSocials(portal){
+import { renderCard } from "../components/Card.js";
 
-    return `
+export function renderSummary(portal){
 
-    <section class="card">
+    return renderCard(
 
-        <h2>Síguenos</h2>
+        "Información del equipo",
 
-        <div class="socials">
+        `
 
-            <a href="${portal.company.facebook}" target="_blank">
+        <div class="info-grid">
 
-                Facebook
+            <div>
 
-            </a>
+                <strong>Cliente</strong>
 
-            <a href="${portal.company.instagram}" target="_blank">
+                <span>${portal.order.client}</span>
 
-                Instagram
+            </div>
 
-            </a>
+            <div>
 
-            <a href="${portal.company.tiktok}" target="_blank">
+                <strong>Equipo</strong>
 
-                TikTok
+                <span>
 
-            </a>
+                    ${portal.order.brand}
 
-            <a href="${portal.company.whatsapp}" target="_blank">
+                    ${portal.order.model}
 
-                WhatsApp
+                </span>
 
-            </a>
+            </div>
+
+            <div>
+
+                <strong>IMEI</strong>
+
+                <span>${portal.order.imei || "-"}</span>
+
+            </div>
+
+            <div>
+
+                <strong>Falla</strong>
+
+                <span>${portal.order.issue}</span>
+
+            </div>
 
         </div>
 
-    </section>
+        `
 
-    `;
+    );
 
 }

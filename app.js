@@ -15,6 +15,9 @@ import {
 }
 from "./js/components/timeline.js";
 
+import { createDeliveryWizard }
+from "./delivery/DeliveryWizard.js";
+
 const C = window.TC_CONFIG || {};
 
 const { createClient } = await import(
@@ -529,7 +532,15 @@ try {
       ${
         order.status === "Entregado"
           ? `<button id="deliveryReceiptBtn" class="primary">Comprobante de entrega</button>`
-          : `<button id="deliverEquipmentBtn" class="primary">Entregar equipo</button>`
+          : `
+          <button
+    id="deliverEquipmentBtn"
+    class="primary"
+    data-order-id="${order.id}">
+
+    Entregar equipo
+
+</button>`
       }
       <button id="printServiceOrder">Imprimir orden / PDF</button>
     </div>
@@ -660,9 +671,24 @@ try {
     () => edit(order.id);
 
   const deliverButton = $("#deliverEquipmentBtn");
-  if (deliverButton) {
-    deliverButton.onclick = () => deliveryConfirmView(order, parts, labor);
-  }
+
+if (deliverButton) {
+
+    deliverButton.onclick = () => {
+
+        deliveryWizardView(
+
+            order,
+
+            parts,
+
+            labor
+
+        );
+
+    };
+
+}
 
   const deliveryReceiptButton = $("#deliveryReceiptBtn");
   if (deliveryReceiptButton) {
@@ -673,6 +699,51 @@ try {
     () => printServiceOrder();
 }
 
+function deliveryWizardView(order, parts = [], labor = 0) {
+
+    $("#title").textContent = "Asistente de entrega";
+
+    $("#content").innerHTML = `
+
+        <div class="box" style="max-width:1100px;margin:auto">
+
+            <div id="deliveryWizardContainer"></div>
+
+        </div>
+
+    `;
+
+    createDeliveryWizard(
+
+        document.querySelector("#deliveryWizardContainer"),
+
+        {
+
+            order,
+
+            parts,
+
+            labor,
+
+            onFinish(){
+
+                deliveryConfirmView(
+
+                    order,
+
+                    parts,
+
+                    labor
+
+                );
+
+            }
+
+        }
+
+    );
+
+}
 
 function deliveryConfirmView(order, parts = [], labor = 0) {
   const total = +order.total || 0;
@@ -744,6 +815,8 @@ function deliveryConfirmView(order, parts = [], labor = 0) {
   `;
 
   $("#backDeliveryOrder").onclick = () => serviceOrderView(order.id);
+
+  
 
   const cancel = $("#cancelDelivery");
   if (cancel) cancel.onclick = () => serviceOrderView(order.id);

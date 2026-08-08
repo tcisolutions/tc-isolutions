@@ -1,10 +1,12 @@
+import { renderCard } from "../components/Card.js";
+
 export function renderSummary(portal){
 
-    return `
+    return renderCard(
 
-    <section class="card">
+        "Información del equipo",
 
-        <h2>Información del equipo</h2>
+        `
 
         <div class="info-grid">
 
@@ -34,11 +36,7 @@ export function renderSummary(portal){
 
                 <strong>IMEI</strong>
 
-                <span>
-
-                    ${portal.order.imei || "-"}
-
-                </span>
+                <span>${portal.order.imei || "-"}</span>
 
             </div>
 
@@ -46,18 +44,14 @@ export function renderSummary(portal){
 
                 <strong>Falla</strong>
 
-                <span>
-
-                    ${portal.order.issue}
-
-                </span>
+                <span>${portal.order.issue}</span>
 
             </div>
 
         </div>
 
-    </section>
+        `
 
-    `;
+    );
 
 }

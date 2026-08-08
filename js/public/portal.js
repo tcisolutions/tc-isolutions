@@ -8,6 +8,12 @@ import {
     renderGallery
 } from "./gallery.js";
 
+import { buildTimeline }
+from "../services/timeline.service.js";
+
+import { renderTimeline }
+from "../components/Timeline.js";
+
 export function renderPortal(portal){
 
     const reception =
@@ -33,6 +39,8 @@ export function renderPortal(portal){
                 "Estado al entregar el equipo",
                 delivery
             )}
+
+            ${renderTimeline(timeline)}
 
             ${renderWarranty(portal)}
 
