@@ -5398,6 +5398,9 @@ PublicOrder.renderPublicServiceOrder(
 
         console.error(error);
 
+        console.log("ERROR DEL PORTAL:");
+console.log(error);
+
         document.body.innerHTML = `
 
             <div style="
