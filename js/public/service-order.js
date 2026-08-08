@@ -14,6 +14,8 @@ import { renderWarranty } from "./warranty.js";
 
 import { renderSocials } from "./socials.js";
 
+import { renderPortal } from "./portal.js";
+
 export async function createPublicServiceOrder(sb, order) {
 
     const token = crypto.randomUUID();
@@ -423,30 +425,7 @@ console.log("Recepción:", reception);
 
 console.log("Entrega:", delivery);
 
-    document.body.innerHTML = `
-
-    <div class="public-order">
-
-        ${renderHero(portal)}
-
-        ${renderSummary(portal)}
-
-        ${renderGallery(
-            "Estado al recibir el equipo",
-            reception
-        )}
-
-        ${renderGallery(
-            "Estado al entregar el equipo",
-            delivery
-        )}
-
-        ${renderWarranty(portal)}
-
-        ${renderSocials(portal)}
-
-    </div>
-
-`;
+    document.body.innerHTML =
+    renderPortal(portal);
 
 }
