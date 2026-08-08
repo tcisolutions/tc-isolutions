@@ -177,13 +177,6 @@ function renderSummary(portal){
 
         <h2>Información del equipo</h2>
 
-        <p>
-
-Fotos:
-
-${portal.gallery.length}
-
-</p>
 
         <div class="info-grid">
 
@@ -235,18 +228,7 @@ ${portal.gallery.length}
 
         </div>
 
-${portal.gallery.length
-? `
-<div class="gallery-preview">
 
-    <img
-        src="${portal.gallery[0].public_url}"
-        class="gallery-main">
-
-</div>
-`
-: ""
-}
 
     </section>
 
