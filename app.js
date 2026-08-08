@@ -25,18 +25,17 @@ const sb = createClient(C.supabaseUrl, C.supabaseAnonKey);
 
 let COMPANY = null;
 
+let COMPANY = null;
+
 async function loadCompany(){
 
     console.log("========== CARGANDO EMPRESA ==========");
 
     console.log("URL:", C.supabaseUrl);
 
-    const company = await getCompanySettings(sb);
+    COMPANY = await getCompanySettings(sb);
 
-PublicOrder.renderPublicServiceOrder(
-    order,
-    company
-);
+    console.log("Empresa cargada:", COMPANY);
 
 }
 
@@ -5372,15 +5371,16 @@ if (publicOrderToken) {
 
     try {
 
-        const publicOrder =
-            await PublicOrder.loadPublicServiceOrder(
-                sb,
-                publicOrderToken
-            );
+        const order =
+    await PublicOrder.loadPublicServiceOrder(
+        sb,
+        token
+    );
 
-        PublicOrder.renderPublicServiceOrder(
-            publicOrder
-        );
+PublicOrder.renderPublicServiceOrder(
+    order,
+    COMPANY
+);
 
         // Detener completamente la carga del ERP
         throw new Error("__PUBLIC_ORDER__");
