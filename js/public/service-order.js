@@ -1,3 +1,11 @@
+import { PHOTO_STAGE } from "../constants/photoStages.js";
+
+import {
+    getReceptionPhotos,
+    getDeliveryPhotos,
+    renderGallery
+} from "./gallery.js";
+
 export async function createPublicServiceOrder(sb, order) {
 
     const token = crypto.randomUUID();
@@ -405,7 +413,6 @@ warranty:[
 
 
 
-
    export function renderPublicServiceOrder(order, company, photos){
 
     document.title = order.order_code;
@@ -416,20 +423,40 @@ warranty:[
         photos
     );
 
+    const reception =
+    getReceptionPhotos(portal);
+
+const delivery =
+    getDeliveryPhotos(portal);
+
+console.log("Recepción:", reception);
+
+console.log("Entrega:", delivery);
+
     document.body.innerHTML = `
 
-        <div class="public-order">
+    <div class="public-order">
 
-            ${renderHero(portal)}
+        ${renderHero(portal)}
 
-            ${renderSummary(portal)}
+        ${renderSummary(portal)}
 
-            ${renderWarranty(portal)}
+        ${renderGallery(
+            "Estado al recibir el equipo",
+            reception
+        )}
 
-            ${renderSocials(portal)}
+        ${renderGallery(
+            "Estado al entregar el equipo",
+            delivery
+        )}
 
-        </div>
+        ${renderWarranty(portal)}
 
-    `;
+        ${renderSocials(portal)}
+
+    </div>
+
+`;
 
 }
