@@ -363,11 +363,9 @@ warranty:[
 
 
 
-export function renderPublicServiceOrder(order){
 
-    document.title = order.order_code;
 
-    export function renderPublicServiceOrder(order, company){
+    export function renderPublicServiceOrder(order, company) {
 
     document.title = order.order_code;
 
@@ -388,7 +386,5 @@ export function renderPublicServiceOrder(order){
         </div>
 
     `;
-
-}
 
 }
