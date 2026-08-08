@@ -12,7 +12,7 @@ import { buildTimeline }
 from "../services/timeline.service.js";
 
 import { renderTimeline }
-from "../components/Timeline.js";
+from "../components/timeline.js";
 
 export function renderPortal(portal){
 
