@@ -424,10 +424,10 @@ warranty:[
     );
 
     const reception =
-    getReceptionPhotos(portal);
+    getReceptionPhotos(portal.gallery);
 
 const delivery =
-    getDeliveryPhotos(portal);
+    getDeliveryPhotos(portal.gallery);
 
 console.log("Recepción:", reception);
 
