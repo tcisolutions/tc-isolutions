@@ -1,18 +1,5 @@
 import { renderHero } from "./hero.js";
 import { renderSummary } from "./summary.js";
-import { renderWarranty } from "./warranty.js";
-import { renderSocials } from "./socials.js";
-import {
-    getReceptionPhotos,
-    getDeliveryPhotos,
-    renderGallery
-} from "./gallery.js";
-
-import { buildTimeline }
-from "../services/timeline.service.js";
-
-import { renderTimeline }
-from "../components/timeline.js";
 
 export function renderPortal(portal){
 
@@ -39,12 +26,6 @@ export function renderPortal(portal){
                 "Estado al entregar el equipo",
                 delivery
             )}
-
-            ${renderTimeline(timeline)}
-
-            ${renderWarranty(portal)}
-
-            ${renderSocials(portal)}
 
         </div>
 
