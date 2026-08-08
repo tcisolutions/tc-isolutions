@@ -281,27 +281,39 @@ WhatsApp
 
 }
 
-function buildPortalData(order){
+function buildPortalData(order, company){
 
     return {
 
         company:{
 
-            name:"TC iSolutions",
+    name: company.company_name,
 
-            slogan:"Tecnología • Confianza • Calidad",
+    slogan: company.slogan,
 
-            logo:"assets/logo.png",
+    logo: company.logo_url || "assets/logo.png",
 
-            facebook:"https://facebook.com/",
+    facebook: company.facebook,
 
-            instagram:"https://instagram.com/",
+    instagram: company.instagram,
 
-            tiktok:"https://tiktok.com/",
+    tiktok: company.tiktok,
 
-            whatsapp:"https://wa.me/524431922958"
+    whatsapp: `https://wa.me/${company.whatsapp}`,
 
-        },
+    website: company.website,
+
+    address: company.address,
+
+    openingHours: company.opening_hours,
+
+    warrantyPolicy: company.warranty_policy,
+
+    primaryColor: company.primary_color,
+
+    secondaryColor: company.secondary_color
+
+},
 
         order:{
 
@@ -355,7 +367,9 @@ export function renderPublicServiceOrder(order){
 
     document.title = order.order_code;
 
-    const portal = buildPortalData(order);
+    const company = await getCompanySettings(sb);
+
+const portal = buildPortalData(order, company);
 
     document.body.innerHTML = `
 

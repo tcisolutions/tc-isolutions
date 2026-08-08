@@ -5442,9 +5442,6 @@ if (publicReceiptRequest?.type === "id") {
 } else if (publicReceiptRequest?.type === "payload" && publicReceiptRequest.value) {
   renderPublicPaymentReceipt(publicReceiptRequest.value);
 } else {
-  await loadCompany();
-
-console.log("Voy a cargar empresa");
 
 await loadCompany();
 
