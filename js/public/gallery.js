@@ -40,26 +40,48 @@ export function renderGallery(title, photos){
 
     }
 
+    const galleryId =
+        Math.random().toString(36).substring(2);
+
     return `
 
-        <section class="card">
+    <section class="card">
 
-            <h2>📷 ${title}</h2>
+        <h2>📷 ${title}</h2>
 
-            <div class="gallery">
+        <div class="gallery-viewer">
 
-                ${photos.map(photo => `
+            <img
 
-                    <img
-                        src="${photo.public_url}"
-                        class="gallery-thumb"
-                        alt="Fotografía">
+                id="main-${galleryId}"
 
-                `).join("")}
+                class="gallery-main"
 
-            </div>
+                src="${photos[0].public_url}"
 
-        </section>
+            >
+
+        </div>
+
+        <div class="gallery-thumbnails">
+
+            ${photos.map(photo=>`
+
+                <img
+
+                    src="${photo.public_url}"
+
+                    class="gallery-thumb"
+
+                    onclick="document.getElementById('main-${galleryId}').src='${photo.public_url}'"
+
+                >
+
+            `).join("")}
+
+        </div>
+
+    </section>
 
     `;
 
