@@ -23,7 +23,6 @@ const { createClient } = await import(
 
 const sb = createClient(C.supabaseUrl, C.supabaseAnonKey);
 
-let COMPANY = null;
 
 let COMPANY = null;
 
