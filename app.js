@@ -25,13 +25,15 @@ const sb = createClient(C.supabaseUrl, C.supabaseAnonKey);
 
 let COMPANY = null;
 
-async function loadCompany() {
+async function loadCompany(){
 
-    console.log("Entrando a loadCompany...");
+    console.log("========== CARGANDO EMPRESA ==========");
+
+    console.log("URL:", C.supabaseUrl);
 
     const company = await getCompanySettings(sb);
 
-    console.log(company);
+    console.log("Resultado:", company);
 
     COMPANY = company;
 
