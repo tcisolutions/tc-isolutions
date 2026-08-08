@@ -33,9 +33,10 @@ async function loadCompany(){
 
     const company = await getCompanySettings(sb);
 
-    console.log("Resultado:", company);
-
-    COMPANY = company;
+PublicOrder.renderPublicServiceOrder(
+    order,
+    company
+);
 
 }
 

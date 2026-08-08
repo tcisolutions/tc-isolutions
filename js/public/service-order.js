@@ -367,9 +367,11 @@ export function renderPublicServiceOrder(order){
 
     document.title = order.order_code;
 
-    const company = await getCompanySettings(sb);
+    export function renderPublicServiceOrder(order, company){
 
-const portal = buildPortalData(order, company);
+    document.title = order.order_code;
+
+    const portal = buildPortalData(order, company);
 
     document.body.innerHTML = `
 
@@ -386,5 +388,7 @@ const portal = buildPortalData(order, company);
         </div>
 
     `;
+
+}
 
 }
