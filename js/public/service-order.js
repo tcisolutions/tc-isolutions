@@ -87,8 +87,8 @@ function renderHero(portal){
 
         <img
     src="${portal.company.logo}"
-    class="company-logo">
-
+    class="company-logo"
+    alt="${portal.company.name}">
 <h1>
 
     ${portal.company.name}
@@ -291,7 +291,7 @@ function buildPortalData(order, company){
 
     slogan: company.slogan,
 
-    logo: company.logo_url || "assets/logo.png",
+    logo: company.logo_url,
 
     facebook: company.facebook,
 
