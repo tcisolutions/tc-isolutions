@@ -89,3 +89,23 @@ body{
 .socials a:hover{
     opacity:.85;
 }
+
+.gallery-preview{
+
+    margin-top:25px;
+
+}
+
+.gallery-main{
+
+    width:100%;
+
+    max-height:420px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}

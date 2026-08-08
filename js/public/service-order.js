@@ -227,13 +227,18 @@ ${portal.gallery.length}
 
         </div>
 
-<p style="margin-top:20px">
+${portal.gallery.length
+? `
+<div class="gallery-preview">
 
-    <strong>Fotos:</strong>
+    <img
+        src="${portal.gallery[0].public_url}"
+        class="gallery-main">
 
-    ${portal.gallery.length}
-
-</p>
+</div>
+`
+: ""
+}
 
     </section>
 
