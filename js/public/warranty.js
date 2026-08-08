@@ -1,10 +1,10 @@
 import { renderCard } from "../components/Card.js";
 
-export function renderSummary(portal){
+export function renderWarranty(portal) {
 
     return renderCard(
 
-        "Información del equipo",
+        "Garantía",
 
         `
 
@@ -12,39 +12,17 @@ export function renderSummary(portal){
 
             <div>
 
-                <strong>Cliente</strong>
+                <strong>Garantía</strong>
 
-                <span>${portal.order.client}</span>
-
-            </div>
-
-            <div>
-
-                <strong>Equipo</strong>
-
-                <span>
-
-                    ${portal.order.brand}
-
-                    ${portal.order.model}
-
-                </span>
+                <span>${portal.order.warranty ?? 0} días</span>
 
             </div>
 
             <div>
 
-                <strong>IMEI</strong>
+                <strong>Válida hasta</strong>
 
-                <span>${portal.order.imei || "-"}</span>
-
-            </div>
-
-            <div>
-
-                <strong>Falla</strong>
-
-                <span>${portal.order.issue}</span>
+                <span>${portal.order.warranty_end || "-"}</span>
 
             </div>
 
