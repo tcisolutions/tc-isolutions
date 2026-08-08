@@ -51,61 +51,69 @@ this.afterPrevious =
 
     }
 
-    next(){
+    next() {
 
-    if(
+    console.log("NEXT");
 
-    !this.beforeNext(
-
-        this.currentStep
-
-    )
-
-){
-
-this.afterNext(
-
-    this.currentStep
-
-);
-
-    return;
-
-}
-
-    this.finish();
-
-}
-
-    previous() {
-
-        if(
-
-    !this.beforePrevious(
-
-        this.currentStep
-
-    )
-
-){
-
-this.afterPrevious(
-
-    this.currentStep
-
-);
-
-    return;
-
-}
-
-    if(index>=this.steps.length){
+    if (!this.beforeNext(this.currentStep)) {
 
         return;
 
     }
 
-    this.currentStep=index;
+    if (this.currentStep < this.steps.length - 1) {
+
+        this.currentStep++;
+
+        this.afterNext(this.currentStep);
+
+        this.render();
+
+        return;
+
+    }
+
+    this.finish();
+
+}
+
+    previous(){
+
+    if(!this.beforePrevious(this.currentStep)){
+
+        return;
+
+    }
+
+    if(this.currentStep === 0){
+
+        return;
+
+    }
+
+    this.currentStep--;
+
+    this.afterPrevious(this.currentStep);
+
+    this.render();
+
+}
+
+goTo(index){
+
+    if(index < 0){
+
+        return;
+
+    }
+
+    if(index >= this.steps.length){
+
+        return;
+
+    }
+
+    this.currentStep = index;
 
     this.render();
 
@@ -119,7 +127,9 @@ reset(){
 
 }
 
-finish(){
+finish() {
+
+    console.log("🔥 FINISH");
 
     this.onFinish();
 
@@ -189,7 +199,7 @@ cancel(){
 
             }
 
-            this.finish();
+            this.next();
 
         };
 

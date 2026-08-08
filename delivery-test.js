@@ -3,6 +3,22 @@ from "./js/delivery/DeliveryWizard.js";
 
 createDeliveryWizard(
 
-    document.querySelector("#app")
+    document.querySelector("#app"),
+
+    {
+
+        onFinish(){
+
+            alert("🎉 Wizard terminado correctamente.");
+
+        },
+
+        onCancel(){
+
+            alert("Cancelado");
+
+        }
+
+    }
 
 );

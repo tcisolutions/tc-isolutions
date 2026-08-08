@@ -32,6 +32,12 @@ export function createDeliveryWizard(
 
         onFinish(){
 
+    console.log("DELIVERY WIZARD -> onFinish");
+
+    console.log(context);
+
+    console.log(context.onFinish);
+
     context.onFinish?.();
 
 }
