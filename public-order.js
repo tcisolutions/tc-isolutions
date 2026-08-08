@@ -1,7 +1,9 @@
 import {
     getPublicOrderToken,
     loadPublicServiceOrder,
+    loadOrderPhotos,
     renderPublicServiceOrder
+    
 }
 
 from "./js/public/service-order.js";
@@ -47,6 +49,12 @@ await loadPublicServiceOrder(
     token
 );
 
+const photos =
+    await loadOrderPhotos(
+        sb,
+        order.order_id
+    );
+
 const company =
 await getCompanySettings(sb);
 
@@ -55,7 +63,8 @@ console.log(company);
 
 renderPublicServiceOrder(
     order,
-    company
+    company,
+    photos
 );
 
     }

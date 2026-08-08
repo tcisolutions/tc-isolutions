@@ -64,6 +64,24 @@ export async function loadPublicServiceOrder(sb, token) {
 
 }
 
+export async function loadOrderPhotos(sb, orderId){
+
+    const { data, error } = await sb
+        .from("order_photos")
+        .select("*")
+        .eq("order_id", orderId)
+        .order("created_at");
+
+    if(error){
+
+        throw error;
+
+    }
+
+    return data;
+
+}
+
 export function getPublicOrderToken() {
 
     const params =
@@ -72,6 +90,8 @@ export function getPublicOrderToken() {
     return params.get("os");
 
 }
+
+
 
 function renderHero(portal){
 
@@ -149,6 +169,14 @@ function renderSummary(portal){
 
         <h2>Información del equipo</h2>
 
+        <p>
+
+Fotos:
+
+${portal.gallery.length}
+
+</p>
+
         <div class="info-grid">
 
             <div>
@@ -198,6 +226,14 @@ function renderSummary(portal){
             </div>
 
         </div>
+
+<p style="margin-top:20px">
+
+    <strong>Fotos:</strong>
+
+    ${portal.gallery.length}
+
+</p>
 
     </section>
 
@@ -281,7 +317,7 @@ WhatsApp
 
 }
 
-function buildPortalData(order, company){
+function buildPortalData(order, company, photos){
 
     return {
 
@@ -341,7 +377,7 @@ function buildPortalData(order, company){
 
         },
 
-        gallery:[],
+        gallery: photos,
 
         timeline:[],
 
