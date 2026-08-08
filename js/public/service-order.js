@@ -401,7 +401,7 @@ warranty:[
 
 
 
-    export function renderPublicServiceOrder(order, company) {
+    export function renderPublicServiceOrder(order, company, photos){
 
     document.title = order.order_code;
 
