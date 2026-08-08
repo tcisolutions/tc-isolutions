@@ -16,7 +16,7 @@ import {
 from "./js/components/timeline.js";
 
 import { createDeliveryWizard }
-from "./delivery/DeliveryWizard.js";
+from "./js/delivery/DeliveryWizard.js";
 
 const C = window.TC_CONFIG || {};
 
