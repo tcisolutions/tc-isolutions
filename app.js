@@ -5359,12 +5359,11 @@ function getPublicReceiptRequestFromLocation() {
    ORDEN PÚBLICA
 ========================= */
 
-/* =========================
-   ORDEN PÚBLICA
-========================= */
+
 
 const publicOrderToken =
     PublicOrder.getPublicOrderToken();
+    console.log("TOKEN:", publicOrderToken);
 
 if (publicOrderToken) {
 
@@ -5376,6 +5375,9 @@ if (publicOrderToken) {
         publicOrderToken
     );
 
+    console.log("TOKEN:", publicOrderToken);
+console.log("ORDEN:", order);
+
 await loadCompany();
 
 PublicOrder.renderPublicServiceOrder(
@@ -5385,6 +5387,8 @@ PublicOrder.renderPublicServiceOrder(
 
         // Detener completamente la carga del ERP
         throw new Error("__PUBLIC_ORDER__");
+
+        
 
     } catch (error) {
 
