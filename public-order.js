@@ -3,7 +3,13 @@ import {
     loadPublicServiceOrder,
     renderPublicServiceOrder
 }
+
 from "./js/public/service-order.js";
+
+import {
+    getCompanySettings
+}
+from "./js/services/companyService.js";
 
 const C =
     window.TC_CONFIG;
@@ -36,20 +42,36 @@ else{
     try{
 
         const order =
-        await loadPublicServiceOrder(
-            sb,
-            token
-        );
+await loadPublicServiceOrder(
+    sb,
+    token
+);
 
-        renderPublicServiceOrder(order);
+const company =
+await getCompanySettings(sb);
+
+console.log(order);
+console.log(company);
+
+renderPublicServiceOrder(
+    order,
+    company
+);
 
     }
 
     catch(e){
 
-        document.body.innerHTML=
-        "<h1>La orden no existe.</h1>";
+    console.error("ERROR DEL PORTAL:");
 
-    }
+    console.error(e);
+
+    document.body.innerHTML = `
+
+        <h1>La orden no existe.</h1>
+
+    `;
+
+}
 
 }
