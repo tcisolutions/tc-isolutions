@@ -13,7 +13,7 @@ from "./js/services/orderService.js";
 import {
     renderTimeline
 }
-from "./js/components/timeline.js";
+from "./js/components/timeline/index.js";
 
 import { createDeliveryWizard }
 from "./js/delivery/DeliveryWizard.js";

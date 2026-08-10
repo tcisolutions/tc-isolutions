@@ -1,0 +1,288 @@
+/* ==========================================================
+   NEXUS TIMELINE
+========================================================== */
+
+.nx-timeline{
+
+    margin-top:28px;
+
+    padding:20px;
+
+    border:1px solid #203650;
+
+    border-radius:12px;
+
+    background:#0B1728;
+
+}
+
+
+.nx-timeline-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid #203650;
+
+}
+
+
+.nx-timeline-kicker{
+
+    display:block;
+
+    margin-bottom:4px;
+
+    color:#38BDF8;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    letter-spacing:.8px;
+
+}
+
+
+.nx-timeline-header h3{
+
+    margin:0;
+
+    color:#F8FAFC;
+
+    font-size:17px;
+
+}
+
+
+.nx-timeline-count{
+
+    min-width:30px;
+
+    height:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:#102F52;
+
+    color:#38BDF8;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.nx-timeline-list{
+
+    margin-top:18px;
+
+}
+
+
+.nx-timeline-item{
+
+    display:flex;
+
+    gap:14px;
+
+    min-height:62px;
+
+}
+
+
+.nx-timeline-marker{
+
+    position:relative;
+
+    width:18px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
+.nx-timeline-marker::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:15px;
+
+    bottom:-5px;
+
+    width:1px;
+
+    background:#263B55;
+
+}
+
+
+.nx-timeline-item:last-child
+.nx-timeline-marker::after{
+
+    display:none;
+
+}
+
+
+.nx-timeline-marker span{
+
+    position:relative;
+
+    z-index:2;
+
+    color:#2563EB;
+
+    font-size:12px;
+
+}
+
+
+.nx-timeline-content{
+
+    flex:1;
+
+    padding-bottom:16px;
+
+}
+
+
+.nx-timeline-item-top{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+}
+
+
+.nx-timeline-item-top strong{
+
+    color:#E2E8F0;
+
+    font-size:13px;
+
+}
+
+
+.nx-timeline-item-top time{
+
+    color:#64748B;
+
+    font-size:11px;
+
+    white-space:nowrap;
+
+}
+
+
+.nx-timeline-content p{
+
+    margin:5px 0 0;
+
+    color:#94A3B8;
+
+    font-size:12px;
+
+}
+
+
+.nx-timeline-empty{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-top:28px;
+
+    padding:18px;
+
+    border:1px dashed #29415E;
+
+    border-radius:10px;
+
+    background:#0B1728;
+
+}
+
+
+.nx-timeline-empty-icon{
+
+    width:38px;
+
+    height:38px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:#102238;
+
+}
+
+
+.nx-timeline-empty strong{
+
+    display:block;
+
+    color:#E2E8F0;
+
+    font-size:13px;
+
+}
+
+
+.nx-timeline-empty span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:#64748B;
+
+    font-size:11px;
+
+}
+
+
+@media(max-width:700px){
+
+    .nx-timeline-item-top{
+
+        flex-direction:column;
+
+        gap:3px;
+
+    }
+
+}
