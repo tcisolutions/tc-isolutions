@@ -1,7 +1,7 @@
 import {
     Wizard
 }
-from "../components/Wizard/Wizard.js";
+from "../components/wizard/Wizard.js";
 
 
 import {

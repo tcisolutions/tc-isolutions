@@ -1,4 +1,5 @@
-import { Wizard } from "../components/Wizard/Wizard.js";
+import { Wizard }
+from "../components/wizard/Wizard.js";
 
 import { PhotosStep } from "../steps/PhotosStep.js";
 import { PaymentStep } from "../steps/PaymentStep.js";

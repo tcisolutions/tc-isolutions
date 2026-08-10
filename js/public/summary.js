@@ -1,4 +1,4 @@
-import { renderCard } from "../components/Card.js";
+import { renderCard } from "../components/card/Card.js";
 
 export function renderSummary(portal){
 
