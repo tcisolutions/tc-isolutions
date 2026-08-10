@@ -1,0 +1,29 @@
+.nx-wizard{
+
+    width:100%;
+
+    max-width:980px;
+
+    margin:auto;
+
+    background:#fff;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    box-shadow:
+
+        0 12px 40px rgba(15,23,42,.12);
+
+    border:1px solid #e8edf5;
+
+}
+
+.nx-wizard>*{
+
+    width:100%;
+
+    box-sizing:border-box;
+
+}

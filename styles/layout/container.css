@@ -1,0 +1,33 @@
+/* ==========================================================
+   NEXUS CONTAINER
+========================================================== */
+
+.nx-container{
+
+    width:100%;
+
+    max-width:1600px;
+
+    margin:0 auto;
+
+}
+
+.nx-page{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.nx-section{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}

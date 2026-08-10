@@ -1,0 +1,33 @@
+/* ==========================================================
+   NEXUS HEADER
+========================================================== */
+
+header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:24px;
+
+    margin-bottom:32px;
+
+}
+
+header h1{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:var(--nx-text);
+
+}
+
+header p{
+
+    color:var(--nx-text-light);
+
+}

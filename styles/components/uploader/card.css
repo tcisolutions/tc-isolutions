@@ -1,0 +1,101 @@
+.nx-photo-card{
+
+    background:var(--nx-surface);
+
+    border:1px solid var(--nx-border);
+
+    border-radius:var(--nx-radius-lg);
+
+    overflow:hidden;
+
+    box-shadow:var(--nx-shadow-sm);
+
+    transition:var(--nx-transition);
+
+}
+
+.nx-photo-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--nx-shadow-md);
+
+}
+
+.nx-photo-image{
+
+    aspect-ratio:1;
+
+    overflow:hidden;
+
+    background:#F8FAFC;
+
+}
+
+.nx-photo-image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.nx-photo-content{
+
+    padding:16px;
+
+}
+
+.nx-photo-name{
+
+    font-weight:600;
+
+    color:var(--nx-text);
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+.nx-photo-size{
+
+    margin-top:6px;
+
+    color:var(--nx-text-light);
+
+    font-size:13px;
+
+}
+
+.nx-photo-remove{
+
+    width:100%;
+
+    border:none;
+
+    border-top:1px solid var(--nx-border);
+
+    background:white;
+
+    padding:14px;
+
+    cursor:pointer;
+
+    transition:var(--nx-transition);
+
+    color:var(--nx-danger);
+
+    font-weight:600;
+
+}
+
+.nx-photo-remove:hover{
+
+    background:var(--nx-danger-light);
+
+}

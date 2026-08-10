@@ -1,0 +1,22 @@
+:root{
+
+    /* Colores */
+
+    --nx-primary:#2563EB;
+    --nx-primary-hover:#1D4ED8;
+
+    --nx-success:#16A34A;
+    --nx-warning:#F59E0B;
+    --nx-danger:#DC2626;
+
+    --nx-white:#FFFFFF;
+
+    --nx-bg:#F8FAFC;
+
+    --nx-border:#E2E8F0;
+
+    --nx-text:#0F172A;
+
+    --nx-text-light:#64748B;
+
+}

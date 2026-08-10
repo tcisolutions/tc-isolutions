@@ -1,0 +1,67 @@
+/* ==========================================================
+   NEXUS LAYOUT
+========================================================== */
+
+body{
+
+    margin:0;
+
+    padding:0;
+
+    background:var(--nx-background);
+
+    color:var(--nx-text);
+
+    font-family:var(--nx-font);
+
+}
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+#app{
+
+    display:grid;
+
+    grid-template-columns:240px 1fr;
+
+    min-height:100vh;
+
+    background:var(--nx-background);
+
+}
+
+main{
+
+    min-height:100vh;
+
+    padding:32px;
+
+    overflow:auto;
+
+}
+
+.page{
+
+    width:100%;
+
+    max-width:1500px;
+
+    margin:0 auto;
+
+}
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.spacer{
+
+    flex:1;
+
+}

@@ -1,0 +1,71 @@
+/* ==========================================================
+   NEXUS CARD
+========================================================== */
+
+.nx-card{
+
+    background:#FFFFFF;
+
+    border:1px solid #E2E8F0;
+
+    border-radius:18px;
+
+    box-shadow:
+
+        0 10px 30px rgba(15,23,42,.05);
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+.nx-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+        0 18px 40px rgba(15,23,42,.08);
+
+}
+
+.nx-card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 24px;
+
+    border-bottom:1px solid #F1F5F9;
+
+}
+
+.nx-card-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#0F172A;
+
+}
+
+.nx-card-body{
+
+    padding:24px;
+
+}
+
+.nx-card-footer{
+
+    padding:18px 24px;
+
+    border-top:1px solid #F1F5F9;
+
+    background:#FAFBFC;
+
+}

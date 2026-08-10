@@ -1,0 +1,9 @@
+.nx-button-secondary{
+
+    background:white;
+
+    color:var(--nx-text);
+
+    border:1px solid var(--nx-border);
+
+}

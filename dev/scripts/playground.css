@@ -1,0 +1,38 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    background:#eef2f7;
+
+    padding:40px;
+
+}
+
+.playground{
+
+    max-width:1200px;
+
+    margin:auto;
+
+}
+
+.playground h1{
+
+    margin-bottom:30px;
+
+}
+
+.demo{
+
+    margin-top:40px;
+
+}

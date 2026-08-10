@@ -1,0 +1,123 @@
+/* ==========================================================
+   NEXUS STATS
+========================================================== */
+
+.nx-stats{
+
+    display:grid;
+
+    grid-template-columns:
+
+        repeat(auto-fit,minmax(230px,1fr));
+
+    gap:20px;
+
+}
+
+.nx-stat{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:24px;
+
+    background:white;
+
+    border-radius:18px;
+
+    border:1px solid #E2E8F0;
+
+    box-shadow:
+
+        0 10px 30px rgba(15,23,42,.05);
+
+    transition:.25s;
+
+}
+
+.nx-stat:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.nx-stat-icon{
+
+    width:62px;
+
+    height:62px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    background:#DBEAFE;
+
+}
+
+.nx-stat-content{
+
+    flex:1;
+
+}
+
+.nx-stat small{
+
+    display:block;
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
+
+.nx-stat h2{
+
+    margin:6px 0;
+
+    font-size:34px;
+
+    color:#0F172A;
+
+}
+
+.nx-stat span{
+
+    color:#94A3B8;
+
+    font-size:13px;
+
+}
+
+.nx-stat-primary .nx-stat-icon{
+
+    background:#DBEAFE;
+
+}
+
+.nx-stat-success .nx-stat-icon{
+
+    background:#DCFCE7;
+
+}
+
+.nx-stat-warning .nx-stat-icon{
+
+    background:#FEF3C7;
+
+}
+
+.nx-stat-danger .nx-stat-icon{
+
+    background:#FEE2E2;
+
+}

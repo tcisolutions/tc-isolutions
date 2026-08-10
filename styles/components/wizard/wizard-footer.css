@@ -1,0 +1,23 @@
+.nx-wizard-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:24px 36px;
+
+    border-top:1px solid #edf2f7;
+
+    background:#fafcff;
+
+}
+
+.nx-footer-actions{
+
+    display:flex;
+
+    gap:12px;
+
+}

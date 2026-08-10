@@ -1,0 +1,13 @@
+.nx-button-primary{
+
+    background:var(--nx-primary);
+
+    color:white;
+
+}
+
+.nx-button-primary:hover{
+
+    background:var(--nx-primary-hover);
+
+}

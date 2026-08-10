@@ -1,0 +1,490 @@
+/* ==========================================================
+   NEXUS — NUEVA ORDEN
+========================================================== */
+
+.nx-order-step{
+
+    width:100%;
+
+    max-width:1100px;
+
+    margin:0 auto;
+
+}
+
+
+.nx-order-step-header{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:16px;
+
+    margin-bottom:28px;
+
+}
+
+
+.nx-order-step-icon{
+
+    width:52px;
+
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border-radius:14px;
+
+    background:#0F2B4D;
+
+    border:1px solid #1E5D91;
+
+    font-size:24px;
+
+}
+
+
+.nx-order-step-header h2{
+
+    margin:0 0 5px;
+
+    color:#F8FAFC;
+
+    font-size:22px;
+
+}
+
+
+.nx-order-step-header p{
+
+    margin:0;
+
+    color:#94A3B8;
+
+    font-size:14px;
+
+}
+
+
+.nx-order-form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:18px;
+
+}
+
+
+.nx-field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+
+.nx-field-full{
+
+    grid-column:1 / -1;
+
+}
+
+
+.nx-field span{
+
+    color:#CBD5E1;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+.nx-field input,
+.nx-field textarea{
+
+    width:100%;
+
+    border:1px solid #263B55;
+
+    border-radius:10px;
+
+    background:#0B1728;
+
+    color:#F8FAFC;
+
+    padding:12px 14px;
+
+    font:inherit;
+
+    outline:none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+.nx-field textarea{
+
+    resize:vertical;
+
+    min-height:110px;
+
+}
+
+
+.nx-field input:focus,
+.nx-field textarea:focus{
+
+    border-color:#2563EB;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,.16);
+
+}
+
+
+.nx-order-client-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:22px;
+
+}
+
+
+.nx-secondary-button{
+
+    border:1px solid #31516F;
+
+    border-radius:9px;
+
+    background:#102238;
+
+    color:#E2E8F0;
+
+    padding:10px 15px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+
+.nx-secondary-button:hover{
+
+    background:#17304B;
+
+    border-color:#3B82F6;
+
+}
+
+
+.nx-order-photo-section{
+
+    min-height:280px;
+
+}
+
+
+.nx-order-parts-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    margin-bottom:24px;
+
+}
+
+
+.nx-order-part-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 16px;
+
+    border:1px solid #203650;
+
+    border-radius:10px;
+
+    background:#0B1728;
+
+    color:#E2E8F0;
+
+}
+
+
+.nx-order-part-row small{
+
+    display:block;
+
+    color:#64748B;
+
+    margin-top:3px;
+
+}
+
+
+.nx-order-empty{
+
+    padding:22px;
+
+    text-align:center;
+
+    color:#64748B;
+
+    border:1px dashed #29415E;
+
+    border-radius:10px;
+
+}
+
+
+.nx-order-total-box,
+.nx-payment-balance{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    padding:16px 18px;
+
+    border-radius:10px;
+
+    background:#102238;
+
+    border:1px solid #254A70;
+
+}
+
+
+.nx-order-total-box span,
+.nx-payment-balance span{
+
+    color:#94A3B8;
+
+    font-size:12px;
+
+}
+
+
+.nx-order-total-box strong,
+.nx-payment-balance strong{
+
+    margin-top:4px;
+
+    color:#F8FAFC;
+
+    font-size:22px;
+
+}
+
+
+.nx-payment-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
+
+    margin-bottom:22px;
+
+}
+
+
+.nx-payment-summary > div{
+
+    padding:18px;
+
+    border-radius:12px;
+
+    background:#0B1728;
+
+    border:1px solid #203650;
+
+}
+
+
+.nx-payment-summary span{
+
+    display:block;
+
+    color:#94A3B8;
+
+    font-size:12px;
+
+}
+
+
+.nx-payment-summary strong{
+
+    display:block;
+
+    margin-top:6px;
+
+    color:#F8FAFC;
+
+    font-size:20px;
+
+}
+
+
+.nx-payment-summary
+.nx-payment-total{
+
+    border-color:#2563EB;
+
+    background:#0D2542;
+
+}
+
+
+.nx-confirmation-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:14px;
+
+}
+
+
+.nx-confirmation-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+
+    padding:18px;
+
+    border:1px solid #203650;
+
+    border-radius:12px;
+
+    background:#0B1728;
+
+}
+
+
+.nx-confirmation-card span{
+
+    color:#38BDF8;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    letter-spacing:.8px;
+
+}
+
+
+.nx-confirmation-card strong{
+
+    color:#F8FAFC;
+
+    font-size:16px;
+
+}
+
+
+.nx-confirmation-card small{
+
+    color:#64748B;
+
+}
+
+
+.nx-confirmation-notice{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+
+    margin-top:22px;
+
+    padding:16px;
+
+    border:1px solid #166534;
+
+    border-radius:10px;
+
+    background:#052E1B;
+
+}
+
+
+.nx-confirmation-notice strong{
+
+    color:#4ADE80;
+
+}
+
+
+.nx-confirmation-notice span{
+
+    color:#A7F3D0;
+
+    font-size:13px;
+
+}
+
+
+@media(max-width:700px){
+
+    .nx-order-form-grid,
+    .nx-confirmation-grid,
+    .nx-payment-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .nx-field-full{
+
+        grid-column:auto;
+
+    }
+
+}

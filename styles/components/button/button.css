@@ -1,0 +1,49 @@
+.nx-button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    border:none;
+
+    border-radius:var(--nx-radius-md);
+
+    padding:12px 22px;
+
+    cursor:pointer;
+
+    font-family:var(--nx-font);
+
+    font-size:var(--nx-font-size-md);
+
+    transition:var(--nx-transition);
+
+    font-weight:600;
+
+}
+
+.nx-button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.nx-button:active{
+
+    transform:translateY(0);
+
+}
+
+.nx-button-icon{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}

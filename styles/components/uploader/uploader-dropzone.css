@@ -1,0 +1,89 @@
+.nx-dropzone{
+
+    border:2px dashed var(--nx-primary);
+
+    border-radius:var(--nx-radius-lg);
+
+    background:white;
+
+    padding:48px;
+
+    text-align:center;
+
+    transition:var(--nx-transition);
+
+    cursor:pointer;
+
+}
+
+.nx-dropzone:hover{
+
+    background:var(--nx-primary-light);
+
+    border-color:var(--nx-primary-hover);
+
+}
+
+.nx-dropzone-icon{
+
+    font-size:56px;
+
+    margin-bottom:20px;
+
+}
+
+.nx-dropzone h3{
+
+    margin-bottom:10px;
+
+    color:var(--nx-text);
+
+}
+
+.nx-dropzone p{
+
+    color:var(--nx-text-light);
+
+    margin:16px 0;
+
+}
+
+.nx-upload-button{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:14px 26px;
+
+    border-radius:var(--nx-radius-md);
+
+    background:var(--nx-primary);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:var(--nx-transition);
+
+    font-weight:600;
+
+}
+
+.nx-upload-button:hover{
+
+    background:var(--nx-primary-hover);
+
+}
+
+.nx-dropzone small{
+
+    display:block;
+
+    margin-top:20px;
+
+    color:var(--nx-text-light);
+
+}

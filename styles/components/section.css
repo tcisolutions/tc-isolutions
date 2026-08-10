@@ -1,0 +1,27 @@
+.section{
+
+    margin-top:28px;
+
+}
+
+.section-title{
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}

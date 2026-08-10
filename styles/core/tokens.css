@@ -1,0 +1,147 @@
+/* ==========================================================
+   NEXUS DESIGN TOKENS
+   Versión 1.0
+========================================================== */
+
+:root{
+
+/* ==========================================================
+   COLORES
+========================================================== */
+
+--nx-primary:#2563EB;
+--nx-primary-hover:#1D4ED8;
+--nx-primary-light:#DBEAFE;
+
+--nx-success:#16A34A;
+--nx-success-light:#DCFCE7;
+
+--nx-danger:#DC2626;
+--nx-danger-light:#FEE2E2;
+
+--nx-warning:#F59E0B;
+--nx-warning-light:#FEF3C7;
+
+--nx-info:#0891B2;
+--nx-info-light:#CFFAFE;
+
+--nx-dark:#0F172A;
+--nx-light:#FFFFFF;
+
+--nx-background:#F8FAFC;
+
+--nx-surface:#FFFFFF;
+
+--nx-border:#E2E8F0;
+
+--nx-text:#1E293B;
+
+--nx-text-light:#64748B;
+
+
+/* ==========================================================
+   ESPACIADO
+========================================================== */
+
+--nx-space-1:4px;
+--nx-space-2:8px;
+--nx-space-3:12px;
+--nx-space-4:16px;
+--nx-space-5:20px;
+--nx-space-6:24px;
+--nx-space-7:32px;
+--nx-space-8:40px;
+--nx-space-9:48px;
+
+
+/* ==========================================================
+   BORDES
+========================================================== */
+
+--nx-radius-sm:8px;
+--nx-radius-md:12px;
+--nx-radius-lg:18px;
+--nx-radius-xl:24px;
+
+
+/* ==========================================================
+   SOMBRAS
+========================================================== */
+
+--nx-shadow-sm:
+
+0 2px 8px rgba(0,0,0,.06);
+
+--nx-shadow-md:
+
+0 10px 30px rgba(15,23,42,.08);
+
+--nx-shadow-lg:
+
+0 20px 45px rgba(15,23,42,.12);
+
+
+/* ==========================================================
+   TIPOGRAFÍA
+========================================================== */
+
+--nx-font:
+
+Inter,
+Segoe UI,
+Roboto,
+Arial,
+sans-serif;
+
+--nx-font-size-xs:12px;
+--nx-font-size-sm:14px;
+--nx-font-size-md:16px;
+--nx-font-size-lg:18px;
+--nx-font-size-xl:22px;
+--nx-font-size-2xl:28px;
+
+
+/* ==========================================================
+   TRANSICIONES
+========================================================== */
+
+--nx-transition:
+
+all .25s ease;
+
+
+/* ==========================================================
+   Z INDEX
+========================================================== */
+
+--nx-z-dropdown:100;
+
+--nx-z-modal:1000;
+
+--nx-z-toast:2000;
+
+--nx-z-loading:3000;
+
+}
+
+/* ==========================================================
+   COMPATIBILIDAD TEMPORAL
+========================================================== */
+
+:root{
+
+    --bg:var(--nx-background);
+
+    --surface:var(--nx-surface);
+
+    --text:var(--nx-text);
+
+    --text-light:var(--nx-text-light);
+
+    --primary:var(--nx-primary);
+
+    --primary-hover:var(--nx-primary-hover);
+
+    --border:var(--nx-border);
+
+}

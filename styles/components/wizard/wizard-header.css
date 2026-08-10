@@ -1,0 +1,63 @@
+.nx-wizard-header{
+
+    display:flex;
+
+    align-items:center;
+
+    padding:28px 36px;
+
+    border-bottom:1px solid #edf2f7;
+
+    background:#fff;
+
+}
+
+.nx-wizard-header-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.nx-wizard-icon{
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:18px;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+}
+
+.nx-wizard-header h2{
+
+    margin:0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+.nx-wizard-description{
+
+    margin-top:6px;
+
+    color:#64748b;
+
+}

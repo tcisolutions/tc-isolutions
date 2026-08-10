@@ -1,0 +1,54 @@
+/* ==========================================================
+   RESET
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        sans-serif;
+
+    font-size:15px;
+
+    line-height:1.5;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+input,
+textarea,
+select{
+
+    font-family:inherit;
+
+}
