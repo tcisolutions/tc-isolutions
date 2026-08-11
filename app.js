@@ -2134,9 +2134,10 @@ async function ordersView() {
 
   $("#title").textContent = "Órdenes";
 
+
   /*
    * ==========================================================
-   * ESTADOS DEL SISTEMA
+   * ESTADOS
    * ==========================================================
    */
 
@@ -2196,7 +2197,7 @@ async function ordersView() {
 
   /*
    * ==========================================================
-   * RESUMEN
+   * RESUMEN DE ESTADOS
    * ==========================================================
    */
 
@@ -2216,23 +2217,17 @@ async function ordersView() {
         ">
 
         <div class="nx-order-summary-icon">
-
           ${status.icon}
-
         </div>
 
         <div class="nx-order-summary-content">
 
           <span>
-
             ${status.label}
-
           </span>
 
           <strong>
-
             ${count}
-
           </strong>
 
         </div>
@@ -2246,93 +2241,126 @@ async function ordersView() {
 
   /*
    * ==========================================================
-   * SECCIONES POR ESTADO
+   * GENERADOR DE SECCIONES
    * ==========================================================
    */
 
-  const sections = statuses.map(status => {
+  function renderOrderSections(list) {
 
-    const filteredOrders =
-      orders.filter(
-        o => o.status === status.key
-      );
+    const sections = statuses.map(status => {
+
+      const filteredOrders =
+        list.filter(
+          o => o.status === status.key
+        );
+
+
+      /*
+       * Ocultar estados sin resultados
+       */
+
+      if (!filteredOrders.length) {
+
+        return "";
+
+      }
+
+
+      return `
+
+        <section
+          class="
+            nx-orders-section
+            nx-orders-section-${status.className}
+          ">
+
+          <div class="nx-orders-section-header">
+
+            <div class="nx-orders-section-title">
+
+              <div class="nx-orders-section-icon">
+
+                ${status.icon}
+
+              </div>
+
+              <div>
+
+                <h3>
+                  ${status.label}
+                </h3>
+
+                <span>
+
+                  ${
+                    filteredOrders.length === 1
+                      ? "1 orden"
+                      : `${filteredOrders.length} órdenes`
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="nx-orders-section-count">
+
+              ${filteredOrders.length}
+
+            </div>
+
+          </div>
+
+
+          ${table(filteredOrders)}
+
+        </section>
+
+      `;
+
+    }).join("");
+
 
     /*
-     * No mostramos secciones vacías.
-     *
-     * Esto evita que la pantalla se vuelva
-     * demasiado larga cuando no existen órdenes
-     * en determinados estados.
+     * Si la búsqueda no encontró nada
      */
 
-    if (!filteredOrders.length) {
+    if (!sections) {
 
-      return "";
+      return `
 
-    }
+        <div class="nx-orders-empty-page">
 
-    return `
-
-      <section
-        class="
-          nx-orders-section
-          nx-orders-section-${status.className}
-        ">
-
-        <div class="nx-orders-section-header">
-
-          <div class="nx-orders-section-title">
-
-            <div class="nx-orders-section-icon">
-
-              ${status.icon}
-
-            </div>
-
-            <div>
-
-              <h3>
-
-                ${status.label}
-
-              </h3>
-
-              <span>
-
-                ${
-                  filteredOrders.length === 1
-                    ? "1 orden"
-                    : `${filteredOrders.length} órdenes`
-                }
-
-              </span>
-
-            </div>
-
+          <div>
+            🔎
           </div>
 
+          <h3>
+            No encontramos órdenes
+          </h3>
 
-          <div class="nx-orders-section-count">
-
-            ${filteredOrders.length}
-
-          </div>
+          <p>
+            Intenta buscar por folio, cliente,
+            marca, modelo, IMEI o estado.
+          </p>
 
         </div>
 
+      `;
 
-        ${table(filteredOrders)}
+    }
 
-      </section>
 
-    `;
+    return sections;
 
-  }).join("");
+  }
 
 
   /*
    * ==========================================================
-   * PANTALLA
+   * CONTENIDO INICIAL
    * ==========================================================
    */
 
@@ -2368,7 +2396,7 @@ async function ordersView() {
 
 
       <!-- =========================================
-           RESUMEN DE ESTADOS
+           RESUMEN
       ========================================== -->
 
       <div class="nx-orders-summary">
@@ -2377,62 +2405,49 @@ async function ordersView() {
 
       </div>
 
+
+      <!-- =========================================
+           BUSCADOR
+      ========================================== -->
+
       <div class="nx-orders-search">
 
-  <div class="nx-orders-search-icon">
-    🔎
-  </div>
+        <div class="nx-orders-search-icon">
+          🔎
+        </div>
 
-  <input
-    type="search"
-    id="ordersSearch"
-    placeholder="Buscar por folio, cliente, equipo, IMEI..."
-    autocomplete="off"
-  >
+        <input
+          type="search"
+          id="ordersSearch"
+          placeholder="Buscar por folio, cliente, equipo, IMEI..."
+          autocomplete="off"
+        >
 
-  <button
-    type="button"
-    id="clearOrdersSearch"
-    class="nx-orders-search-clear"
-    hidden>
-    ✕
-  </button>
+        <button
+          type="button"
+          id="clearOrdersSearch"
+          class="nx-orders-search-clear"
+          hidden>
 
-</div>
+          ✕
+
+        </button>
+
+      </div>
 
 
       <!-- =========================================
-           LISTADO
+           RESULTADOS
       ========================================== -->
 
-      <div class="nx-orders-sections">
+      <div
+        class="nx-orders-sections"
+        id="ordersSections">
 
-        ${
-          sections ||
-
-          `
-
-            <div class="nx-orders-empty-page">
-
-              <div>
-                📋
-              </div>
-
-              <h3>
-                No hay órdenes registradas
-              </h3>
-
-              <p>
-                Cuando registres una nueva orden
-                aparecerá aquí.
-              </p>
-
-            </div>
-
-          `
-        }
+        ${renderOrderSections(orders)}
 
       </div>
+
 
     </div>
 
@@ -2441,14 +2456,154 @@ async function ordersView() {
 
   /*
    * ==========================================================
-   * EVENTOS EXISTENTES
+   * EVENTOS DE LA TABLA
    * ==========================================================
    */
 
   bind();
 
-}
 
+  /*
+   * ==========================================================
+   * BUSCADOR EN TIEMPO REAL
+   * ==========================================================
+   */
+
+  const searchInput =
+    document.querySelector("#ordersSearch");
+
+  const clearButton =
+    document.querySelector("#clearOrdersSearch");
+
+  const sectionsContainer =
+    document.querySelector("#ordersSections");
+
+
+  if (searchInput && sectionsContainer) {
+
+    searchInput.addEventListener(
+      "input",
+      () => {
+
+        const query =
+          searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+        /*
+         * Mostrar / ocultar botón X
+         */
+
+        if (clearButton) {
+
+          clearButton.hidden =
+            !query;
+
+        }
+
+
+        /*
+         * Sin búsqueda
+         */
+
+        if (!query) {
+
+          sectionsContainer.innerHTML =
+            renderOrderSections(orders);
+
+          bind();
+
+          return;
+
+        }
+
+
+        /*
+         * Filtrar órdenes
+         */
+
+        const filteredOrders =
+          orders.filter(o => {
+
+            const searchableText = [
+
+              o.folio,
+              o.client,
+              o.brand,
+              o.model,
+              o.imei,
+              o.status,
+              o.phone
+
+            ]
+
+              .map(value =>
+                String(value || "")
+                  .toLowerCase()
+              )
+
+              .join(" ");
+
+
+            return searchableText
+              .includes(query);
+
+          });
+
+
+        /*
+         * Mostrar resultados
+         */
+
+        sectionsContainer.innerHTML =
+          renderOrderSections(
+            filteredOrders
+          );
+
+
+        /*
+         * Volver a conectar botones
+         * Ver / Editar
+         */
+
+        bind();
+
+      }
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * LIMPIAR BÚSQUEDA
+   * ==========================================================
+   */
+
+  if (clearButton) {
+
+    clearButton.addEventListener(
+      "click",
+      () => {
+
+        searchInput.value = "";
+
+        clearButton.hidden = true;
+
+        sectionsContainer.innerHTML =
+          renderOrderSections(orders);
+
+        searchInput.focus();
+
+        bind();
+
+      }
+    );
+
+  }
+
+}
 
 /* =========================
    CLIENTES
