@@ -2090,6 +2090,42 @@ async function home() {
    PANTALLA ÓRDENES
 ========================= */
 
+function filterOrdersSearch(query) {
+
+  const text = String(query || "")
+    .trim()
+    .toLowerCase();
+
+  if (!text) {
+    return orders;
+  }
+
+  return orders.filter(o => {
+
+    const values = [
+
+      o.folio,
+      o.client,
+      o.brand,
+      o.model,
+      o.imei,
+      o.status,
+      o.phone
+
+    ];
+
+    return values.some(value =>
+
+      String(value || "")
+        .toLowerCase()
+        .includes(text)
+
+    );
+
+  });
+
+}
+
 async function ordersView() {
 
   setActiveMenu("orders");
@@ -2340,6 +2376,29 @@ async function ordersView() {
         ${summary}
 
       </div>
+
+      <div class="nx-orders-search">
+
+  <div class="nx-orders-search-icon">
+    🔎
+  </div>
+
+  <input
+    type="search"
+    id="ordersSearch"
+    placeholder="Buscar por folio, cliente, equipo, IMEI..."
+    autocomplete="off"
+  >
+
+  <button
+    type="button"
+    id="clearOrdersSearch"
+    class="nx-orders-search-clear"
+    hidden>
+    ✕
+  </button>
+
+</div>
 
 
       <!-- =========================================
