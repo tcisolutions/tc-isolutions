@@ -1,0 +1,833 @@
+/* ==========================================================
+   NEXUS · ORDERS
+========================================================== */
+
+.nx-orders-page{
+
+    width:100%;
+
+    max-width:1500px;
+
+    margin:0 auto;
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.nx-orders-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    margin-bottom:28px;
+
+}
+
+.nx-page-kicker{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    color:#2494ff;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+}
+
+.nx-orders-top h2{
+
+    margin:0;
+
+    color:#f8fafc;
+
+    font-size:28px;
+
+    font-weight:800;
+
+}
+
+.nx-orders-top p{
+
+    margin:7px 0 0;
+
+    color:#71839b;
+
+    font-size:13px;
+
+}
+
+
+/* ==========================================================
+   RESUMEN
+========================================================== */
+
+.nx-orders-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+    gap:14px;
+
+    margin-bottom:26px;
+
+}
+
+
+.nx-order-summary-card{
+
+    min-height:86px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d1d31,
+            #091525
+        );
+
+    border:1px solid #203650;
+
+    border-radius:12px;
+
+    box-sizing:border-box;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+.nx-order-summary-card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:#2d5d91;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.18);
+
+}
+
+
+.nx-order-summary-icon{
+
+    width:42px;
+
+    height:42px;
+
+    flex:none;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#142943;
+
+    font-size:18px;
+
+}
+
+
+.nx-order-summary-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+}
+
+
+.nx-order-summary-content span{
+
+    color:#7890aa;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+
+.nx-order-summary-content strong{
+
+    margin-top:3px;
+
+    color:#f8fafc;
+
+    font-size:24px;
+
+    line-height:1;
+
+}
+
+
+/* ==========================================================
+   COLORES DE ESTADOS
+========================================================== */
+
+.nx-order-summary-received{
+
+    border-color:#155eaa;
+
+}
+
+.nx-order-summary-received
+.nx-order-summary-icon{
+
+    color:#2196ff;
+
+}
+
+
+.nx-order-summary-diagnostic{
+
+    border-color:#62561c;
+
+}
+
+.nx-order-summary-diagnostic
+.nx-order-summary-icon{
+
+    color:#ffd21c;
+
+}
+
+
+.nx-order-summary-authorization{
+
+    border-color:#633c19;
+
+}
+
+.nx-order-summary-authorization
+.nx-order-summary-icon{
+
+    color:#ff9d32;
+
+}
+
+
+.nx-order-summary-repair{
+
+    border-color:#70411e;
+
+}
+
+.nx-order-summary-repair
+.nx-order-summary-icon{
+
+    color:#ff8a36;
+
+}
+
+
+.nx-order-summary-parts{
+
+    border-color:#55326d;
+
+}
+
+.nx-order-summary-parts
+.nx-order-summary-icon{
+
+    color:#c26cff;
+
+}
+
+
+.nx-order-summary-ready{
+
+    border-color:#12643b;
+
+}
+
+.nx-order-summary-ready
+.nx-order-summary-icon{
+
+    color:#22d875;
+
+}
+
+
+.nx-order-summary-delivered{
+
+    border-color:#30445d;
+
+}
+
+.nx-order-summary-delivered
+.nx-order-summary-icon{
+
+    color:#9db1c9;
+
+}
+
+
+/* ==========================================================
+   SECCIONES
+========================================================== */
+
+.nx-orders-sections{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+.nx-orders-section{
+
+    overflow:hidden;
+
+    background:#091525;
+
+    border:1px solid #203650;
+
+    border-radius:13px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.12);
+
+}
+
+
+.nx-orders-section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:17px 20px;
+
+    border-bottom:1px solid #1c3047;
+
+}
+
+
+.nx-orders-section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+.nx-orders-section-icon{
+
+    width:36px;
+
+    height:36px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:#12253b;
+
+    font-size:16px;
+
+}
+
+
+.nx-orders-section-title h3{
+
+    margin:0;
+
+    color:#f1f5f9;
+
+    font-size:14px;
+
+    font-weight:800;
+
+}
+
+
+.nx-orders-section-title span{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:#667d97;
+
+    font-size:11px;
+
+}
+
+
+.nx-orders-section-count{
+
+    min-width:32px;
+
+    height:28px;
+
+    padding:0 9px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:7px;
+
+    background:#102945;
+
+    color:#3da4ff;
+
+    font-size:12px;
+
+    font-weight:800;
+
+}
+
+
+/* ==========================================================
+   TABLA
+========================================================== */
+
+.nx-orders-table-wrap{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+
+.nx-orders-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    border-spacing:0;
+
+}
+
+
+.nx-orders-table thead{
+
+    background:#0c1b2e;
+
+}
+
+
+.nx-orders-table th{
+
+    padding:12px 16px;
+
+    color:#66819e;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    letter-spacing:.7px;
+
+    text-align:left;
+
+    text-transform:uppercase;
+
+    white-space:nowrap;
+
+}
+
+
+.nx-orders-table td{
+
+    padding:14px 16px;
+
+    border-top:1px solid #172b41;
+
+    color:#cbd5e1;
+
+    font-size:12px;
+
+    vertical-align:middle;
+
+}
+
+
+.nx-orders-table tbody tr{
+
+    transition:
+        background .18s ease;
+
+}
+
+
+.nx-orders-table tbody tr:hover{
+
+    background:#0d2035;
+
+}
+
+
+.nx-order-folio{
+
+    color:#e5edf7;
+
+    font-weight:800;
+
+    font-size:11px;
+
+}
+
+
+.nx-order-client{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.nx-order-client strong{
+
+    color:#e2e8f0;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+.nx-order-device{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.nx-order-device strong{
+
+    color:#dce7f4;
+
+    font-size:12px;
+
+}
+
+
+.nx-order-device span{
+
+    margin-top:2px;
+
+    color:#7187a0;
+
+    font-size:11px;
+
+}
+
+
+.nx-order-balance{
+
+    color:#f1f5f9;
+
+    font-size:12px;
+
+    white-space:nowrap;
+
+}
+
+
+/* ==========================================================
+   ESTADO
+========================================================== */
+
+.nx-status-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    min-height:23px;
+
+    padding:4px 9px;
+
+    border-radius:6px;
+
+    background:#17283c;
+
+    color:#cbd5e1;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+}
+
+
+/* ==========================================================
+   ACCIONES
+========================================================== */
+
+.nx-orders-actions-head{
+
+    text-align:right !important;
+
+}
+
+
+.nx-order-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    gap:7px;
+
+}
+
+
+.nx-action-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:5px;
+
+    min-width:66px;
+
+    height:30px;
+
+    padding:0 9px;
+
+    border:1px solid #29435e;
+
+    border-radius:6px;
+
+    background:#102239;
+
+    color:#dce7f4;
+
+    font-family:inherit;
+
+    font-size:10px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+
+}
+
+
+.nx-action-btn:hover{
+
+    transform:translateY(-1px);
+
+}
+
+
+.nx-action-view:hover{
+
+    background:#12345a;
+
+    border-color:#218cff;
+
+    color:#55adff;
+
+}
+
+
+.nx-action-edit:hover{
+
+    background:#26334a;
+
+    border-color:#7287a1;
+
+    color:#ffffff;
+
+}
+
+
+/* ==========================================================
+   ESTADO VACÍO
+========================================================== */
+
+.nx-orders-empty{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    min-height:90px;
+
+    color:#637994;
+
+    font-size:12px;
+
+}
+
+
+.nx-orders-empty-icon{
+
+    font-size:18px;
+
+}
+
+
+.nx-orders-empty-page{
+
+    padding:70px 20px;
+
+    text-align:center;
+
+    background:#091525;
+
+    border:1px solid #203650;
+
+    border-radius:13px;
+
+}
+
+
+.nx-orders-empty-page > div{
+
+    margin-bottom:12px;
+
+    font-size:32px;
+
+}
+
+
+.nx-orders-empty-page h3{
+
+    margin:0;
+
+    color:#e2e8f0;
+
+    font-size:16px;
+
+}
+
+
+.nx-orders-empty-page p{
+
+    margin:7px 0 0;
+
+    color:#71839b;
+
+    font-size:12px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1100px){
+
+    .nx-orders-summary{
+
+        grid-template-columns:
+            repeat(2, minmax(0,1fr));
+
+    }
+
+}
+
+
+@media (max-width:700px){
+
+    .nx-orders-summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .nx-orders-top h2{
+
+        font-size:23px;
+
+    }
+
+    .nx-orders-table th,
+    .nx-orders-table td{
+
+        padding:11px 12px;
+
+    }
+
+    .nx-order-actions{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .nx-action-btn{
+
+        width:100%;
+
+    }
+
+}

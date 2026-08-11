@@ -254,69 +254,165 @@ async function load() {
 
 function table(a) {
 
-  if (!a.length) {
-    return '<div class="empty">Sin órdenes</div>';
+  if (!Array.isArray(a) || !a.length) {
+
+    return `
+      <div class="nx-orders-empty">
+        <span class="nx-orders-empty-icon">📭</span>
+        <span>No hay órdenes en este estado</span>
+      </div>
+    `;
+
   }
 
   return `
-    <table>
 
-      <tr>
-        <th>Folio</th>
-        <th>Cliente</th>
-        <th>Equipo</th>
-        <th>Estado</th>
-        <th>Saldo</th>
-        <th></th>
-      </tr>
+    <div class="nx-orders-table-wrap">
 
-      ${a.map(o => `
+      <table class="nx-orders-table">
 
-        <tr>
+        <thead>
 
-          <td>
-            ${esc(o.folio)}
-          </td>
+          <tr>
 
-          <td>
-            ${esc(o.client)}
-          </td>
+            <th>Folio</th>
 
-          <td>
-            ${esc(o.brand)}
-            ${esc(o.model)}
-          </td>
+            <th>Cliente</th>
 
-          <td>
-            ${esc(o.status)}
-          </td>
+            <th>Equipo</th>
 
-          <td>
-            ${money(
+            <th>Estado</th>
+
+            <th>Saldo</th>
+
+            <th class="nx-orders-actions-head">
+              Acciones
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${a.map(o => {
+
+            const balance =
               (+o.total || 0) -
-              (+o.deposit || 0)
-            )}
-          </td>
+              (+o.deposit || 0);
 
-          <td style="white-space:nowrap">
-            <button
-              class="viewServiceOrder"
-              data-id="${o.id}">
-              Ver orden
-            </button>
-            <button
-              class="edit"
-              data-id="${o.id}">
-              Editar
-            </button>
-          </td>
+            return `
 
-        </tr>
+              <tr>
 
-      `).join("")}
+                <td>
 
-    </table>
+                  <span class="nx-order-folio">
+
+                    ${esc(o.folio || "Sin folio")}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <div class="nx-order-client">
+
+                    <strong>
+                      ${esc(o.client || "Sin cliente")}
+                    </strong>
+
+                  </div>
+
+                </td>
+
+
+                <td>
+
+                  <div class="nx-order-device">
+
+                    <strong>
+                      ${esc(o.brand || "")}
+                    </strong>
+
+                    <span>
+                      ${esc(o.model || "")}
+                    </span>
+
+                  </div>
+
+                </td>
+
+
+                <td>
+
+                  <span class="nx-status-badge">
+
+                    ${esc(o.status || "Sin estado")}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <strong class="nx-order-balance">
+
+                    ${money(balance)}
+
+                  </strong>
+
+                </td>
+
+
+                <td>
+
+                  <div class="nx-order-actions">
+
+                    <button
+                      type="button"
+                      class="nx-action-btn nx-action-view viewServiceOrder"
+                      data-id="${o.id}"
+                      title="Ver orden">
+
+                      👁
+                      <span>Ver</span>
+
+                    </button>
+
+
+                    <button
+                      type="button"
+                      class="nx-action-btn nx-action-edit edit"
+                      data-id="${o.id}"
+                      title="Editar orden">
+
+                      ✏
+                      <span>Editar</span>
+
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
   `;
+
 }
 
 
@@ -1996,27 +2092,302 @@ async function home() {
 
 async function ordersView() {
 
-     setActiveMenu("orders");
+  setActiveMenu("orders");
 
   await load();
 
-  $("#title").textContent =
-    "Órdenes";
+  $("#title").textContent = "Órdenes";
+
+  /*
+   * ==========================================================
+   * ESTADOS DEL SISTEMA
+   * ==========================================================
+   */
+
+  const statuses = [
+
+    {
+      key: "Recibido",
+      label: "Recibido",
+      icon: "📥",
+      className: "received"
+    },
+
+    {
+      key: "Diagnóstico",
+      label: "Diagnóstico",
+      icon: "🔎",
+      className: "diagnostic"
+    },
+
+    {
+      key: "Esperando autorización",
+      label: "Esperando autorización",
+      icon: "⏳",
+      className: "authorization"
+    },
+
+    {
+      key: "En reparación",
+      label: "En reparación",
+      icon: "🔧",
+      className: "repair"
+    },
+
+    {
+      key: "Esperando refacción",
+      label: "Esperando refacción",
+      icon: "📦",
+      className: "parts"
+    },
+
+    {
+      key: "Listo para entregar",
+      label: "Listo para entregar",
+      icon: "✅",
+      className: "ready"
+    },
+
+    {
+      key: "Entregado",
+      label: "Entregado",
+      icon: "✓",
+      className: "delivered"
+    }
+
+  ];
+
+
+  /*
+   * ==========================================================
+   * RESUMEN
+   * ==========================================================
+   */
+
+  const summary = statuses.map(status => {
+
+    const count =
+      orders.filter(
+        o => o.status === status.key
+      ).length;
+
+    return `
+
+      <div
+        class="
+          nx-order-summary-card
+          nx-order-summary-${status.className}
+        ">
+
+        <div class="nx-order-summary-icon">
+
+          ${status.icon}
+
+        </div>
+
+        <div class="nx-order-summary-content">
+
+          <span>
+
+            ${status.label}
+
+          </span>
+
+          <strong>
+
+            ${count}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+
+  /*
+   * ==========================================================
+   * SECCIONES POR ESTADO
+   * ==========================================================
+   */
+
+  const sections = statuses.map(status => {
+
+    const filteredOrders =
+      orders.filter(
+        o => o.status === status.key
+      );
+
+    /*
+     * No mostramos secciones vacías.
+     *
+     * Esto evita que la pantalla se vuelva
+     * demasiado larga cuando no existen órdenes
+     * en determinados estados.
+     */
+
+    if (!filteredOrders.length) {
+
+      return "";
+
+    }
+
+    return `
+
+      <section
+        class="
+          nx-orders-section
+          nx-orders-section-${status.className}
+        ">
+
+        <div class="nx-orders-section-header">
+
+          <div class="nx-orders-section-title">
+
+            <div class="nx-orders-section-icon">
+
+              ${status.icon}
+
+            </div>
+
+            <div>
+
+              <h3>
+
+                ${status.label}
+
+              </h3>
+
+              <span>
+
+                ${
+                  filteredOrders.length === 1
+                    ? "1 orden"
+                    : `${filteredOrders.length} órdenes`
+                }
+
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="nx-orders-section-count">
+
+            ${filteredOrders.length}
+
+          </div>
+
+        </div>
+
+
+        ${table(filteredOrders)}
+
+      </section>
+
+    `;
+
+  }).join("");
+
+
+  /*
+   * ==========================================================
+   * PANTALLA
+   * ==========================================================
+   */
 
   $("#content").innerHTML = `
 
-    <div class="box">
+    <div class="nx-orders-page">
 
-      <h3>
-        Órdenes de servicio
-      </h3>
 
-      ${table(orders)}
+      <!-- =========================================
+           ENCABEZADO
+      ========================================== -->
+
+      <div class="nx-orders-top">
+
+        <div>
+
+          <span class="nx-page-kicker">
+            NEXUS · TC iSOLUTIONS
+          </span>
+
+          <h2>
+            Órdenes de servicio
+          </h2>
+
+          <p>
+            Administra y consulta todas las órdenes
+            del taller por estado.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================================
+           RESUMEN DE ESTADOS
+      ========================================== -->
+
+      <div class="nx-orders-summary">
+
+        ${summary}
+
+      </div>
+
+
+      <!-- =========================================
+           LISTADO
+      ========================================== -->
+
+      <div class="nx-orders-sections">
+
+        ${
+          sections ||
+
+          `
+
+            <div class="nx-orders-empty-page">
+
+              <div>
+                📋
+              </div>
+
+              <h3>
+                No hay órdenes registradas
+              </h3>
+
+              <p>
+                Cuando registres una nueva orden
+                aparecerá aquí.
+              </p>
+
+            </div>
+
+          `
+        }
+
+      </div>
 
     </div>
+
   `;
 
+
+  /*
+   * ==========================================================
+   * EVENTOS EXISTENTES
+   * ==========================================================
+   */
+
   bind();
+
 }
 
 
