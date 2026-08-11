@@ -418,6 +418,10 @@ function table(a) {
 
 function bind() {
 
+  /* =========================
+     BOTONES EDITAR
+  ========================= */
+
   document
     .querySelectorAll(".edit")
     .forEach(button => {
@@ -427,6 +431,11 @@ function bind() {
 
     });
 
+
+  /* =========================
+     BOTONES VER ORDEN
+  ========================= */
+
   document
     .querySelectorAll(".viewServiceOrder")
     .forEach(button => {
@@ -435,6 +444,310 @@ function bind() {
         serviceOrderView(button.dataset.id);
 
     });
+
+
+  /* =========================
+     BUSCADOR DE ÓRDENES
+  ========================= */
+
+  const searchInput =
+    document.querySelector("#ordersSearch");
+
+  const clearButton =
+    document.querySelector("#clearOrdersSearch");
+
+  const sectionsContainer =
+    document.querySelector(".nx-orders-sections");
+
+
+  if (!searchInput || !sectionsContainer) {
+
+    return;
+
+  }
+
+
+  function renderSearchResults(value) {
+
+    const search =
+      value
+        .trim()
+        .toLowerCase();
+
+
+    /* =========================
+       MOSTRAR TODO
+    ========================= */
+
+    if (!search) {
+
+      const sections =
+        statuses
+          .map(status => {
+
+            const filteredOrders =
+              orders.filter(
+                o => o.status === status.key
+              );
+
+            if (!filteredOrders.length) {
+
+              return "";
+
+            }
+
+            return `
+
+              <section
+                class="
+                  nx-orders-section
+                  nx-orders-section-${status.className}
+                ">
+
+                <div class="nx-orders-section-header">
+
+                  <div class="nx-orders-section-title">
+
+                    <div class="nx-orders-section-icon">
+                      ${status.icon}
+                    </div>
+
+                    <div>
+
+                      <h3>
+                        ${status.label}
+                      </h3>
+
+                      <span>
+                        ${
+                          filteredOrders.length === 1
+                            ? "1 orden"
+                            : `${filteredOrders.length} órdenes`
+                        }
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="nx-orders-section-count">
+                    ${filteredOrders.length}
+                  </div>
+
+                </div>
+
+                ${table(filteredOrders)}
+
+              </section>
+
+            `;
+
+          })
+          .join("");
+
+
+      sectionsContainer.innerHTML =
+        sections ||
+        `
+
+          <div class="nx-orders-empty-page">
+
+            <div>📋</div>
+
+            <h3>
+              No hay órdenes registradas
+            </h3>
+
+            <p>
+              Cuando registres una nueva orden
+              aparecerá aquí.
+            </p>
+
+          </div>
+
+        `;
+
+
+      bind();
+
+      clearButton.hidden = true;
+
+      return;
+
+    }
+
+
+    /* =========================
+       FILTRAR
+    ========================= */
+
+    const filtered =
+      orders.filter(o => {
+
+        const values = [
+
+          o.folio,
+          o.client,
+          o.brand,
+          o.model,
+          o.imei,
+          o.phone,
+          o.status
+
+        ];
+
+
+        return values.some(value =>
+
+          String(value || "")
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+      });
+
+
+    /* =========================
+       AGRUPAR POR ESTADO
+    ========================= */
+
+    const sections =
+      statuses
+        .map(status => {
+
+          const filteredOrders =
+            filtered.filter(
+              o => o.status === status.key
+            );
+
+
+          if (!filteredOrders.length) {
+
+            return "";
+
+          }
+
+
+          return `
+
+            <section
+              class="
+                nx-orders-section
+                nx-orders-section-${status.className}
+              ">
+
+              <div class="nx-orders-section-header">
+
+                <div class="nx-orders-section-title">
+
+                  <div class="nx-orders-section-icon">
+                    ${status.icon}
+                  </div>
+
+                  <div>
+
+                    <h3>
+                      ${status.label}
+                    </h3>
+
+                    <span>
+                      ${
+                        filteredOrders.length === 1
+                          ? "1 orden"
+                          : `${filteredOrders.length} órdenes`
+                      }
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="nx-orders-section-count">
+                  ${filteredOrders.length}
+                </div>
+
+              </div>
+
+              ${table(filteredOrders)}
+
+            </section>
+
+          `;
+
+        })
+        .join("");
+
+
+    /* =========================
+       SIN RESULTADOS
+    ========================= */
+
+    sectionsContainer.innerHTML =
+      sections ||
+      `
+
+        <div class="nx-orders-empty-page">
+
+          <div>🔎</div>
+
+          <h3>
+            No encontramos órdenes
+          </h3>
+
+          <p>
+            Intenta buscar por folio, cliente,
+            equipo, IMEI o teléfono.
+          </p>
+
+        </div>
+
+      `;
+
+
+    clearButton.hidden = false;
+
+
+    /* Volver a conectar botones */
+
+    bind();
+
+  }
+
+
+  /* =========================
+     ESCRIBIR EN EL BUSCADOR
+  ========================= */
+
+  searchInput.addEventListener(
+    "input",
+    () => {
+
+      renderSearchResults(
+        searchInput.value
+      );
+
+    }
+  );
+
+
+  /* =========================
+     LIMPIAR
+  ========================= */
+
+  clearButton.addEventListener(
+    "click",
+    () => {
+
+      searchInput.value = "";
+
+      renderSearchResults("");
+
+      searchInput.focus();
+
+    }
+  );
+
 }
 
 /* ==========================================================
@@ -2126,22 +2439,7 @@ function filterOrdersSearch(query) {
 
 }
 
-async function ordersView() {
-
-  setActiveMenu("orders");
-
-  await load();
-
-  $("#title").textContent = "Órdenes";
-
-
-  /*
-   * ==========================================================
-   * ESTADOS
-   * ==========================================================
-   */
-
-  const statuses = [
+const statuses = [
 
     {
       key: "Recibido",
@@ -2193,6 +2491,24 @@ async function ordersView() {
     }
 
   ];
+
+
+async function ordersView() {
+
+  setActiveMenu("orders");
+
+  await load();
+
+  $("#title").textContent = "Órdenes";
+
+
+  /*
+   * ==========================================================
+   * ESTADOS
+   * ==========================================================
+   */
+
+  
 
 
   /*
