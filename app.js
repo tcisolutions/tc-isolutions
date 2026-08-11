@@ -951,8 +951,8 @@ try {
 
   $("#content").innerHTML = `
     <div class="box service-order-actions" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
-      <button id="backServiceOrders">← Órdenes</button>
-      <button id="editServiceOrder">Editar</button>
+      <button id="backServiceOrders">← Volver a órdenes</button>
+      <button id="editServiceOrder">✏ Editar</button>
       ${
         order.status === "Entregado"
           ? `<button id="deliveryReceiptBtn" class="primary">Comprobante de entrega</button>`
@@ -961,13 +961,12 @@ try {
     id="deliverEquipmentBtn"
     class="primary"
     data-order-id="${order.id}">
-
-    Entregar equipo
-
+    🔧 Entregar equipo
 </button>`
       }
-      <button id="printServiceOrder">Imprimir orden / PDF</button>
-    </div>
+      <button id="printServiceOrder">
+    🖨 Imprimir PDF
+</button>
 
     <div id="serviceOrderPrint" class="box" style="max-width:900px;margin:0 auto">
 
