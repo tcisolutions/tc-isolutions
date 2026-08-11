@@ -1,30 +1,27 @@
 import {
-
     renderSignature,
-
     mountSignature
-
 }
+from "../components/signature/index.js";
 
-from "../components/Signature/index.js";
 
 export const SignatureStep = {
 
-    title:"Firma",
+    title: "Firma",
 
-    render(){
+    render() {
 
         return renderSignature();
 
     },
 
-    mounted(){
+    mounted() {
 
         mountSignature();
 
     },
 
-    validate(){
+    validate() {
 
         return true;
 
