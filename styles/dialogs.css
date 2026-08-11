@@ -538,3 +538,144 @@
     }
 
 }
+
+/* ==========================================================
+   NEXUS · ACCIONES DE ORDEN
+========================================================== */
+
+.service-order-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 10px !important;
+    flex-wrap: wrap;
+
+    margin-bottom: 18px !important;
+    padding: 10px !important;
+
+    background: #0f1d30 !important;
+    border: 1px solid #1d3a5a !important;
+    border-radius: 12px !important;
+}
+
+
+/* BOTONES */
+
+.service-order-actions button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding: 9px 15px;
+
+    border: 1px solid #29435f;
+    border-radius: 9px;
+
+    background: #14263d;
+    color: #dbe7f5;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+
+.service-order-actions button:hover {
+    transform: translateY(-1px);
+
+    background: #1b3552;
+
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.25);
+}
+
+
+/* VOLVER */
+
+#backServiceOrders {
+    background: #111f31;
+    color: #cbd5e1;
+}
+
+
+/* EDITAR */
+
+#editServiceOrder {
+    background: #102b4b;
+    border-color: #285b91;
+    color: #60a5fa;
+}
+
+#editServiceOrder:hover {
+    background: #153b63;
+    border-color: #3b82f6;
+    color: #93c5fd;
+}
+
+
+/* ENTREGAR / COMPROBANTE */
+
+#deliverEquipmentBtn,
+#deliveryReceiptBtn {
+    background: #10352f;
+    border-color: #176b5a;
+    color: #6ee7b7;
+}
+
+#deliverEquipmentBtn:hover,
+#deliveryReceiptBtn:hover {
+    background: #12483d;
+    border-color: #10b981;
+    color: #a7f3d0;
+}
+
+
+/* IMPRIMIR */
+
+#printServiceOrder {
+    background: #172538;
+    border-color: #334a66;
+    color: #cbd5e1;
+}
+
+#printServiceOrder:hover {
+    background: #203550;
+    border-color: #64748b;
+    color: #ffffff;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+    .service-order-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .service-order-actions button {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .service-order-actions {
+        grid-template-columns: 1fr;
+    }
+}

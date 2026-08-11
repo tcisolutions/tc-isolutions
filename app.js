@@ -950,7 +950,7 @@ try {
     "Orden " + (order.folio || "");
 
   $("#content").innerHTML = `
-    <div class="box service-order-actions" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
+    <div class="box service-order-actions">
       <button id="backServiceOrders">← Volver a órdenes</button>
       <button id="editServiceOrder">✏ Editar</button>
       ${
@@ -964,9 +964,11 @@ try {
     🔧 Entregar equipo
 </button>`
       }
-      <button id="printServiceOrder">
-    🖨 Imprimir PDF
-</button>
+            <button id="printServiceOrder">
+        🖨 Imprimir PDF
+      </button>
+
+    </div>
 
     <div id="serviceOrderPrint" class="box" style="max-width:900px;margin:0 auto">
 
