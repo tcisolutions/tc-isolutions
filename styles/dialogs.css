@@ -1,0 +1,540 @@
+/* ==========================================================
+   NEXUS · MODAL EDITAR ORDEN
+========================================================== */
+
+#dlg {
+    width: min(1080px, calc(100vw - 32px));
+    max-width: 1080px;
+    max-height: calc(100vh - 32px);
+
+    margin: auto;
+    padding: 0;
+
+    border: 1px solid #1D3A5A;
+    border-radius: 20px;
+
+    background: #0B1728;
+    color: #E2E8F0;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, .55),
+        0 0 0 1px rgba(37, 99, 235, .08);
+
+    overflow: hidden;
+}
+
+
+/* Fondo detrás del modal */
+
+#dlg::backdrop {
+    background: rgba(2, 8, 18, .78);
+    backdrop-filter: blur(5px);
+}
+
+
+/* ==========================================================
+   FORMULARIO
+========================================================== */
+
+#dlg form {
+    width: 100%;
+    max-height: calc(100vh - 32px);
+
+    overflow-y: auto;
+
+    padding: 28px 30px 24px;
+
+    box-sizing: border-box;
+}
+
+
+/* Scroll */
+
+#dlg form::-webkit-scrollbar {
+    width: 8px;
+}
+
+#dlg form::-webkit-scrollbar-track {
+    background: #081321;
+}
+
+#dlg form::-webkit-scrollbar-thumb {
+    background: #244363;
+    border-radius: 10px;
+}
+
+#dlg form::-webkit-scrollbar-thumb:hover {
+    background: #315A84;
+}
+
+
+/* ==========================================================
+   ENCABEZADO
+========================================================== */
+
+#dlg #formTitle {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #F8FAFC;
+}
+
+#dlg #formTitle::before {
+    content: "✎  ";
+    color: #3B82F6;
+}
+
+#dlg form::before {
+    content: "EDITAR ORDEN · TC iSOLUTIONS";
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+
+    color: #60A5FA;
+}
+
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+#dlg .grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-top: 18px;
+}
+
+
+/* ==========================================================
+   LABELS
+========================================================== */
+
+#dlg label {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-top: 16px;
+
+    color: #94A3B8;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   INPUTS
+========================================================== */
+
+#dlg input,
+#dlg select,
+#dlg textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    border: 1px solid #263F5B;
+    border-radius: 10px;
+
+    background: #0F2035;
+    color: #F8FAFC;
+
+    padding: 11px 13px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+
+#dlg input:focus,
+#dlg select:focus,
+#dlg textarea:focus {
+
+    border-color: #3B82F6;
+
+    background: #11263F;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, .12);
+}
+
+
+#dlg textarea {
+
+    min-height: 90px;
+
+    resize: vertical;
+}
+
+
+/* ==========================================================
+   SECCIONES INTERNAS
+========================================================== */
+
+#dlg form > div[style*="border-top"] {
+
+    border-top:
+        1px solid #1D3A5A !important;
+
+    margin-top: 26px !important;
+
+    padding-top: 22px !important;
+}
+
+
+/* ==========================================================
+   FOTOS
+========================================================== */
+
+#dlg #receptionPhotosPreview {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(130px, 1fr));
+
+    gap: 12px;
+
+    margin-top: 14px !important;
+}
+
+
+#dlg #receptionPhotosPreview > div {
+
+    background: #0F2035;
+
+    border:
+        1px solid #263F5B !important;
+
+    border-radius: 12px !important;
+
+    padding: 8px !important;
+
+    overflow: hidden;
+}
+
+
+#dlg #receptionPhotosPreview img {
+
+    height: 120px !important;
+
+    border-radius: 8px !important;
+}
+
+
+/* ==========================================================
+   BOTÓN AGREGAR REFACCIÓN
+========================================================== */
+
+#dlg #addOrderPart {
+
+    border: 1px solid #28517A;
+
+    border-radius: 9px;
+
+    background: #102A45;
+
+    color: #93C5FD;
+
+    padding: 9px 13px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: .18s ease;
+}
+
+
+#dlg #addOrderPart:hover {
+
+    background: #163A5F;
+
+    border-color: #3B82F6;
+
+    color: #DBEAFE;
+}
+
+
+/* ==========================================================
+   LISTA DE REFACCIONES
+========================================================== */
+
+#dlg #orderPartsList {
+
+    margin-top: 12px;
+
+    overflow-x: auto;
+}
+
+
+#dlg #orderPartsList table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: #0F2035;
+
+    border:
+        1px solid #1D3A5A;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+#dlg #orderPartsList th {
+
+    background: #10243B;
+
+    color: #94A3B8;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .05em;
+}
+
+
+#dlg #orderPartsList td,
+#dlg #orderPartsList th {
+
+    padding: 10px;
+
+    border-bottom:
+        1px solid #1D3A5A;
+}
+
+
+#dlg #orderPartsList td {
+
+    color: #E2E8F0;
+}
+
+
+/* ==========================================================
+   TOTAL REFACCIONES
+========================================================== */
+
+#dlg #orderPartsTotal {
+
+    color: #60A5FA;
+
+    font-size: 17px;
+}
+
+
+/* ==========================================================
+   COSTOS
+========================================================== */
+
+#dlg form > .grid:last-of-type {
+
+    padding: 18px;
+
+    margin-top: 22px;
+
+    border:
+        1px solid #1D3A5A;
+
+    border-radius: 14px;
+
+    background: #0A1525;
+}
+
+
+/* ==========================================================
+   ESTADO
+========================================================== */
+
+#dlg select[name="status"] {
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   BOTONES
+========================================================== */
+
+#dlg .actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 26px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #1D3A5A;
+}
+
+
+#dlg .actions button {
+
+    min-width: 120px;
+
+    padding: 11px 17px;
+
+    border:
+        1px solid #294662;
+
+    border-radius: 10px;
+
+    background: #102238;
+
+    color: #CBD5E1;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: .18s ease;
+}
+
+
+#dlg .actions button:hover {
+
+    background: #17314D;
+
+    border-color: #3B82F6;
+
+    color: #FFFFFF;
+}
+
+
+#dlg .actions button.primary {
+
+    border-color: #2563EB;
+
+    background: #2563EB;
+
+    color: white;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, .25);
+}
+
+
+#dlg .actions button.primary:hover {
+
+    background: #3B82F6;
+
+    border-color: #3B82F6;
+
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================================
+   INPUT FILE
+========================================================== */
+
+#dlg input[type="file"] {
+
+    padding: 10px;
+
+    background: #0A1525;
+
+    border-style: dashed;
+
+    color: #94A3B8;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 800px) {
+
+    #dlg {
+
+        width: calc(100vw - 20px);
+
+        max-height: calc(100vh - 20px);
+
+        border-radius: 16px;
+    }
+
+    #dlg form {
+
+        padding: 22px 18px;
+    }
+
+    #dlg .grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    #dlg {
+
+        width: 100vw;
+
+        max-width: none;
+
+        max-height: 100vh;
+
+        border-radius: 0;
+    }
+
+    #dlg form {
+
+        max-height: 100vh;
+
+        padding: 18px 14px;
+    }
+
+    #dlg .actions {
+
+        flex-direction: column-reverse;
+    }
+
+    #dlg .actions button {
+
+        width: 100%;
+    }
+
+}
