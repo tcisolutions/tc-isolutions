@@ -1,29 +1,122 @@
+/* ==========================================================
+   NEXUS WIZARD
+   Nueva orden de servicio
+========================================================== */
+
 .nx-wizard{
 
     width:100%;
 
-    max-width:980px;
+    max-width:1080px;
 
-    margin:auto;
+    margin:24px auto 40px;
 
-    background:#fff;
+    display:flex;
 
-    border-radius:22px;
+    flex-direction:column;
+
+    background:#0B1728;
+
+    color:#E2E8F0;
+
+    border:1px solid #1D3A5A;
+
+    border-radius:18px;
 
     overflow:hidden;
 
     box-shadow:
-
-        0 12px 40px rgba(15,23,42,.12);
-
-    border:1px solid #e8edf5;
+        0 20px 50px rgba(0,0,0,.28),
+        0 0 0 1px rgba(37,99,235,.04);
 
 }
 
-.nx-wizard>*{
+.nx-wizard > *{
 
     width:100%;
 
     box-sizing:border-box;
+
+}
+
+
+/* ==========================================================
+   CONTENIDO CENTRAL
+========================================================== */
+
+.nx-content{
+
+    min-height:430px;
+
+    max-height:calc(100vh - 390px);
+
+    overflow-y:auto;
+
+    background:#0B1728;
+
+}
+
+
+/* Scroll interno */
+
+.nx-content::-webkit-scrollbar{
+
+    width:7px;
+
+}
+
+.nx-content::-webkit-scrollbar-track{
+
+    background:#081321;
+
+}
+
+.nx-content::-webkit-scrollbar-thumb{
+
+    background:#244363;
+
+    border-radius:10px;
+
+}
+
+.nx-content::-webkit-scrollbar-thumb:hover{
+
+    background:#315A84;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .nx-wizard{
+
+        margin:16px;
+
+        max-width:none;
+
+    }
+
+    .nx-content{
+
+        max-height:none;
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .nx-wizard{
+
+        margin:10px;
+
+        border-radius:14px;
+
+    }
 
 }

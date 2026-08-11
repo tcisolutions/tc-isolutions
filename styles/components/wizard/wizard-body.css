@@ -1,7 +1,338 @@
+/* ==========================================================
+   NEXUS WIZARD BODY
+========================================================== */
+
 .nx-wizard-body{
 
-    padding:36px;
+    padding:26px 28px;
 
-    background:#fff;
+    background:#0B1728;
+
+    color:#E2E8F0;
+
+}
+
+
+/* ==========================================================
+   CONTENEDOR DE PASO
+========================================================== */
+
+.delivery-step{
+
+    width:100%;
+
+    max-width:100%;
+
+    margin:0 auto;
+
+}
+
+
+/* ==========================================================
+   ENCABEZADOS DEL PASO
+========================================================== */
+
+.delivery-step h2{
+
+    margin:0;
+
+    color:#F8FAFC;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    line-height:1.3;
+
+}
+
+
+.delivery-step > p{
+
+    margin:6px 0 22px;
+
+    color:#64748B;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+}
+
+
+/* ==========================================================
+   SECCIONES
+========================================================== */
+
+.delivery-step section{
+
+    margin-top:18px;
+
+}
+
+
+/* ==========================================================
+   FORMULARIOS
+========================================================== */
+
+.delivery-step label{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+    color:#CBD5E1;
+
+    font-size:11px;
+
+    font-weight:600;
+
+}
+
+
+.delivery-step input,
+.delivery-step select,
+.delivery-step textarea{
+
+    width:100%;
+
+    min-height:42px;
+
+    padding:10px 12px;
+
+    box-sizing:border-box;
+
+    border:1px solid #29415E;
+
+    border-radius:8px;
+
+    outline:none;
+
+    background:#0D1D31;
+
+    color:#E2E8F0;
+
+    font-family:inherit;
+
+    font-size:13px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+
+
+.delivery-step textarea{
+
+    min-height:90px;
+
+    resize:vertical;
+
+}
+
+
+.delivery-step input::placeholder,
+.delivery-step textarea::placeholder{
+
+    color:#53677F;
+
+}
+
+
+.delivery-step input:focus,
+.delivery-step select:focus,
+.delivery-step textarea:focus{
+
+    border-color:#2563EB;
+
+    background:#0F2238;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.12);
+
+}
+
+
+/* ==========================================================
+   GRID DE CAMPOS
+========================================================== */
+
+.delivery-step .grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+    gap:16px;
+
+}
+
+
+.delivery-step .grid + .grid{
+
+    margin-top:16px;
+
+}
+
+
+/* ==========================================================
+   TARJETAS / BLOQUES
+========================================================== */
+
+.delivery-step .card,
+.delivery-step .box{
+
+    padding:18px;
+
+    border:1px solid #203A56;
+
+    border-radius:12px;
+
+    background:#0D1D31;
+
+}
+
+
+/* ==========================================================
+   BOTONES INTERNOS
+========================================================== */
+
+.delivery-step button{
+
+    min-height:38px;
+
+    padding:9px 14px;
+
+    border:1px solid #29415E;
+
+    border-radius:8px;
+
+    background:#102238;
+
+    color:#CBD5E1;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .15s ease;
+
+}
+
+
+.delivery-step button:hover{
+
+    background:#16304D;
+
+    border-color:#35618B;
+
+    color:#FFFFFF;
+
+}
+
+
+.delivery-step button:active{
+
+    transform:translateY(1px);
+
+}
+
+
+/* ==========================================================
+   MENSAJES VACÍOS
+========================================================== */
+
+.delivery-step .empty{
+
+    padding:18px;
+
+    text-align:center;
+
+    border:1px dashed #29415E;
+
+    border-radius:10px;
+
+    color:#64748B;
+
+    background:#091625;
+
+    font-size:12px;
+
+}
+
+
+/* ==========================================================
+   TABLAS DENTRO DEL WIZARD
+========================================================== */
+
+.delivery-step table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+.delivery-step th{
+
+    padding:10px;
+
+    color:#64748B;
+
+    background:#091625;
+
+    border-bottom:1px solid #203A56;
+
+    font-size:10px;
+
+    text-align:left;
+
+}
+
+
+.delivery-step td{
+
+    padding:10px;
+
+    color:#CBD5E1;
+
+    border-bottom:1px solid #172B42;
+
+    font-size:12px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:700px){
+
+    .nx-wizard-body{
+
+        padding:20px 16px;
+
+    }
+
+    .delivery-step .grid{
+
+        grid-template-columns:1fr;
+
+    }
 
 }

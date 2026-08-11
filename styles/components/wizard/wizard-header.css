@@ -1,63 +1,125 @@
-.nx-wizard-header{
+/* ==========================================================
+   NEXUS WIZARD HEADER
+========================================================== */
+
+.nx-header{
 
     display:flex;
 
     align-items:center;
 
-    padding:28px 36px;
+    gap:16px;
 
-    border-bottom:1px solid #edf2f7;
+    padding:22px 28px;
 
-    background:#fff;
+    background:#0B1728;
+
+    border-bottom:1px solid #1D3A5A;
 
 }
 
-.nx-wizard-header-left{
+
+.nx-header-icon{
+
+    width:52px;
+
+    height:52px;
+
+    flex:0 0 52px;
 
     display:flex;
 
     align-items:center;
-
-    gap:18px;
-
-}
-
-.nx-wizard-icon{
-
-    width:64px;
-
-    height:64px;
-
-    border-radius:18px;
-
-    background:#2563eb;
-
-    color:white;
-
-    display:flex;
 
     justify-content:center;
 
-    align-items:center;
+    border-radius:14px;
 
-    font-size:28px;
+    background:linear-gradient(
+        145deg,
+        #2563EB,
+        #0EA5E9
+    );
+
+    color:#FFFFFF;
+
+    font-size:24px;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,.22);
 
 }
 
-.nx-wizard-header h2{
+
+.nx-header-content{
+
+    min-width:0;
+
+}
+
+
+.nx-header-content h1{
 
     margin:0;
 
-    font-size:34px;
+    color:#F8FAFC;
+
+    font-size:25px;
+
+    line-height:1.2;
 
     font-weight:700;
 
+    letter-spacing:-.3px;
+
 }
 
-.nx-wizard-description{
 
-    margin-top:6px;
+.nx-header-content p{
 
-    color:#64748b;
+    margin:5px 0 0;
+
+    color:#64748B;
+
+    font-size:12px;
+
+    line-height:1.4;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:600px){
+
+    .nx-header{
+
+        padding:18px;
+
+        gap:12px;
+
+    }
+
+    .nx-header-icon{
+
+        width:44px;
+
+        height:44px;
+
+        flex-basis:44px;
+
+        border-radius:11px;
+
+        font-size:20px;
+
+    }
+
+    .nx-header-content h1{
+
+        font-size:20px;
+
+    }
 
 }

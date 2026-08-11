@@ -1,23 +1,211 @@
+/* ==========================================================
+   NEXUS WIZARD FOOTER
+========================================================== */
+
 .nx-wizard-footer{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    padding:24px 36px;
+    justify-content:space-between;
 
-    border-top:1px solid #edf2f7;
+    gap:16px;
 
-    background:#fafcff;
+    padding:16px 28px;
+
+    background:#091625;
+
+    border-top:1px solid #1D3A5A;
 
 }
+
+
+/* ==========================================================
+   CONTENEDOR DE ACCIONES
+========================================================== */
 
 .nx-footer-actions{
 
     display:flex;
 
-    gap:12px;
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+/* ==========================================================
+   BOTONES
+========================================================== */
+
+.nx-wizard-footer .nx-btn{
+
+    min-width:105px;
+
+    min-height:40px;
+
+    padding:9px 16px;
+
+    border:1px solid #29415E;
+
+    border-radius:8px;
+
+    background:#102238;
+
+    color:#CBD5E1;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        box-shadow .2s ease,
+        transform .15s ease;
+
+}
+
+
+.nx-wizard-footer .nx-btn:hover{
+
+    background:#16304D;
+
+    border-color:#3A6087;
+
+    color:#FFFFFF;
+
+}
+
+
+.nx-wizard-footer .nx-btn:active{
+
+    transform:translateY(1px);
+
+}
+
+
+/* ==========================================================
+   CANCELAR
+========================================================== */
+
+.nx-wizard-footer
+.nx-btn-light{
+
+    background:transparent;
+
+    border-color:#293D54;
+
+    color:#94A3B8;
+
+}
+
+
+.nx-wizard-footer
+.nx-btn-light:hover{
+
+    background:#121F30;
+
+    border-color:#465D76;
+
+    color:#E2E8F0;
+
+}
+
+
+/* ==========================================================
+   ANTERIOR DESHABILITADO
+========================================================== */
+
+.nx-wizard-footer
+.nx-btn:disabled{
+
+    opacity:.35;
+
+    cursor:not-allowed;
+
+    background:#0D1A2A;
+
+    border-color:#203247;
+
+}
+
+
+/* ==========================================================
+   SIGUIENTE / FINALIZAR
+========================================================== */
+
+.nx-wizard-footer
+.nx-btn-primary{
+
+    min-width:125px;
+
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #0EA5E9
+    );
+
+    border-color:#3B82F6;
+
+    color:#FFFFFF;
+
+    box-shadow:
+        0 6px 16px rgba(37,99,235,.20);
+
+}
+
+
+.nx-wizard-footer
+.nx-btn-primary:hover{
+
+    background:linear-gradient(
+        135deg,
+        #1D4ED8,
+        #0284C7
+    );
+
+    border-color:#60A5FA;
+
+    color:#FFFFFF;
+
+    box-shadow:
+        0 8px 22px rgba(37,99,235,.30);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:600px){
+
+    .nx-wizard-footer{
+
+        padding:14px 16px;
+
+    }
+
+    .nx-wizard-footer .nx-btn{
+
+        min-width:auto;
+
+        padding:9px 12px;
+
+    }
+
+    .nx-footer-actions{
+
+        gap:6px;
+
+    }
 
 }
