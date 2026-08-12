@@ -10,7 +10,8 @@ from "./UploaderPreview.js";
 import { renderUploaderCard }
 from "./UploaderCard.js";
 
-export function renderUploader(){
+
+export function renderUploader() {
 
     return `
 
@@ -18,7 +19,7 @@ export function renderUploader(){
 
             ${renderUploaderDropzone()}
 
-            ${renderUploaderCounter()}
+            ${renderUploaderCounter([])}
 
             ${renderUploaderPreview()}
 
@@ -28,68 +29,217 @@ export function renderUploader(){
 
 }
 
-export class Uploader{
 
-    constructor(options = {}){
+export class Uploader {
+
+    constructor(options = {}) {
 
         this.files = [];
 
+        this.container = null;
+
         this.onChange =
-            options.onChange || (()=>{});
+            options.onChange || (() => {});
 
     }
 
-    mount(){
 
-        const input =
-            document.querySelector("#deliveryPhotos");
+    mount(container) {
 
-        const preview =
-            document.querySelector("#deliveryPreview");
+        this.container = container;
 
-        if(!input || !preview){
+
+        if (!this.container) {
+
+            console.error(
+                "❌ Uploader: no se recibió container."
+            );
 
             return;
 
         }
 
-        input.onchange = ()=>{
+
+        const input =
+            this.container.querySelector(
+                ".nx-uploader-input"
+            );
+
+
+        const preview =
+            this.container.querySelector(
+                ".nx-uploader-preview"
+            );
+
+
+        if (!input) {
+
+            console.error(
+                "❌ Uploader: no se encontró .nx-uploader-input"
+            );
+
+            return;
+
+        }
+
+
+        if (!preview) {
+
+            console.error(
+                "❌ Uploader: no se encontró .nx-uploader-preview"
+            );
+
+            return;
+
+        }
+
+
+        /*
+        ==========================================
+        INPUT DE FOTOGRAFÍAS
+        ==========================================
+        */
+
+        input.onchange = event => {
+
+            console.log(
+                "📸 Uploader CHANGE ejecutado"
+            );
+
 
             this.files =
-                Array.from(input.files);
+                Array.from(
+                    event.target.files || []
+                );
 
-            this.renderPreview(preview);
 
-            this.onChange(this.files);
+            console.log(
+                "📸 Fotografías seleccionadas:",
+                this.files
+            );
+
+
+            this.renderPreview(
+                preview
+            );
+
+
+            this.onChange(
+                this.files
+            );
 
         };
 
+
+        console.log(
+            "✅ Uploader: onchange conectado"
+        );
+
     }
 
-    renderPreview(preview){
+
+    renderPreview(preview) {
+
+        if (!preview) {
+
+            return;
+
+        }
+
 
         preview.innerHTML = "";
 
-        this.files.forEach((file,index)=>{
 
-            const url =
-                URL.createObjectURL(file);
+        this.files.forEach(
+            (file, index) => {
 
-            preview.innerHTML +=
-                renderUploaderCard(
-                    url,
-                    index
-                );
+                const url =
+                    URL.createObjectURL(
+                        file
+                    );
 
-        });
+
+                preview.innerHTML +=
+                    renderUploaderCard(
+                        url,
+                        index,
+                        file
+                    );
+
+            }
+        );
+
+
+        this.bindRemoveButtons();
 
     }
 
-    getFiles(){
+
+    bindRemoveButtons() {
+
+        if (!this.container) {
+
+            return;
+
+        }
+
+
+        this.container
+            .querySelectorAll(
+                ".nx-photo-remove"
+            )
+            .forEach(button => {
+
+                button.onclick = () => {
+
+                    const index =
+                        Number(
+                            button.dataset.index
+                        );
+
+
+                    this.files =
+                        this.files.filter(
+                            (_, i) =>
+                                i !== index
+                        );
+
+
+                    const preview =
+                        this.container.querySelector(
+                            ".nx-uploader-preview"
+                        );
+
+
+                    this.renderPreview(
+                        preview
+                    );
+
+
+                    this.onChange(
+                        this.files
+                    );
+
+                };
+
+            });
+
+    }
+
+
+    getFiles() {
 
         return this.files;
 
     }
 
-}
 
+    destroy() {
+
+        this.files = [];
+
+        this.container = null;
+
+    }
+
+}
