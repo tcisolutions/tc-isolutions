@@ -1183,203 +1183,726 @@ console.log("LABOR:", labor);
 
 }
 
-function deliveryConfirmView(order, parts = [], labor = 0) {
-  const total = +order.total || 0;
-  const paid = +order.deposit || 0;
-  const balance = Math.max(0, total - paid);
+async function deliveryConfirmView(
+  order,
+  parts = [],
+  labor = 0
+) {
 
-  $("#title").textContent = "Entregar equipo";
+  /*
+  ==========================================
+  DATOS BÁSICOS
+  ==========================================
+  */
+
+  const total =
+    +order.total || 0;
+
+  const paid =
+    +order.deposit || 0;
+
+  const balance =
+    Math.max(
+      0,
+      total - paid
+    );
+
+
+  /*
+  ==========================================
+  MOSTRAR CARGANDO
+  ==========================================
+  */
+
+  $("#title").textContent =
+    "Entregar equipo";
 
   $("#content").innerHTML = `
-    <div class="box" style="max-width:800px;margin:0 auto">
-      <button id="backDeliveryOrder">← Orden</button>
-      <h2 style="margin-top:18px">Entrega de equipo</h2>
+    <div
+      class="box"
+      style="max-width:800px;margin:0 auto"
+    >
 
-      <p><strong>Orden:</strong> ${esc(order.folio || "—")}</p>
-      <p><strong>Cliente:</strong> ${esc(order.client || "—")}</p>
-      <p><strong>Equipo:</strong> ${esc(order.brand || "")} ${esc(order.model || "")}</p>
-      <p><strong>IMEI / Serie:</strong> ${esc(order.imei || "—")}</p>
+      <button id="backDeliveryOrder">
+        ← Orden
+      </button>
 
-      <div class="cards">
-        <div class="card">Total<strong>${money(total)}</strong></div>
-        <div class="card">Pagado<strong>${money(paid)}</strong></div>
-        <div class="card">Saldo<strong>${money(balance)}</strong></div>
-        <div class="card">Garantía<strong>${esc(order.warranty ?? 0)} días</strong></div>
+      <h2 style="margin-top:18px">
+        Entrega de equipo
+      </h2>
+
+      <div class="empty">
+        Cargando evidencia fotográfica...
       </div>
 
-      ${
-        balance > 0
-          ? `<div class="empty" style="margin-top:18px">
-               <strong>No se puede entregar este equipo.</strong><br>
-               La orden todavía tiene un saldo pendiente de ${money(balance)}.
-               Registra el pago en Caja antes de confirmar la entrega.
-             </div>`
-          : `
-            <div class="empty" style="margin-top:18px">
-              El saldo está liquidado. Al confirmar, la orden cambiará a
-              <strong>Entregado</strong> y se generará el comprobante.
-            </div>
-
-            <form id="deliveryForm" style="margin-top:18px">
-              <label>
-                Notas de entrega
-                <textarea name="notes" placeholder="Opcional: condición de entrega, accesorios entregados, observaciones..."></textarea>
-              </label>
-
-              <div style="border-top:1px solid #ddd;margin-top:18px;padding-top:16px">
-                <strong>Fotos de entrega</strong>
-                <div style="font-size:12px;opacity:.7;margin:4px 0 10px">
-                  Documenta cómo se entrega el equipo al cliente. Puedes seleccionar varias fotos.
-                </div>
-                <input id="deliveryPhotosInput" type="file" accept="image/*" multiple>
-                <div id="deliveryPhotosPreview"
-                  style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px">
-                </div>
-              </div>
-
-              <label style="display:flex;gap:8px;align-items:flex-start;margin-top:12px">
-                <input name="accepted" type="checkbox" required style="width:auto;margin-top:3px">
-                Confirmo que el equipo fue entregado al cliente y que la orden se encuentra liquidada.
-              </label>
-
-              <div class="actions">
-                <button type="button" id="cancelDelivery">Cancelar</button>
-                <button type="submit" class="primary">Confirmar entrega</button>
-              </div>
-            </form>
-          `
-      }
     </div>
   `;
 
-  $("#backDeliveryOrder").onclick = () => serviceOrderView(order.id);
 
-  
+  /*
+  ==========================================
+  CARGAR FOTOS YA GUARDADAS
+  ==========================================
+  */
 
-  const cancel = $("#cancelDelivery");
-  if (cancel) cancel.onclick = () => serviceOrderView(order.id);
+  let photos = [];
 
-  const formDelivery = $("#deliveryForm");
-  if (!formDelivery) return;
+  try {
 
-  const deliveryPhotosInput = $("#deliveryPhotosInput");
-  const deliveryPhotosPreview = $("#deliveryPhotosPreview");
-
-  if (deliveryPhotosInput && deliveryPhotosPreview) {
-    deliveryPhotosInput.onchange = () => {
-      const files = Array.from(deliveryPhotosInput.files || []);
-      deliveryPhotosPreview.innerHTML = files.length
-        ? files.map(file => photoPreviewCard(URL.createObjectURL(file), file.name)).join("")
-        : `<div class="empty" style="grid-column:1/-1">Sin fotos de entrega seleccionadas</div>`;
-    };
-  }
-
-  formDelivery.onsubmit = async event => {
-    event.preventDefault();
-
-    // Guardamos referencias y datos ANTES de cualquier await.
-    // event.currentTarget puede quedar en null después de una operación asíncrona.
-    const form = event.currentTarget;
-    const submitButton = form.querySelector('button[type="submit"]');
-    const accepted = form.elements["accepted"];
-    const d = Object.fromEntries(new FormData(form));
-    const deliveryFiles = Array.from($("#deliveryPhotosInput")?.files || []);
-
-    if (submitButton?.disabled) return;
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.dataset.originalText = submitButton.textContent;
-      submitButton.textContent = "Procesando...";
-    }
-
-    try {
-      if (accepted && !accepted.checked) {
-        alert("Confirma que el equipo fue entregado al cliente.");
-        return;
-      }
-
-      // Releer la orden evita entregar si el saldo cambió en otra sesión.
-      const { data: currentOrder, error: readError } = await sb
-        .from("orders")
-        .select("*")
-        .eq("id", order.id)
-        .single();
-
-      if (readError) {
-        throw new Error("No se pudo validar la orden: " + readError.message);
-      }
-
-      const currentBalance = Math.max(
-        0,
-        (+currentOrder.total || 0) - (+currentOrder.deposit || 0)
+    photos =
+      await getOrderPhotos(
+        order.id
       );
 
-      if (currentBalance > 0.009) {
-        alert(
-          "La orden tiene saldo pendiente de " +
-          money(currentBalance) +
-          ". Debe liquidarse antes de entregar."
+  } catch (error) {
+
+    console.error(
+      "No se pudieron cargar las fotos de entrega:",
+      error
+    );
+
+    /*
+     * No detenemos la entrega.
+     * Simplemente continuamos sin fotos.
+     */
+
+    photos = [];
+
+  }
+
+
+  /*
+  ==========================================
+  SOLO FOTOS DE ENTREGA
+  ==========================================
+  */
+
+  const deliveryPhotos =
+    (photos || []).filter(
+      photo =>
+        String(
+          photo.stage || ""
+        ).trim().toLowerCase() ===
+        "delivery"
+    );
+
+
+  /*
+  ==========================================
+  RENDER
+  ==========================================
+  */
+
+  $("#content").innerHTML = `
+
+    <div
+      class="box"
+      style="max-width:800px;margin:0 auto"
+    >
+
+      <button id="backDeliveryOrder">
+        ← Orden
+      </button>
+
+
+      <h2 style="margin-top:18px">
+        Entrega de equipo
+      </h2>
+
+
+      <p>
+        <strong>Orden:</strong>
+        ${esc(order.folio || "—")}
+      </p>
+
+
+      <p>
+        <strong>Cliente:</strong>
+        ${esc(order.client || "—")}
+      </p>
+
+
+      <p>
+        <strong>Equipo:</strong>
+        ${esc(order.brand || "")}
+        ${esc(order.model || "")}
+      </p>
+
+
+      <p>
+        <strong>IMEI / Serie:</strong>
+        ${esc(order.imei || "—")}
+      </p>
+
+
+      <div class="cards">
+
+        <div class="card">
+          Total
+          <strong>
+            ${money(total)}
+          </strong>
+        </div>
+
+
+        <div class="card">
+          Pagado
+          <strong>
+            ${money(paid)}
+          </strong>
+        </div>
+
+
+        <div class="card">
+          Saldo
+          <strong>
+            ${money(balance)}
+          </strong>
+        </div>
+
+
+        <div class="card">
+          Garantía
+          <strong>
+            ${esc(order.warranty ?? 0)}
+            días
+          </strong>
+        </div>
+
+      </div>
+
+
+      ${
+        balance > 0
+
+          ? `
+
+            <div
+              class="empty"
+              style="margin-top:18px"
+            >
+
+              <strong>
+                No se puede entregar este equipo.
+              </strong>
+
+              <br>
+
+              La orden todavía tiene
+              un saldo pendiente de
+              ${money(balance)}.
+
+              <br>
+
+              Registra el pago en Caja
+              antes de confirmar la entrega.
+
+            </div>
+
+          `
+
+          : `
+
+            <div
+              class="empty"
+              style="margin-top:18px"
+            >
+
+              El saldo está liquidado.
+
+              Al confirmar, la orden cambiará
+              a <strong>Entregado</strong>
+              y se generará el comprobante.
+
+            </div>
+
+
+            <!--
+            ======================================
+            EVIDENCIA FOTOGRÁFICA
+            ======================================
+            -->
+
+            <div
+              style="
+                border-top:1px solid #ddd;
+                margin-top:18px;
+                padding-top:16px;
+              "
+            >
+
+              <h3>
+                📷 Fotos de entrega
+              </h3>
+
+
+              <p
+                style="
+                  font-size:12px;
+                  opacity:.7;
+                  margin:4px 0 10px;
+                "
+              >
+
+                Estas son las fotografías
+                que se seleccionaron durante
+                el asistente de entrega.
+
+              </p>
+
+
+              ${
+                deliveryPhotos.length
+
+                  ? photoEvidenceHtml(
+                      deliveryPhotos
+                    )
+
+                  : `
+                    <div class="empty">
+
+                      No hay fotografías
+                      de entrega registradas.
+
+                    </div>
+                  `
+              }
+
+            </div>
+
+
+            <!--
+            ======================================
+            FORMULARIO
+            ======================================
+            -->
+
+            <form
+              id="deliveryForm"
+              style="margin-top:18px"
+            >
+
+              <label>
+
+                Notas de entrega
+
+                <textarea
+                  name="notes"
+                  placeholder="Opcional: condición de entrega, accesorios entregados, observaciones..."
+                ></textarea>
+
+              </label>
+
+
+              <label
+                style="
+                  display:flex;
+                  gap:8px;
+                  align-items:flex-start;
+                  margin-top:12px;
+                "
+              >
+
+                <input
+                  name="accepted"
+                  type="checkbox"
+                  required
+                  style="
+                    width:auto;
+                    margin-top:3px;
+                  "
+                >
+
+                <span>
+
+                  Confirmo que el equipo fue
+                  entregado al cliente y que
+                  la orden se encuentra liquidada.
+
+                </span>
+
+              </label>
+
+
+              <div class="actions">
+
+                <button
+                  type="button"
+                  id="cancelDelivery"
+                >
+                  Cancelar
+                </button>
+
+
+                <button
+                  type="submit"
+                  class="primary"
+                >
+                  Confirmar entrega
+                </button>
+
+              </div>
+
+            </form>
+
+          `
+      }
+
+    </div>
+
+  `;
+
+
+  /*
+  ==========================================
+  BOTÓN VOLVER
+  ==========================================
+  */
+
+  $("#backDeliveryOrder").onclick =
+    () =>
+      serviceOrderView(
+        order.id
+      );
+
+
+  /*
+  ==========================================
+  CANCELAR
+  ==========================================
+  */
+
+  const cancel =
+    $("#cancelDelivery");
+
+
+  if (cancel) {
+
+    cancel.onclick =
+      () =>
+        serviceOrderView(
+          order.id
         );
+
+  }
+
+
+  /*
+  ==========================================
+  FORMULARIO
+  ==========================================
+  */
+
+  const formDelivery =
+    $("#deliveryForm");
+
+
+  if (!formDelivery) {
+
+    return;
+
+  }
+
+
+  /*
+  ==========================================
+  CONFIRMAR ENTREGA
+  ==========================================
+  */
+
+  formDelivery.onsubmit =
+    async event => {
+
+      event.preventDefault();
+
+
+      const form =
+        event.currentTarget;
+
+
+      const submitButton =
+        form.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      const d =
+        Object.fromEntries(
+          new FormData(form)
+        );
+
+
+      if (
+        submitButton?.disabled
+      ) {
+
         return;
+
       }
 
-      const deliveredAt = new Date().toISOString();
-      const deliveredBy = profile?.full_name || "—";
 
-      if (deliveryFiles.length) {
-        await uploadOrderPhotos(order.id, "delivery", deliveryFiles);
+      if (submitButton) {
+
+        submitButton.disabled =
+          true;
+
+        submitButton.dataset.originalText =
+          submitButton.textContent;
+
+        submitButton.textContent =
+          "Confirmando...";
+
       }
 
-      const { data: updatedRows, error: updateError } = await sb
-        .from("orders")
-        .update({ status: "Entregado" })
-        .eq("id", order.id)
-        .select("*");
 
-      if (updateError) {
-        throw new Error("No se pudo registrar la entrega: " + updateError.message);
-      }
+      try {
 
-      if (!updatedRows || !updatedRows.length) {
-        throw new Error(
-          "Supabase no actualizó la orden. Revisa permisos RLS de UPDATE en orders."
-        );
-      }
+        /*
+        ======================================
+        VALIDAR NUEVAMENTE LA ORDEN
+        ======================================
+        */
 
-      const deliveredOrder = {
-        ...currentOrder,
-        ...updatedRows[0],
-        status: "Entregado",
-        _delivery: {
-          delivered_at: deliveredAt,
-          delivered_by: deliveredBy,
-          notes: d.notes?.trim() || null
+        const {
+          data: currentOrder,
+          error: readError
+        } =
+          await sb
+            .from("orders")
+            .select("*")
+            .eq("id", order.id)
+            .single();
+
+
+        if (readError) {
+
+          throw new Error(
+            "No se pudo validar la orden: " +
+            readError.message
+          );
+
         }
-      };
 
-      // Actualizamos también el arreglo local para que Dashboard/Órdenes
-      // reflejen inmediatamente el nuevo estado.
-      const index = orders.findIndex(o => o.id === order.id);
-      if (index >= 0) orders[index] = { ...orders[index], ...deliveredOrder };
 
-      deliveryReceiptView(deliveredOrder, parts, labor, true);
+        /*
+        ======================================
+        VALIDAR SALDO
+        ======================================
+        */
 
-    } catch (error) {
-      console.error("Error al entregar equipo:", error);
-      alert(error?.message || "Ocurrió un error al confirmar la entrega.");
-    } finally {
-      // Si seguimos en el formulario (porque hubo error), restauramos el botón.
-      const currentForm = $("#deliveryForm");
-      const currentButton = currentForm?.querySelector('button[type="submit"]');
+        const currentBalance =
+          Math.max(
+            0,
+            (+currentOrder.total || 0) -
+            (+currentOrder.deposit || 0)
+          );
 
-      if (currentButton) {
-        currentButton.disabled = false;
-        currentButton.textContent =
-          currentButton.dataset.originalText || "Confirmar entrega";
+
+        if (
+          currentBalance >
+          0.009
+        ) {
+
+          alert(
+            "La orden tiene saldo pendiente de " +
+            money(currentBalance) +
+            ". Debe liquidarse antes de entregar."
+          );
+
+          return;
+
+        }
+
+
+        /*
+        ======================================
+        DATOS DE ENTREGA
+        ======================================
+        */
+
+        const deliveredAt =
+          new Date().toISOString();
+
+
+        const deliveredBy =
+          profile?.full_name ||
+          "—";
+
+
+        /*
+        ======================================
+        IMPORTANTE
+        ======================================
+
+        AQUÍ YA NO SUBIMOS FOTOS.
+
+        Las fotos ya fueron guardadas
+        por DeliveryProcess.
+
+        ======================================
+        */
+
+
+        /*
+        ======================================
+        ACTUALIZAR ORDEN
+        ======================================
+        */
+
+        const {
+          data: updatedRows,
+          error: updateError
+        } =
+          await sb
+            .from("orders")
+            .update({
+              status:
+                "Entregado"
+            })
+            .eq(
+              "id",
+              order.id
+            )
+            .select("*");
+
+
+        if (updateError) {
+
+          throw new Error(
+            "No se pudo registrar la entrega: " +
+            updateError.message
+          );
+
+        }
+
+
+        if (
+          !updatedRows ||
+          !updatedRows.length
+        ) {
+
+          throw new Error(
+            "Supabase no actualizó la orden. " +
+            "Revisa permisos RLS de UPDATE en orders."
+          );
+
+        }
+
+
+        /*
+        ======================================
+        ORDEN ACTUALIZADA
+        ======================================
+        */
+
+        const deliveredOrder = {
+
+          ...currentOrder,
+
+          ...updatedRows[0],
+
+          status:
+            "Entregado",
+
+          _delivery: {
+
+            delivered_at:
+              deliveredAt,
+
+            delivered_by:
+              deliveredBy,
+
+            notes:
+              d.notes?.trim() ||
+              null
+
+          }
+
+        };
+
+
+        /*
+        ======================================
+        ACTUALIZAR ARRAY LOCAL
+        ======================================
+        */
+
+        const index =
+          orders.findIndex(
+            o =>
+              o.id ===
+              order.id
+          );
+
+
+        if (index >= 0) {
+
+          orders[index] = {
+
+            ...orders[index],
+
+            ...deliveredOrder
+
+          };
+
+        }
+
+
+        /*
+        ======================================
+        COMPROBANTE
+        ======================================
+        */
+
+        await deliveryReceiptView(
+          deliveredOrder,
+          parts,
+          labor,
+          true
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Error al entregar equipo:",
+          error
+        );
+
+
+        alert(
+          error?.message ||
+          "Ocurrió un error al confirmar la entrega."
+        );
+
+
+      } finally {
+
+        const currentForm =
+          $("#deliveryForm");
+
+
+        const currentButton =
+          currentForm?.querySelector(
+            'button[type="submit"]'
+          );
+
+
+        if (currentButton) {
+
+          currentButton.disabled =
+            false;
+
+          currentButton.textContent =
+            currentButton.dataset.originalText ||
+            "Confirmar entrega";
+
+        }
+
       }
-    }
-  };
+
+    };
+
 }
 
 
