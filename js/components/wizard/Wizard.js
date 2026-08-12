@@ -88,75 +88,125 @@ export class Wizard {
 
     next() {
 
-        console.log("NEXT");
-
-        if (
-            !this.beforeNext(
-                this.currentStep
-            )
-        ) {
-
-            return;
-
-        }
-
-        if (
-    step &&
-    step.validate &&
-    !step.validate()
-) {
-
-    return;
-
-}
+    console.log("NEXT");
 
 
-/*
-==========================================
-GUARDAR DATOS DEL STEP EN EL CONTEXTO
-==========================================
-*/
+    /*
+    ==========================================
+    BEFORE NEXT
+    ==========================================
+    */
 
-if (
-    step &&
-    typeof step.saveToContext === "function"
-) {
+    if (
+        !this.beforeNext(
+            this.currentStep
+        )
+    ) {
 
-    const saved =
-        step.saveToContext();
+        return;
 
-    if (saved === false) {
+    }
 
-        console.warn(
-            "⚠️ El Step no pudo guardar sus datos."
+
+    /*
+    ==========================================
+    OBTENER STEP ACTUAL
+    ==========================================
+    */
+
+    const step =
+        this.getCurrentStep();
+
+
+    /*
+    ==========================================
+    VALIDAR STEP
+    ==========================================
+    */
+
+    if (
+        step &&
+        step.validate &&
+        !step.validate()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+    ==========================================
+    GUARDAR DATOS DEL STEP EN EL CONTEXTO
+    ==========================================
+    */
+
+    if (
+        step &&
+        typeof step.saveToContext === "function"
+    ) {
+
+        console.log(
+            "💾 Guardando datos del Step..."
         );
 
-    }
 
-}
+        const saved =
+            step.saveToContext();
 
-        if (
-            this.currentStep <
-            this.steps.length - 1
-        ) {
 
-            this.destroyCurrentStep();
+        if (saved === false) {
 
-            this.currentStep++;
-
-            this.afterNext(
-                this.currentStep
+            console.warn(
+                "⚠️ El Step no pudo guardar sus datos."
             );
-
-            this.render();
 
             return;
 
         }
 
-        this.finish();
+    }
+
+
+    /*
+    ==========================================
+    AVANZAR AL SIGUIENTE STEP
+    ==========================================
+    */
+
+    if (
+        this.currentStep <
+        this.steps.length - 1
+    ) {
+
+        this.destroyCurrentStep();
+
+
+        this.currentStep++;
+
+
+        this.afterNext(
+            this.currentStep
+        );
+
+
+        this.render();
+
+
+        return;
 
     }
+
+
+    /*
+    ==========================================
+    FINALIZAR WIZARD
+    ==========================================
+    */
+
+    this.finish();
+
+}
 
     previous() {
 
