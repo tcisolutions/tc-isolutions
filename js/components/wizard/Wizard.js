@@ -86,16 +86,10 @@ export class Wizard {
 
     }
 
-    next() {
+    async next() {
 
     console.log("NEXT");
 
-
-    /*
-    ==========================================
-    BEFORE NEXT
-    ==========================================
-    */
 
     if (
         !this.beforeNext(
@@ -107,12 +101,6 @@ export class Wizard {
 
     }
 
-
-    /*
-    ==========================================
-    OBTENER STEP ACTUAL
-    ==========================================
-    */
 
     const step =
         this.getCurrentStep();
@@ -126,40 +114,14 @@ export class Wizard {
 
     if (
         step &&
-        step.validate &&
-        !step.validate()
+        typeof step.validate === "function"
     ) {
 
-        return;
-
-    }
-
-
-    /*
-    ==========================================
-    GUARDAR DATOS DEL STEP EN EL CONTEXTO
-    ==========================================
-    */
-
-    if (
-        step &&
-        typeof step.saveToContext === "function"
-    ) {
-
-        console.log(
-            "💾 Guardando datos del Step..."
-        );
+        const valid =
+            await step.validate();
 
 
-        const saved =
-            step.saveToContext();
-
-
-        if (saved === false) {
-
-            console.warn(
-                "⚠️ El Step no pudo guardar sus datos."
-            );
+        if (!valid) {
 
             return;
 
@@ -170,7 +132,7 @@ export class Wizard {
 
     /*
     ==========================================
-    AVANZAR AL SIGUIENTE STEP
+    AVANZAR
     ==========================================
     */
 
@@ -200,7 +162,7 @@ export class Wizard {
 
     /*
     ==========================================
-    FINALIZAR WIZARD
+    FINALIZAR
     ==========================================
     */
 
