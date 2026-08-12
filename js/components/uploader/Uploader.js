@@ -39,280 +39,94 @@ export class Uploader extends BaseComponent {
     }
 
 
-    mount(container) {
+    mount(container = null) {
 
-        /*
-        ==========================================
-        MONTAR COMPONENTE
-        ==========================================
-        */
+    this.container =
+        container ||
+        document.querySelector(".nx-uploader");
 
-        this.container = container;
+    if (!this.container) {
 
-        if (!this.container) {
-
-            console.error(
-                "❌ Uploader: no se recibió container"
-            );
-
-            return;
-
-        }
-
-
-        this.render();
-
-
-        /*
-        ==========================================
-        IMPORTANTE
-        ==========================================
-
-        Ejecutamos directamente el montaje de
-        eventos después de renderizar.
-
-        ==========================================
-        */
-
-        this.afterRender();
-
-
-        console.log(
-            "📷 Uploader montado:",
-            this.container
+        console.error(
+            "❌ Uploader: no se encontró el contenedor."
         );
+
+        return;
 
     }
 
 
-    afterRender() {
-
-        console.log(
-            "📷 Uploader.afterRender()"
+    const input =
+        this.container.querySelector(
+            ".nx-uploader-input"
         );
 
 
-        if (!this.container) {
-
-            console.error(
-                "❌ Uploader: no existe container"
-            );
-
-            return;
-
-        }
-
-
-        const input =
-            this.container.querySelector(
-                ".nx-uploader-input"
-            );
-
-
-        const preview =
-            this.container.querySelector(
-                ".nx-uploader-preview"
-            );
-
-
-        const dropzone =
-            this.container.querySelector(
-                ".nx-dropzone"
-            );
-
-
-        console.log(
-            "Input encontrado:",
-            input
+    const preview =
+        this.container.querySelector(
+            ".nx-uploader-preview"
         );
 
+
+    if (!input) {
+
+        console.error(
+            "❌ Uploader: no se encontró .nx-uploader-input"
+        );
+
+        return;
+
+    }
+
+
+    if (!preview) {
+
+        console.error(
+            "❌ Uploader: no se encontró .nx-uploader-preview"
+        );
+
+        return;
+
+    }
+
+
+    input.onchange = event => {
+
         console.log(
-            "Preview encontrado:",
+            "📸 CHANGE DEL INPUT EJECUTADO"
+        );
+
+
+        this.files =
+            Array.from(
+                event.target.files || []
+            );
+
+
+        console.log(
+            "📸 Archivos seleccionados:",
+            this.files
+        );
+
+
+        this.renderPreview(
             preview
         );
 
-        console.log(
-            "Dropzone encontrado:",
-            dropzone
+
+        this.onChange(
+            this.files
         );
 
+    };
 
-        if (!input) {
 
-            console.error(
-                "❌ Uploader: no se encontró .nx-uploader-input"
-            );
+    console.log(
+        "✅ onchange conectado correctamente:",
+        input.onchange
+    );
 
-            return;
-
-        }
-
-
-        if (!preview) {
-
-            console.error(
-                "❌ Uploader: no se encontró .nx-uploader-preview"
-            );
-
-            return;
-
-        }
-
-
-        /*
-        ==========================================
-        INPUT DE ARCHIVOS
-        ==========================================
-        */
-
-        input.onchange = event => {
-
-            console.log(
-                "📸 CHANGE DEL INPUT"
-            );
-
-
-            const files =
-                Array.from(
-                    event.target.files || []
-                );
-
-
-            console.log(
-                "Archivos seleccionados:",
-                files
-            );
-
-
-            this.state.files =
-                files;
-
-
-            this.renderPreview();
-
-
-            /*
-            ==========================================
-            NOTIFICAR AL PHOTOS STEP
-            ==========================================
-            */
-
-            this.onChange(
-                this.state.files
-            );
-
-        };
-
-
-        console.log(
-            "✅ onchange conectado:",
-            input.onchange
-        );
-
-
-        /*
-        ==========================================
-        DRAG & DROP
-        ==========================================
-        */
-
-        this.bindDropzone();
-
-    }
-
-
-    renderPreview() {
-
-        const preview =
-            this.container?.querySelector(
-                ".nx-uploader-preview"
-            );
-
-
-        if (!preview) {
-
-            console.error(
-                "❌ No existe .nx-uploader-preview"
-            );
-
-            return;
-
-        }
-
-
-        preview.innerHTML = "";
-
-
-        this.state.files.forEach(
-            (file, index) => {
-
-                const url =
-                    URL.createObjectURL(file);
-
-
-                preview.innerHTML +=
-                    renderUploaderCard(
-                        url,
-                        index,
-                        file
-                    );
-
-            }
-        );
-
-
-        this.bindEvents();
-
-
-        /*
-        ==========================================
-        ACTUALIZAR CONTADOR
-        ==========================================
-        */
-
-        const counter =
-            this.container.querySelector(
-                ".nx-uploader-counter"
-            );
-
-
-        if (counter) {
-
-            counter.textContent =
-                `${this.state.files.length} fotografía${this.state.files.length === 1 ? "" : "s"}`;
-
-        }
-
-    }
-
-
-    bindEvents() {
-
-        if (!this.container) {
-            return;
-        }
-
-
-        this.container
-            .querySelectorAll(
-                ".nx-photo-remove"
-            )
-            .forEach(button => {
-
-                button.onclick = () => {
-
-                    this.removeFile(
-                        Number(
-                            button.dataset.index
-                        )
-                    );
-
-                };
-
-            });
-
-    }
-
+}
 
     removeFile(index) {
 
