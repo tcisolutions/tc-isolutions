@@ -571,6 +571,8 @@ console.log(
 console.log(
     "Signature context:",
     this.context.signature
+        ? "✍ FIRMA RECIBIDA"
+        : "SIN FIRMA"
 );
 
 console.log(
