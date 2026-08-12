@@ -49,52 +49,46 @@ export function createDeliveryWizard(
 
     const wizardContext = {
 
-        order:
-            context.order,
+    order:
+        context.order,
 
-        parts:
-            context.parts || [],
+    parts:
+        context.parts || [],
 
-        labor:
-            context.labor || 0,
+    labor:
+        context.labor || 0,
 
-        photos:
-            context.photos || [],
+    photos:
+        context.photos || [],
 
-        deliveryFiles:
-            [],
+    deliveryFiles:
+        [],
 
-        payment:
-            null,
+    payment:
+        null,
 
-        signature:
-            null,
+    signature:
+        null,
 
-        warranty:
-            null,
+    warranty:
+        null,
 
-        receipt:
-            null,
+    receipt:
+        null,
 
-        whatsapp:
-            null,
+    whatsapp:
+        null,
 
-        /*
-        ======================================
-        DEPENDENCIAS
-        ======================================
-        */
+    /*
+    ==========================================
+    SUPABASE
+    ==========================================
+    */
 
-        sb:
-            context.sb,
+    supabase:
+        context.supabase || null
 
-        uploadOrderPhotos:
-            context.uploadOrderPhotos,
-
-        getOrderPhotos:
-            context.getOrderPhotos
-
-    };
+};
 
 
     /*
@@ -138,11 +132,12 @@ export function createDeliveryWizard(
     ==========================================
     */
 
-    wizard.onFinish = async () => {
+   wizard.onFinish = async () => {
 
     console.log(
         "===== WIZARD FINALIZADO ====="
     );
+
 
     console.log(
         "Contexto final:",
@@ -151,12 +146,6 @@ export function createDeliveryWizard(
 
 
     try {
-
-        /*
-        ==========================================
-        1. EJECUTAR PROCESO DE ENTREGA
-        ==========================================
-        */
 
         const process =
             new DeliveryProcess(
@@ -172,97 +161,10 @@ export function createDeliveryWizard(
             "===== DELIVERY PROCESS COMPLETADO ====="
         );
 
+
         console.log(
             "Resultado:",
             result
-        );
-
-
-        /*
-        ==========================================
-        2. GUARDAR FOTOGRAFÍAS DE ENTREGA
-        ==========================================
-        */
-
-        const order =
-            wizard.context.order;
-
-
-        const photos =
-            Array.isArray(
-                wizard.context.photos
-            )
-                ? wizard.context.photos
-                : [];
-
-
-        console.log(
-            "📸 Fotos seleccionadas para guardar:",
-            photos
-        );
-
-
-        if (
-            order?.id &&
-            photos.length
-        ) {
-
-            console.log(
-                "📤 Subiendo fotografías de entrega..."
-            );
-
-
-if (
-    typeof window.uploadOrderPhotos !==
-    "function"
-) {
-
-    throw new Error(
-        "La función para guardar fotografías " +
-        "no está disponible."
-    );
-
-}
-
-            const uploadedPhotos =
-                await uploadOrderPhotos(
-                    order.id,
-                    "delivery",
-                    photos
-                );
-
-
-            console.log(
-                "✅ Fotografías de entrega guardadas:",
-                uploadedPhotos
-            );
-
-
-            /*
-            Guardamos las filas generadas
-            también dentro del contexto.
-            */
-
-            wizard.context.photosSaved =
-                uploadedPhotos;
-
-        } else {
-
-            console.log(
-                "ℹ️ No hay fotografías de entrega para subir."
-            );
-
-        }
-
-
-        /*
-        ==========================================
-        3. CONTINUAR CON LA CONFIRMACIÓN
-        ==========================================
-        */
-
-        console.log(
-            "===== CONTINUANDO CON CONFIRMACIÓN ====="
         );
 
 
@@ -272,7 +174,7 @@ if (
     } catch (error) {
 
         console.error(
-            "❌ Error en proceso de entrega:",
+            "Error en DeliveryProcess:",
             error
         );
 
