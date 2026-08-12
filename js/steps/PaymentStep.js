@@ -11,6 +11,12 @@ export const PaymentStep = {
     title: "Pago",
 
 
+    /*
+    ==========================================
+    RENDER
+    ==========================================
+    */
+
     render() {
 
         const order =
@@ -147,6 +153,7 @@ export const PaymentStep = {
                     :
 
                     `
+
                     <div
                         style="
                             margin-top:15px;
@@ -157,6 +164,7 @@ export const PaymentStep = {
                     >
                         ✅ La orden ya está liquidada.
                     </div>
+
                     `
 
                 }
@@ -167,6 +175,12 @@ export const PaymentStep = {
 
     },
 
+
+    /*
+    ==========================================
+    MOUNTED
+    ==========================================
+    */
 
     mounted() {
 
@@ -213,7 +227,6 @@ export const PaymentStep = {
         ==========================================
         */
 
-
         if (!this.context.payment) {
 
             this.context.payment = {
@@ -225,7 +238,13 @@ export const PaymentStep = {
                     "cash",
 
                 liquidated:
-                    balance <= 0
+                    balance <= 0,
+
+                recorded:
+                    false,
+
+                cashMovementId:
+                    null
 
             };
 
@@ -237,7 +256,6 @@ export const PaymentStep = {
         IMPORTE
         ==========================================
         */
-
 
         const amountInput =
             document.querySelector(
@@ -278,7 +296,6 @@ export const PaymentStep = {
         ==========================================
         */
 
-
         document
             .querySelectorAll(
                 'input[name="paymentMethod"]'
@@ -296,6 +313,7 @@ export const PaymentStep = {
 
                                 this.context.payment.method =
                                     radio.value;
+
 
                                 console.log(
                                     "💳 Método:",
@@ -318,6 +336,12 @@ export const PaymentStep = {
 
     },
 
+
+    /*
+    ==========================================
+    ACTUALIZAR ESTADO DEL PAGO
+    ==========================================
+    */
 
     updatePaymentState() {
 
@@ -362,7 +386,22 @@ export const PaymentStep = {
     },
 
 
-    validate() {
+    /*
+    ==========================================
+    VALIDAR Y REGISTRAR PAGO
+    ==========================================
+    */
+
+    async validate() {
+
+        console.log(
+            "================================"
+        );
+
+        console.log(
+            "💰 VALIDANDO PAGO"
+        );
+
 
         const order =
             this.context.order || {};
@@ -393,20 +432,53 @@ export const PaymentStep = {
         ==========================================
         */
 
-
         if (balance <= 0) {
 
             this.context.payment = {
 
-                amount: 0,
+                amount:
+                    0,
 
                 method:
                     "already_paid",
 
                 liquidated:
-                    true
+                    true,
+
+                recorded:
+                    true,
+
+                cashMovementId:
+                    null
 
             };
+
+
+            console.log(
+                "✅ Orden ya liquidada."
+            );
+
+
+            return true;
+
+        }
+
+
+        /*
+        ==========================================
+        EVITAR DUPLICAR MOVIMIENTO
+        ==========================================
+        */
+
+        if (
+            this.context.payment?.recorded &&
+            this.context.payment?.cashMovementId
+        ) {
+
+            console.log(
+                "ℹ️ El pago ya fue registrado:",
+                this.context.payment.cashMovementId
+            );
 
 
             return true;
@@ -419,7 +491,6 @@ export const PaymentStep = {
         OBTENER IMPORTE
         ==========================================
         */
-
 
         const amount =
             Number(
@@ -438,6 +509,7 @@ export const PaymentStep = {
                 "Registra el importe recibido antes de continuar."
             );
 
+
             return false;
 
         }
@@ -449,12 +521,12 @@ export const PaymentStep = {
         ==========================================
         */
 
-
         if (amount < balance) {
 
             alert(
                 `El saldo pendiente es de $${balance.toFixed(2)}.`
             );
+
 
             return false;
 
@@ -463,10 +535,9 @@ export const PaymentStep = {
 
         /*
         ==========================================
-        MÉTODO
+        MÉTODO DE PAGO
         ==========================================
         */
-
 
         const method =
             document.querySelector(
@@ -480,9 +551,266 @@ export const PaymentStep = {
                 "Selecciona el método de pago."
             );
 
+
             return false;
 
         }
+
+
+        /*
+        ==========================================
+        MAPEAR MÉTODO
+        ==========================================
+        */
+
+        const paymentMethodMap = {
+
+            cash:
+                "efectivo",
+
+            transfer:
+                "transferencia",
+
+            card:
+                "tarjeta",
+
+            mixed:
+                "otro"
+
+        };
+
+
+        const paymentMethod =
+            paymentMethodMap[method];
+
+
+        if (!paymentMethod) {
+
+            alert(
+                "El método de pago seleccionado no es válido."
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+        ==========================================
+        SUPABASE
+        ==========================================
+        */
+
+        const sb =
+            this.context.supabase;
+
+
+        if (!sb) {
+
+            alert(
+                "No está disponible la conexión con Supabase."
+            );
+
+
+            console.error(
+                "❌ PaymentStep: falta context.supabase"
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+        ==========================================
+        OBTENER USUARIO
+        ==========================================
+        */
+
+        const {
+            data: {
+                user
+            },
+            error: userError
+        } =
+            await sb.auth.getUser();
+
+
+        if (
+            userError ||
+            !user
+        ) {
+
+            alert(
+                "La sesión expiró. Inicia sesión nuevamente."
+            );
+
+
+            console.error(
+                "❌ Error obteniendo usuario:",
+                userError
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+        ==========================================
+        BUSCAR CAJA ABIERTA
+        ==========================================
+        */
+
+        console.log(
+            "🔎 Buscando sesión de Caja abierta..."
+        );
+
+
+        const {
+            data: cashSession,
+            error: sessionError
+        } =
+            await sb
+                .from("cash_sessions")
+                .select("*")
+                .eq(
+                    "status",
+                    "abierta"
+                )
+                .order(
+                    "opened_at",
+                    {
+                        ascending: false
+                    }
+                )
+                .limit(1)
+                .maybeSingle();
+
+
+        if (sessionError) {
+
+            console.error(
+                "❌ Error buscando Caja:",
+                sessionError
+            );
+
+
+            alert(
+                "No se pudo consultar la Caja abierta: " +
+                sessionError.message
+            );
+
+
+            return false;
+
+        }
+
+
+        if (!cashSession?.id) {
+
+            alert(
+                "No hay una sesión de Caja abierta. Abre Caja antes de registrar el pago."
+            );
+
+
+            return false;
+
+        }
+
+
+        console.log(
+            "✅ Caja abierta:",
+            cashSession
+        );
+
+
+        /*
+        ==========================================
+        REGISTRAR MOVIMIENTO EN CAJA
+        ==========================================
+        */
+
+        const movement = {
+
+            session_id:
+                cashSession.id,
+
+            order_id:
+                order.id,
+
+            type:
+                "pago",
+
+            amount:
+                amount,
+
+            payment_method:
+                paymentMethod,
+
+            concept:
+                `Pago orden ${order.folio || "—"}`,
+
+            notes:
+                `Pago registrado durante entrega de equipo.`,
+
+            created_by:
+                user.id
+
+        };
+
+
+        console.log(
+            "💵 Movimiento a registrar:",
+            movement
+        );
+
+
+        const {
+            data: insertedMovement,
+            error: movementError
+        } =
+            await sb
+                .from("cash_movements")
+                .insert(
+                    movement
+                )
+                .select("*")
+                .single();
+
+
+        if (movementError) {
+
+            console.error(
+                "❌ ERROR REGISTRANDO MOVIMIENTO EN CAJA:",
+                movementError
+            );
+
+
+            alert(
+                "No se pudo registrar el pago en Caja:\n\n" +
+                movementError.message
+            );
+
+
+            return false;
+
+        }
+
+
+        /*
+        ==========================================
+        CONFIRMAR MOVIMIENTO
+        ==========================================
+        */
+
+        console.log(
+            "✅ Movimiento registrado en Caja:",
+            insertedMovement
+        );
 
 
         /*
@@ -491,37 +819,38 @@ export const PaymentStep = {
         ==========================================
         */
 
-
         this.context.payment = {
 
             amount,
 
             method,
 
+            paymentMethod,
+
             liquidated:
-                amount >= balance
+                amount >= balance,
+
+            recorded:
+                true,
+
+            cashMovementId:
+                insertedMovement.id
 
         };
 
 
         /*
-        IMPORTANTE:
-        Actualizamos temporalmente el depósito
-        de la orden para que los siguientes pasos
-        vean la orden liquidada.
+        ==========================================
+        ACTUALIZAR DEPÓSITO EN CONTEXTO
+        ==========================================
         */
-
 
         this.context.order.deposit =
             deposit + amount;
 
 
         console.log(
-            "================================"
-        );
-
-        console.log(
-            "💰 PAGO VALIDADO"
+            "💰 PAGO VALIDADO Y REGISTRADO"
         );
 
         console.log(
@@ -530,13 +859,23 @@ export const PaymentStep = {
         );
 
         console.log(
-            "Método:",
+            "Método interfaz:",
             method
+        );
+
+        console.log(
+            "Método Caja:",
+            paymentMethod
         );
 
         console.log(
             "Nuevo deposit:",
             this.context.order.deposit
+        );
+
+        console.log(
+            "Movimiento:",
+            insertedMovement
         );
 
         console.log(
