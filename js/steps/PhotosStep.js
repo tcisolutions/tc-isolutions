@@ -1,15 +1,13 @@
 import {
     renderUploader,
     Uploader
-}
-from "../components/uploader/index.js";
+} from "../components/uploader/index.js";
 
 
 export const PhotosStep = {
 
     title: "Fotos",
 
-    uploader: null,
 
     render() {
 
@@ -25,7 +23,9 @@ export const PhotosStep = {
                 </p>
 
                 <div id="deliveryPhotoUploader">
+
                     ${renderUploader()}
+
                 </div>
 
             </div>
@@ -37,12 +37,16 @@ export const PhotosStep = {
 
     mounted() {
 
-        console.log("================================");
-        console.log("📷 PHOTOS STEP MOUNTED");
-        console.log("================================");
+        console.log(
+            "=============================="
+        );
 
         console.log(
-            "Contexto recibido:",
+            "📸 PHOTOS STEP MOUNTED"
+        );
+
+        console.log(
+            "Contexto:",
             this.context
         );
 
@@ -56,7 +60,7 @@ export const PhotosStep = {
         if (!container) {
 
             console.error(
-                "❌ No se encontró #deliveryPhotoUploader"
+                "❌ No existe #deliveryPhotoUploader"
             );
 
             return;
@@ -64,11 +68,11 @@ export const PhotosStep = {
         }
 
 
-        /*
-        ==========================================
-        CREAR UPLOADER
-        ==========================================
-        */
+        console.log(
+            "✅ Contenedor del uploader encontrado:",
+            container
+        );
+
 
         this.uploader =
             new Uploader({
@@ -76,40 +80,34 @@ export const PhotosStep = {
                 onChange: files => {
 
                     console.log(
-                        "📸 Fotos seleccionadas:",
+                        "📸 Uploader onChange"
+                    );
+
+                    console.log(
+                        "Archivos:",
                         files
                     );
 
 
-                    /*
-                    ==========================================
-                    GUARDAR FOTOS EN EL CONTEXTO DEL WIZARD
-                    ==========================================
-                    */
-
                     if (this.context) {
 
                         this.context.photos =
-                            Array.from(files || []);
+                            Array.from(
+                                files || []
+                            );
+
+
+                        console.log(
+                            "✅ context.photos actualizado:",
+                            this.context.photos
+                        );
 
                     }
-
-
-                    console.log(
-                        "📦 Fotos guardadas en context.photos:",
-                        this.context?.photos
-                    );
 
                 }
 
             });
 
-
-        /*
-        ==========================================
-        MONTAR UPLOADER EN EL DOM
-        ==========================================
-        */
 
         this.uploader.mount(
             container
@@ -117,7 +115,25 @@ export const PhotosStep = {
 
 
         console.log(
-            "✅ Uploader montado correctamente"
+            "✅ Uploader montado"
+        );
+
+
+        const input =
+            container.querySelector(
+                ".nx-uploader-input"
+            );
+
+
+        console.log(
+            "Input encontrado:",
+            input
+        );
+
+
+        console.log(
+            "onchange después de montar:",
+            input?.onchange
         );
 
     },
@@ -126,8 +142,9 @@ export const PhotosStep = {
     validate() {
 
         /*
-        Las fotografías son opcionales
-        */
+         * Las fotografías son opcionales
+         * por ahora.
+         */
 
         return true;
 
