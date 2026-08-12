@@ -140,162 +140,151 @@ export function createDeliveryWizard(
 
     wizard.onFinish = async () => {
 
+    console.log(
+        "===== WIZARD FINALIZADO ====="
+    );
+
+    console.log(
+        "Contexto final:",
+        wizard.context
+    );
+
+
+    try {
+
+        /*
+        ==========================================
+        1. EJECUTAR PROCESO DE ENTREGA
+        ==========================================
+        */
+
+        const process =
+            new DeliveryProcess(
+                wizard.context
+            );
+
+
+        const result =
+            await process.execute();
+
+
         console.log(
-            "===== WIZARD FINALIZADO ====="
+            "===== DELIVERY PROCESS COMPLETADO ====="
+        );
+
+        console.log(
+            "Resultado:",
+            result
         );
 
 
         /*
-        ======================================
-        RECUPERAR FIRMA
-        ======================================
+        ==========================================
+        2. GUARDAR FOTOGRAFÍAS DE ENTREGA
+        ==========================================
         */
 
-        try {
+        const order =
+            wizard.context.order;
 
-            if (
-                typeof SignatureStep.getSignature ===
-                "function"
-            ) {
 
-                wizard.context.signature =
-                    SignatureStep.getSignature();
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "No se pudo recuperar la firma:",
-                error
-            );
-
-            alert(
-                "No se pudo obtener la firma del cliente."
-            );
-
-            return;
-
-        }
+        const photos =
+            Array.isArray(
+                wizard.context.photos
+            )
+                ? wizard.context.photos
+                : [];
 
 
         console.log(
-            "Firma:",
-            wizard.context.signature
-                ? "FIRMA CAPTURADA"
-                : "SIN FIRMA"
+            "📸 Fotos seleccionadas para guardar:",
+            photos
         );
 
 
-        /*
-        ======================================
-        VALIDACIÓN DE FIRMA
-        ======================================
-        */
+        if (
+            order?.id &&
+            photos.length
+        ) {
 
-        if (!wizard.context.signature) {
-
-            alert(
-                "La firma del cliente es obligatoria."
+            console.log(
+                "📤 Subiendo fotografías de entrega..."
             );
 
-            return;
 
-        }
+if (
+    typeof window.uploadOrderPhotos !==
+    "function"
+) {
 
+    throw new Error(
+        "La función para guardar fotografías " +
+        "no está disponible."
+    );
 
-        /*
-        ======================================
-        CONVERTIR FIRMA A FILE
-        ======================================
-        */
+}
 
-        try {
-
-            wizard.context.signature =
-                dataUrlToFile(
-                    wizard.context.signature,
-                    `signature-${Date.now()}.png`
-                );
-
-        } catch (error) {
-
-            console.error(
-                "Error convirtiendo firma:",
-                error
-            );
-
-            alert(
-                "No se pudo preparar la firma para guardarla."
-            );
-
-            return;
-
-        }
-
-
-        console.log(
-            "Archivo de firma:",
-            wizard.context.signature
-        );
-
-
-        /*
-        ======================================
-        EJECUTAR PROCESO
-        ======================================
-        */
-
-        try {
-
-            const process =
-
-                new DeliveryProcess(
-                    wizard.context
+            const uploadedPhotos =
+                await uploadOrderPhotos(
+                    order.id,
+                    "delivery",
+                    photos
                 );
 
 
-            const result =
-                await process.execute();
-
-
             console.log(
-                "===== DELIVERY PROCESS COMPLETADO ====="
-            );
-
-            console.log(
-                "Resultado:",
-                result
+                "✅ Fotografías de entrega guardadas:",
+                uploadedPhotos
             );
 
 
             /*
-            ==================================
-            DEVOLVER RESULTADO A APP.JS
-            ==================================
+            Guardamos las filas generadas
+            también dentro del contexto.
             */
 
-            context.onFinish?.(
-                result
-            );
+            wizard.context.photosSaved =
+                uploadedPhotos;
 
+        } else {
 
-        } catch (error) {
-
-            console.error(
-                "Error en DeliveryProcess:",
-                error
-            );
-
-
-            alert(
-                error?.message ||
-                "No se pudo completar el proceso de entrega."
+            console.log(
+                "ℹ️ No hay fotografías de entrega para subir."
             );
 
         }
 
-    };
+
+        /*
+        ==========================================
+        3. CONTINUAR CON LA CONFIRMACIÓN
+        ==========================================
+        */
+
+        console.log(
+            "===== CONTINUANDO CON CONFIRMACIÓN ====="
+        );
+
+
+        context.onFinish?.();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error en proceso de entrega:",
+            error
+        );
+
+
+        alert(
+            error?.message ||
+            "No se pudo completar el proceso de entrega."
+        );
+
+    }
+
+};
 
 
     /*
