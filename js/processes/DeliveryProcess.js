@@ -36,12 +36,36 @@ export class DeliveryProcess {
         );
 
 
-        console.log(
+                console.log(
             "Labor:",
             this.context.labor
         );
 
 
+        console.log(
+            "Signature:",
+            this.context.signature
+                ? "✍ FIRMA RECIBIDA"
+                : "❌ SIN FIRMA"
+        );
+
+
+        /*
+        ==========================================
+        VALIDAR FIRMA
+        ==========================================
+        */
+
+        if (!this.context.signature) {
+
+            throw new Error(
+                "No se recibió la firma del cliente."
+            );
+
+        }
+
+
+       
         /*
         ==========================================
         VALIDAR SUPABASE
@@ -137,7 +161,7 @@ export class DeliveryProcess {
             uploadedPhotos;
 
 
-        return {
+                return {
 
             success: true,
 
@@ -145,7 +169,10 @@ export class DeliveryProcess {
                 order.id,
 
             photos:
-                uploadedPhotos
+                uploadedPhotos,
+
+            signature:
+                this.context.signature
 
         };
 

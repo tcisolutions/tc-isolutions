@@ -100,18 +100,40 @@ export class Wizard {
 
         }
 
-        const step =
-            this.getCurrentStep();
-
         if (
-            step &&
-            step.validate &&
-            !step.validate()
-        ) {
+    step &&
+    step.validate &&
+    !step.validate()
+) {
 
-            return;
+    return;
 
-        }
+}
+
+
+/*
+==========================================
+GUARDAR DATOS DEL STEP EN EL CONTEXTO
+==========================================
+*/
+
+if (
+    step &&
+    typeof step.saveToContext === "function"
+) {
+
+    const saved =
+        step.saveToContext();
+
+    if (saved === false) {
+
+        console.warn(
+            "⚠️ El Step no pudo guardar sus datos."
+        );
+
+    }
+
+}
 
         if (
             this.currentStep <
