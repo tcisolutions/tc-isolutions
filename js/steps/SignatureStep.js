@@ -3,34 +3,46 @@ import {
     mountSignature,
     getSignaturePad,
     exportSignature
-}
-from "../components/signature/index.js";
+} from "../components/signature/index.js";
 
 
 export const SignatureStep = {
 
     title: "Firma",
 
-
     render() {
 
-        return renderSignature();
+        return `
+
+            <div class="wizard-step">
+
+                ${renderSignature()}
+
+            </div>
+
+        `;
 
     },
-
 
     mounted() {
 
+        console.log("==============================");
+        console.log("✍ SIGNATURE STEP MOUNTED");
+        console.log("==============================");
+
         mountSignature();
 
-    },
+        console.log(
+            "SignaturePad:",
+            getSignaturePad()
+        );
 
+    },
 
     validate() {
 
         const pad =
             getSignaturePad();
-
 
         if (!pad) {
 
@@ -42,7 +54,6 @@ export const SignatureStep = {
 
         }
 
-
         if (pad.isEmpty()) {
 
             alert(
@@ -53,31 +64,27 @@ export const SignatureStep = {
 
         }
 
+        console.log(
+            "✅ Firma validada correctamente"
+        );
 
         return true;
 
     },
-
 
     getSignature() {
 
         const pad =
             getSignaturePad();
 
-
-        if (
-            !pad ||
-            pad.isEmpty()
-        ) {
+        if (!pad || pad.isEmpty()) {
 
             return null;
 
         }
 
-
         const dataUrl =
             exportSignature();
-
 
         if (!dataUrl) {
 
@@ -85,8 +92,59 @@ export const SignatureStep = {
 
         }
 
-
         return dataUrl;
+
+    },
+
+    saveToContext() {
+
+        const signature =
+            this.getSignature();
+
+        if (!signature) {
+
+            console.warn(
+                "⚠️ No hay firma para guardar"
+            );
+
+            return false;
+
+        }
+
+        if (!this.context) {
+
+            console.warn(
+                "⚠️ SignatureStep no recibió context"
+            );
+
+            return false;
+
+        }
+
+        this.context.signature =
+            signature;
+
+        console.log(
+            "✍ Firma guardada en context:",
+            signature.substring(0, 40) + "..."
+        );
+
+        return true;
+
+    },
+
+    destroy() {
+
+        const pad =
+            getSignaturePad();
+
+        if (pad) {
+
+            console.log(
+                "🧹 Destruyendo SignatureStep"
+            );
+
+        }
 
     }
 
