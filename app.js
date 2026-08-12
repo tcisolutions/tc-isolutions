@@ -1146,7 +1146,9 @@ console.log("LABOR:", labor);
 
     createDeliveryWizard(
 
-    document.querySelector("#deliveryWizardContainer"),
+    document.querySelector(
+        "#deliveryWizardContainer"
+    ),
 
     {
 
@@ -1156,16 +1158,21 @@ console.log("LABOR:", labor);
 
         labor,
 
+        /*
+        ==========================================
+        PASAR SUPABASE AL WIZARD
+        ==========================================
+        */
+
+        supabase:
+            sb,
+
         onFinish(){
 
             deliveryConfirmView(
-
                 order,
-
                 parts,
-
                 labor
-
             );
 
         }
