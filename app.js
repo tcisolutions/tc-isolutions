@@ -4003,6 +4003,15 @@ async function uploadOrderPhotos(orderId, stage, files) {
   return uploaded;
 }
 
+/*
+==========================================
+EXPONER PARA EL DELIVERY WIZARD
+==========================================
+*/
+
+window.uploadOrderPhotos =
+    uploadOrderPhotos;
+
 function dataUrlToFile(
     dataUrl,
     fileName = "signature.png"
