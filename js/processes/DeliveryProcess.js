@@ -345,77 +345,7 @@ export class DeliveryProcess {
         );
 
 
-        /*
-        ==========================================
-        BUSCAR CAJA ABIERTA
-        ==========================================
-        */
-
-
-        let cashSession = null;
-
-
-        if (
-            originalBalance > 0
-        ) {
-
-            console.log(
-                "🔎 Buscando sesión de Caja abierta..."
-            );
-
-
-            const {
-                data: session,
-                error: sessionError
-            } =
-                await this.sb
-                    .from("cash_sessions")
-                    .select("*")
-                    .eq(
-                        "status",
-                        "abierta"
-                    )
-                    .order(
-                        "opened_at",
-                        {
-                            ascending: false
-                        }
-                    )
-                    .limit(1)
-                    .maybeSingle();
-
-
-            if (sessionError) {
-
-                throw new Error(
-                    "No se pudo consultar la sesión de Caja: " +
-                    sessionError.message
-                );
-
-            }
-
-
-            if (!session) {
-
-                throw new Error(
-                    "No hay una sesión de Caja abierta. " +
-                    "Abre Caja antes de registrar el pago."
-                );
-
-            }
-
-
-            cashSession =
-                session;
-
-
-            console.log(
-                "💵 Caja abierta:",
-                cashSession.id
-            );
-
-        }
-
+        
 
         /*
         ==========================================
@@ -455,88 +385,29 @@ export class DeliveryProcess {
         }
 
 
-        /*
-        ==========================================
-        REGISTRAR PAGO EN CAJA
-        ==========================================
-        */
+       /*
+==========================================
+PAGO
+==========================================
+*/
+
+/*
+ * El pago ya fue registrado por PaymentStep
+ * en cash_movements.
+ *
+ * DeliveryProcess NO debe volver a insertarlo,
+ * para evitar pagos duplicados.
+ */
+
+const cashMovement =
+    this.context.cashMovement ||
+    null;
 
 
-        let cashMovement = null;
-
-
-        if (
-            originalBalance > 0
-        ) {
-
-            console.log(
-                "💵 Registrando pago en Caja..."
-            );
-
-
-            const movement = {
-
-                session_id:
-                    cashSession.id,
-
-                order_id:
-                    order.id,
-
-                type:
-                    "pago",
-
-                amount:
-                    paymentAmount,
-
-                payment_method:
-                    paymentMethod,
-
-                concept:
-                    `Pago de orden ${order.folio || order.id}`,
-
-                notes:
-                    "Pago registrado durante entrega de equipo.",
-
-                created_by:
-                    user.id
-
-            };
-
-
-            const {
-                data: insertedMovement,
-                error: movementError
-            } =
-                await this.sb
-                    .from("cash_movements")
-                    .insert(
-                        movement
-                    )
-                    .select("*")
-                    .single();
-
-
-            if (movementError) {
-
-                throw new Error(
-                    "Las fotografías se guardaron, " +
-                    "pero no se pudo registrar el pago en Caja: " +
-                    movementError.message
-                );
-
-            }
-
-
-            cashMovement =
-                insertedMovement;
-
-
-            console.log(
-                "✅ Pago registrado en Caja:",
-                cashMovement
-            );
-
-        }
+console.log(
+    "💵 Movimiento de Caja recibido:",
+    cashMovement
+);
 
 
         /*
@@ -679,6 +550,38 @@ export class DeliveryProcess {
                 })
             );
 
+            console.log(
+    "================================"
+);
+
+console.log(
+    "🔍 DATOS FINALES PARA COMPROBANTE"
+);
+
+console.log(
+    "Payment context:",
+    this.context.payment
+);
+
+console.log(
+    "Cash movement:",
+    this.context.cashMovement
+);
+
+console.log(
+    "Signature context:",
+    this.context.signature
+);
+
+console.log(
+    "Photos context:",
+    this.context.photos
+);
+
+console.log(
+    "================================"
+);
+
 
         /*
         ==========================================
@@ -769,6 +672,19 @@ export class DeliveryProcess {
                         photo =>
                             photo.public_url
                     ),
+
+                    payment: {
+
+    amount:
+        paymentAmount,
+
+    method:
+        paymentMethod,
+
+    cash_movement:
+        cashMovement
+
+},
 
             signature:
                 signature ||
@@ -1020,31 +936,34 @@ export class DeliveryProcess {
 
         return {
 
-            success:
-                true,
+    success:
+        true,
 
-            orderId:
-                order.id,
+    orderId:
+        order.id,
 
-            order:
-                updatedOrder,
+    order:
+        updatedOrder,
 
-            payment:
-                cashMovement,
+    payment:
+        payment,
 
-            photos:
-                uploadedPhotos,
+    cashMovement:
+        cashMovement,
 
-            signature:
-                signature,
+    photos:
+        uploadedPhotos,
 
-            receipt:
-                receipt,
+    signature:
+        signature,
 
-            receiptUrl:
-                receiptUrl
+    receipt:
+        receipt,
 
-        };
+    receiptUrl:
+        receiptUrl
+
+};
 
     }
 
