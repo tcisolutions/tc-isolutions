@@ -1146,33 +1146,33 @@ console.log("LABOR:", labor);
 
     createDeliveryWizard(
 
-        document.querySelector("#deliveryWizardContainer"),
+    document.querySelector("#deliveryWizardContainer"),
 
-        {
+    {
 
-            order,
+        order,
 
-            parts,
+        parts,
 
-            labor,
+        labor,
 
-            onFinish(){
+        onFinish(){
 
-                deliveryConfirmView(
+            deliveryConfirmView(
 
-                    order,
+                order,
 
-                    parts,
+                parts,
 
-                    labor
+                labor
 
-                );
-
-            }
+            );
 
         }
 
-    );
+    }
+
+);
 
 }
 
@@ -1478,11 +1478,7 @@ async function deliveryReceiptView(order, parts = [], labor = 0, justDelivered =
 
   $("#backDeliveryReceipt").onclick = () => serviceOrderView(order.id);
   $("#printDeliveryReceipt").onclick = () => printDeliveryReceipt(order);
-  $("#whatsappDeliveryReceipt").onclick = () => sendDeliveryReceiptWhatsApp(order, parts, photos, {
-    delivered_at: deliveredAt,
-    delivered_by: deliveredBy,
-    notes
-  });
+  
   $("#viewDigitalDeliveryReceipt").onclick = () => {
     const shareUrl = buildDeliveryReceiptShareUrl(order, parts, photos, {
       delivered_at: deliveredAt,
@@ -4005,6 +4001,70 @@ async function uploadOrderPhotos(orderId, stage, files) {
   }
 
   return uploaded;
+}
+
+function dataUrlToFile(
+    dataUrl,
+    fileName = "signature.png"
+) {
+
+    if (
+        !dataUrl ||
+        typeof dataUrl !== "string"
+    ) {
+
+        throw new Error(
+            "La firma no es válida."
+        );
+
+    }
+
+    const match =
+        dataUrl.match(
+            /^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/
+        );
+
+    if (!match) {
+
+        throw new Error(
+            "El formato de la firma no es válido."
+        );
+
+    }
+
+    const mime =
+        match[1];
+
+    const base64 =
+        match[2];
+
+    const binary =
+        atob(base64);
+
+    const bytes =
+        new Uint8Array(
+            binary.length
+        );
+
+    for (
+        let i = 0;
+        i < binary.length;
+        i++
+    ) {
+
+        bytes[i] =
+            binary.charCodeAt(i);
+
+    }
+
+    return new File(
+        [bytes],
+        fileName,
+        {
+            type: mime
+        }
+    );
+
 }
 
 function normalizePhotoUrl(photo) {
