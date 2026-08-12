@@ -230,6 +230,18 @@ export class Wizard {
         const step =
             this.getCurrentStep();
 
+        /*
+         * IMPORTANTE:
+         * Cada Step recibe el mismo contexto
+         * que pertenece al Wizard.
+         */
+        if (step) {
+
+            step.context =
+                this.context;
+
+        }
+
         if (
             step &&
             typeof step.mounted === "function"
