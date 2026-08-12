@@ -7,7 +7,10 @@ from "./UploaderCounter.js";
 import { renderUploaderPreview }
 from "./UploaderPreview.js";
 
-export function renderUploaderTemplate(){
+
+export function renderUploaderTemplate(
+    state = {}
+) {
 
     return `
 
@@ -16,10 +19,8 @@ export function renderUploaderTemplate(){
             ${renderUploaderDropzone()}
 
             ${renderUploaderCounter(
-
-    this?.state?.files || []
-
-)}
+                state.files || []
+            )}
 
             ${renderUploaderPreview()}
 
