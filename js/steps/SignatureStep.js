@@ -41,36 +41,96 @@ export const SignatureStep = {
 
     validate() {
 
-        const pad =
-            getSignaturePad();
+    console.log(
+        "✍️ Validando firma..."
+    );
 
-        if (!pad) {
 
-            alert(
-                "No se pudo cargar el área de firma."
-            );
+    const pad =
+        getSignaturePad();
 
-            return false;
 
-        }
+    if (!pad) {
 
-        if (pad.isEmpty()) {
-
-            alert(
-                "El cliente debe firmar antes de continuar."
-            );
-
-            return false;
-
-        }
-
-        console.log(
-            "✅ Firma validada correctamente"
+        alert(
+            "No se pudo cargar el área de firma."
         );
 
-        return true;
+        return false;
 
-    },
+    }
+
+
+    if (pad.isEmpty()) {
+
+        alert(
+            "El cliente debe firmar antes de continuar."
+        );
+
+        return false;
+
+    }
+
+
+    /*
+    ==========================================
+    EXPORTAR FIRMA
+    ==========================================
+    */
+
+    const dataUrl =
+        exportSignature();
+
+
+    if (!dataUrl) {
+
+        alert(
+            "No se pudo obtener la firma."
+        );
+
+        return false;
+
+    }
+
+
+    /*
+    ==========================================
+    GUARDAR FIRMA EN CONTEXTO DEL WIZARD
+    ==========================================
+    */
+
+    if (!this.context) {
+
+        alert(
+            "No existe el contexto del asistente."
+        );
+
+        return false;
+
+    }
+
+
+    this.context.signature =
+        dataUrl;
+
+
+    console.log(
+        "✅ Firma validada correctamente"
+    );
+
+
+    console.log(
+        "✍️ Firma guardada en context:",
+        dataUrl.substring(
+            0,
+            40
+        ) + "..."
+    );
+
+
+    return true;
+
+},
 
     getSignature() {
 

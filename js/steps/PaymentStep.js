@@ -812,6 +812,8 @@ export const PaymentStep = {
             insertedMovement
         );
 
+        this.context.cashMovement =
+    insertedMovement;
 
         /*
         ==========================================
