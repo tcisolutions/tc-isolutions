@@ -516,21 +516,35 @@ export const PaymentStep = {
 
 
         /*
-        ==========================================
-        NO PERMITIR PAGO MENOR AL SALDO
-        ==========================================
-        */
+==========================================
+VALIDAR IMPORTE CONTRA SALDO
+==========================================
+*/
 
-        if (amount < balance) {
+// No permitir pago menor al saldo
+if (amount < balance) {
 
-            alert(
-                `El saldo pendiente es de $${balance.toFixed(2)}.`
-            );
+    alert(
+        `El saldo pendiente es de $${balance.toFixed(2)}.`
+    );
+
+    return false;
+
+}
 
 
-            return false;
+// No permitir pago mayor al saldo
+if (amount > balance) {
 
-        }
+    alert(
+        `El pago recibido ($${amount.toFixed(2)}) ` +
+        `no puede ser mayor al saldo pendiente ` +
+        `($${balance.toFixed(2)}).`
+    );
+
+    return false;
+
+}
 
         if (amount > balance) {
 
