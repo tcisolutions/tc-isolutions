@@ -102,10 +102,90 @@ export async function loadOrderPhotos(sb, orderId){
 
 export function getPublicOrderToken() {
 
-    const params =
-        new URLSearchParams(window.location.search);
+    try {
 
-    return params.get("os");
+        /*
+        ==========================================
+        1. ORDEN PÚBLICA ANTIGUA
+        ==========================================
+        */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const orderToken =
+            params.get("os");
+
+        if (orderToken) {
+
+            console.log(
+                "🔗 TOKEN DE ORDEN PÚBLICA:",
+                orderToken
+            );
+
+            return orderToken;
+
+        }
+
+
+        /*
+        ==========================================
+        2. COMPROBANTE DE ENTREGA
+        ==========================================
+        */
+
+        const hash =
+            String(
+                window.location.hash || ""
+            );
+
+
+        const deliveryMatch =
+            hash.match(
+                /^#entrega=([^&]+)$/
+            );
+
+
+        if (
+            deliveryMatch &&
+            deliveryMatch[1]
+        ) {
+
+            const deliveryToken =
+                decodeURIComponent(
+                    deliveryMatch[1]
+                );
+
+            console.log(
+                "🧾 TOKEN DE ENTREGA:",
+                deliveryToken
+            );
+
+            return deliveryToken;
+
+        }
+
+
+        /*
+        ==========================================
+        NO HAY TOKEN
+        ==========================================
+        */
+
+        return null;
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error obteniendo token público:",
+            error
+        );
+
+        return null;
+
+    }
 
 }
 
