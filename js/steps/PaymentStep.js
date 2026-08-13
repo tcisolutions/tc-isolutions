@@ -532,6 +532,17 @@ export const PaymentStep = {
 
         }
 
+        if (amount > balance) {
+
+    alert(
+        `El pago recibido ($${amount.toFixed(2)}) ` +
+        `no puede ser mayor al saldo pendiente ` +
+        `($${balance.toFixed(2)}).`
+    );
+
+    return false;
+
+}
 
         /*
         ==========================================
@@ -842,51 +853,56 @@ export const PaymentStep = {
 
 
         /*
-        ==========================================
-        ACTUALIZAR DEPÓSITO EN CONTEXTO
-        ==========================================
-        */
+==========================================
+NO MODIFICAR EL DEPÓSITO DE LA ORDEN
+==========================================
 
-        this.context.order.deposit =
-            deposit + amount;
+El depósito que está en context.order
+representa el depósito REAL existente
+antes de la entrega.
 
+DeliveryProcess será quien calcule:
 
-        console.log(
-            "💰 PAGO VALIDADO Y REGISTRADO"
-        );
+depósito anterior + pago recibido
 
-        console.log(
-            "Importe:",
-            amount
-        );
+y posteriormente actualizará la orden
+en Supabase.
+*/
 
         console.log(
-            "Método interfaz:",
-            method
-        );
+    "================================"
+);
 
-        console.log(
-            "Método Caja:",
-            paymentMethod
-        );
+console.log(
+    "💰 PAGO VALIDADO Y REGISTRADO"
+);
 
-        console.log(
-            "Nuevo deposit:",
-            this.context.order.deposit
-        );
+console.log(
+    "Importe:",
+    amount
+);
 
-        console.log(
-            "Movimiento:",
-            insertedMovement
-        );
+console.log(
+    "Método interfaz:",
+    method
+);
 
-        console.log(
-            "Contexto:",
-            this.context
-        );
+console.log(
+    "Método Caja:",
+    paymentMethod
+);
 
+console.log(
+    "Movimiento:",
+    insertedMovement
+);
 
-        return true;
+console.log(
+    "Contexto:",
+    this.context
+);
+
+return true;
 
     }
 
