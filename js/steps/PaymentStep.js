@@ -375,7 +375,7 @@ export const PaymentStep = {
 
 
         this.context.payment.liquidated =
-            amount >= originalBalance;
+    amount === originalBalance;
 
 
         console.log(
